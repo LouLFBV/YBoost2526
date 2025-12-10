@@ -33,12 +33,14 @@ public class AttackBehaviour : MonoBehaviour
                     enemy.TakeDamage(weaponUsed.damage);
                 }
             }
-            else if (hit.collider.CompareTag("Descrutable"))
+            else
             {
-                Debug.Log("Hit environment: " + hit.collider.name);
+                // If the hit object has a Descrutable component, call DestroyObject()
                 if (hit.transform.TryGetComponent<Descrutable>(out var environment))
                 {
-                    environment.DestroyObject();
+                    Debug.Log("Hit Descrutable: " + hit.collider.name);
+                    // Call partial destruction centered on the hit point with a default radius
+                    environment.DestroyObject(hit.point, 1.5f);
                 }
             }
         }
