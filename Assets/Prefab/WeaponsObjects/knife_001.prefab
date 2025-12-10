@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 6394278673433007584}
   - component: {fileID: 8445630658599235590}
   - component: {fileID: 9020079732373201769}
-  - component: {fileID: 5502777489843060081}
   - component: {fileID: 4584632869155820736}
   - component: {fileID: 8445602530875458275}
   - component: {fileID: 1783672893071022096}
+  - component: {fileID: 3758097661485173072}
   m_Layer: 8
   m_Name: knife_001
   m_TagString: Object
@@ -93,22 +93,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5502777489843060081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6661575364198694600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c3395433d8c5ee4d8a56823fde6810b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  weaponData: {fileID: 11400000, guid: 520878f637dc17e4bbcc02267778b8f4, type: 2}
-  shootPoint: {fileID: 0}
-  muzzleFlash: {fileID: 0}
-  audioSource: {fileID: 0}
 --- !u!135 &4584632869155820736
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -178,3 +162,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.06669854, y: 0.5529991, z: 0.151921}
   m_Center: {x: 0.00000008754432, y: 0.18938226, z: -0.000000078231096}
+--- !u!114 &3758097661485173072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6661575364198694600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8567c02a15f511a48bf2214b45a4f132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Knife
+  weaponData: {fileID: 11400000, guid: 520878f637dc17e4bbcc02267778b8f4, type: 2}
+  shootPoint: {fileID: 0}
+  muzzleFlash: {fileID: 0}
+  audioSource: {fileID: 0}

@@ -98,8 +98,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2255984243748200875}
-  - component: {fileID: 5316082036806080675}
   - component: {fileID: 1320107380823449441}
+  - component: {fileID: 8343352445449628949}
   m_Layer: 0
   m_Name: M1911
   m_TagString: Untagged
@@ -126,22 +126,6 @@ Transform:
   - {fileID: 8773076692637218594}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -168.338, z: 0}
---- !u!114 &5316082036806080675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2258907997089890751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c3395433d8c5ee4d8a56823fde6810b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  weaponData: {fileID: 11400000, guid: e9e8d3237e43eb84db1ed36a172fa18d, type: 2}
-  shootPoint: {fileID: 7995243364528660046}
-  muzzleFlash: {fileID: 8868152620471500198}
-  audioSource: {fileID: 1320107380823449441}
 --- !u!82 &1320107380823449441
 AudioSource:
   m_ObjectHideFlags: 0
@@ -239,6 +223,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8343352445449628949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2258907997089890751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58d32dc99d1ea3a45aa5f91417f8ba11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gun
+  weaponData: {fileID: 11400000, guid: e9e8d3237e43eb84db1ed36a172fa18d, type: 2}
+  shootPoint: {fileID: 7995243364528660046}
+  muzzleFlash: {fileID: 8868152620471500198}
+  audioSource: {fileID: 1320107380823449441}
 --- !u!1 &2258963963305859233
 GameObject:
   m_ObjectHideFlags: 0

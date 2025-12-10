@@ -5351,6 +5351,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 159762282}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &162975830 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8650724366174016313, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+  m_PrefabInstance: {fileID: 344668135}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8567c02a15f511a48bf2214b45a4f132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Knife
 --- !u!1 &163055555
 GameObject:
   m_ObjectHideFlags: 0
@@ -11436,6 +11447,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: FirstPersonController
       objectReference: {fileID: 0}
+    - target: {fileID: 7121486939283029115, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: 'allWeapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1562731699}
+    - target: {fileID: 7121486939283029115, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: 'allWeapons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1424343772}
+    - target: {fileID: 7121486939283029115, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: 'allWeapons.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1204311270}
+    - target: {fileID: 7121486939283029115, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: 'allWeapons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 162975830}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -39193,6 +39220,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1454482104356440768, guid: 38be789410d69ef40a29459dfa506f11, type: 3}
   m_PrefabInstance: {fileID: 1202806596}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1204311270 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4931100152528269952, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+  m_PrefabInstance: {fileID: 344668135}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f654163f46baad4a90fb591f5473c37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrenadeLauncher
 --- !u!1001 &1209328069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45360,6 +45398,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2ed0f58a15163a43ac2e3bdd99340d2, type: 3}
+--- !u!114 &1424343772 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4554361593769324575, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+  m_PrefabInstance: {fileID: 344668135}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56957f1bbe064f8468e992f7bda8e3d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AssaultRifle
 --- !u!1 &1424857387
 GameObject:
   m_ObjectHideFlags: 0
@@ -48272,6 +48321,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1454482104356440768, guid: 38be789410d69ef40a29459dfa506f11, type: 3}
   m_PrefabInstance: {fileID: 1561911203}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1562731699 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8956940647203040725, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+  m_PrefabInstance: {fileID: 344668135}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58d32dc99d1ea3a45aa5f91417f8ba11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gun
 --- !u!1001 &1563136009
 PrefabInstance:
   m_ObjectHideFlags: 0

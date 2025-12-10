@@ -1,11 +1,18 @@
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public abstract class Weapon : MonoBehaviour
 {
     public WeaponData weaponData;
     public Transform shootPoint;
     public ParticleSystem muzzleFlash;
     public AudioSource audioSource;
+
+    private void Awake()
+    {
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -31,5 +38,4 @@ public class Weapon : MonoBehaviour
         if (audioSource != null)
             audioSource.PlayOneShot(audioSource.clip);
     }
-
 }

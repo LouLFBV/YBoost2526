@@ -278,8 +278,8 @@ GameObject:
   - component: {fileID: 3109264940910148779}
   - component: {fileID: 6160360574927672722}
   - component: {fileID: 6143629284216525679}
-  - component: {fileID: 2870147666174709621}
   - component: {fileID: 3826731417660348702}
+  - component: {fileID: 3471281659658209923}
   m_Layer: 0
   m_Name: AK74Visual
   m_TagString: Untagged
@@ -363,22 +363,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2870147666174709621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6007697791020877446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c3395433d8c5ee4d8a56823fde6810b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  weaponData: {fileID: 11400000, guid: 001227731a821054bb88e5259d36d156, type: 2}
-  shootPoint: {fileID: 7896081509426203323}
-  muzzleFlash: {fileID: 4136837954127227504}
-  audioSource: {fileID: 3826731417660348702}
 --- !u!82 &3826731417660348702
 AudioSource:
   m_ObjectHideFlags: 0
@@ -476,6 +460,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3471281659658209923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6007697791020877446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56957f1bbe064f8468e992f7bda8e3d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AssaultRifle
+  weaponData: {fileID: 11400000, guid: 001227731a821054bb88e5259d36d156, type: 2}
+  shootPoint: {fileID: 7896081509426203323}
+  muzzleFlash: {fileID: 4136837954127227504}
+  audioSource: {fileID: 3826731417660348702}
 --- !u!1 &8516418785785503242
 GameObject:
   m_ObjectHideFlags: 0
