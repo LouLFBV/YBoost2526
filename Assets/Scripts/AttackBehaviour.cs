@@ -3,34 +3,31 @@ using UnityEngine;
 public class AttackBehaviour : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;
-
-    public bool canShoot = false;
-    public bool chargeBow;
     public Weapon weaponUsed;
 
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (weaponUsed != null && Input.GetKeyDown(KeyCode.Mouse0))
         {
-            ShootArrow();
+            Shoot();
         }
     }
 
-    public void ShootArrow()
+    public void Shoot()
     {
         Debug.Log("Tire");
 
         AlignArrowSpawnToCamera();
-        Debug.DrawRay(weaponUsed.shootPoint.position, weaponUsed.shootPoint.forward * weaponUsed.range, Color.red);
-        if (Physics.Raycast(weaponUsed.shootPoint.position, weaponUsed.shootPoint.forward, out RaycastHit hit, weaponUsed.range))
+        Debug.DrawRay(weaponUsed.shootPoint.position, weaponUsed.shootPoint.forward * weaponUsed.weaponData.range, Color.red);
+        if (Physics.Raycast(weaponUsed.shootPoint.position, weaponUsed.shootPoint.forward, out RaycastHit hit, weaponUsed.weaponData.range))
         {
             if (hit.collider.CompareTag("Player"))
             {
                 Debug.Log("Hit " + hit.collider.name);
                 if (hit.transform.TryGetComponent<PlayerStats>(out var enemy))
                 {
-                    enemy.TakeDamage(weaponUsed.damage);
+                    enemy.TakeDamage(weaponUsed.weaponData.damage);
                 }
             }
             else if (hit.collider.CompareTag("Descrutable"))
