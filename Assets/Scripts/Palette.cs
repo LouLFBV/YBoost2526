@@ -15,10 +15,15 @@ public class Palette : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private AttackBehaviour attackBehaviour;
-    [SerializeField] private WeaponInPalette[] allWeaponsInPalette;
+    public WeaponInPalette[] allWeaponsInPalette;
     [SerializeField] private Weapon[] allWeapons;
 
-    private PlayerControls controls;
+    private PlayerInput playerInput;
+    private bool takingMainWeapon;
+    private bool takingSecondaryWeapon;
+    private bool takingMeleeWeapon;
+    private bool takingProjectile;
+
 
     private void Awake()
     {
@@ -30,21 +35,109 @@ public class Palette : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        controls = new PlayerControls();
+
+        playerInput = GetComponent<PlayerInput>();
     }
 
-    private void OnEnable() => controls.Enable();
-    private void OnDisable() => controls.Disable();
+    #region Méthodes Player Input 
+    private void OnEnable()
+    {
+        playerInput.actions["MainWeapon"].Enable();
+        playerInput.actions["SecondaryWeapon"].Enable();
+        playerInput.actions["MeleeWeapon"].Enable();
+        playerInput.actions["Projectile"].Enable();
 
+        playerInput.actions["MainWeapon"].performed += MainWeaponPerformed;
+        playerInput.actions["SecondaryWeapon"].performed += SecondaryWeaponPerformed;
+        playerInput.actions["MeleeWeapon"].performed += MeleeWeaponPerformed;
+        playerInput.actions["Projectile"].performed += ProjectilePerformed;
+
+        playerInput.actions["MainWeapon"].canceled += MainWeaponCanceled;
+        playerInput.actions["SecondaryWeapon"].canceled += SecondaryWeaponCanceled;
+        playerInput.actions["MeleeWeapon"].canceled += MeleeWeaponCanceled;
+        playerInput.actions["Projectile"].canceled += ProjectileCanceled;
+    }
+    private void OnDisable()
+    {
+        playerInput.actions["MainWeapon"].Disable();
+        playerInput.actions["SecondaryWeapon"].Disable();
+        playerInput.actions["MeleeWeapon"].Disable();
+        playerInput.actions["Projectile"].Disable();
+
+        playerInput.actions["MainWeapon"].performed -= MainWeaponPerformed;
+        playerInput.actions["SecondaryWeapon"].performed -= SecondaryWeaponPerformed;
+        playerInput.actions["MeleeWeapon"].performed -= MeleeWeaponPerformed;
+        playerInput.actions["Projectile"].performed -= ProjectilePerformed;
+
+        playerInput.actions["MainWeapon"].canceled -= MainWeaponCanceled;
+        playerInput.actions["SecondaryWeapon"].canceled -= SecondaryWeaponCanceled;
+        playerInput.actions["MeleeWeapon"].canceled -= MeleeWeaponCanceled;
+        playerInput.actions["Projectile"].canceled -= ProjectileCanceled;
+    }
+
+    private void ProjectileCanceled(InputAction.CallbackContext context)
+    {
+        takingProjectile = false;
+    }
+
+    private void MeleeWeaponCanceled(InputAction.CallbackContext context)
+    {
+        takingMeleeWeapon = false;
+    }
+
+    private void SecondaryWeaponCanceled(InputAction.CallbackContext context)
+    {
+        takingSecondaryWeapon = false;
+    }
+
+    private void MainWeaponCanceled(InputAction.CallbackContext context)
+    {
+        takingMainWeapon = false;
+    }
+
+    private void ProjectilePerformed(InputAction.CallbackContext context)
+    {
+        takingProjectile = true;
+    }
+
+    private void MeleeWeaponPerformed(InputAction.CallbackContext context)
+    {
+        takingMeleeWeapon = true;
+    }
+
+    private void SecondaryWeaponPerformed(InputAction.CallbackContext context)
+    {
+        takingSecondaryWeapon = true;
+    }
+
+    private void MainWeaponPerformed(InputAction.CallbackContext context)
+    {
+        takingMainWeapon = true;
+    }
+    #endregion 
 
     private void Update()
     {
-        if(controls.Weapons.MainWeapon.triggered && weapons[0] != null)
+        if(takingMainWeapon && weapons[0] != null)
+        {
             ChangeWeapon(weapons[0]);
-        else if (controls.Weapons.SecondaryWeapon.triggered && weapons[1] != null)
+            takingMainWeapon = false;
+        }
+        else if (takingSecondaryWeapon && weapons[1] != null)
+        {
             ChangeWeapon(weapons[1]);
-        else if (controls.Weapons.MeleeWeapon.triggered && weapons[2] != null)
-            ChangeWeapon(weapons[2]);   
+            takingSecondaryWeapon = false;
+        }
+        else if (takingMeleeWeapon && weapons[2] != null)
+        {
+            ChangeWeapon(weapons[2]);
+            takingMeleeWeapon = false;
+        }
+        else if (takingProjectile && weapons[3] != null)
+        {
+            ChangeWeapon(weapons[3]);
+            takingProjectile = false;
+        }
     }
     public void AddWeapon(Weapon weaponPickUp)
     {
@@ -59,6 +152,9 @@ public class Palette : MonoBehaviour
                 break;
             case WeaponType.Melee:
                 AddWeaponInPalette(weaponPickUp, mainVisual, 2);
+                break;
+            case WeaponType.Projectile:
+                AddWeaponInPalette(weaponPickUp, mainVisual, 3);
                 break;
         }
     }
@@ -131,7 +227,8 @@ public enum WeaponType
 {
     Main,
     Secondary,
-    Melee
+    Melee,
+    Projectile
 }
 
 

@@ -1,10 +1,10 @@
+using System.Linq;
 using UnityEngine;
 
 public class AttackBehaviour : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;
     public Weapon weaponUsed;
-
 
     void Update()
     {
@@ -17,7 +17,7 @@ public class AttackBehaviour : MonoBehaviour
     public void Shoot()
     {
         Debug.Log("Tire");
-
+        weaponUsed.PlayMuzzleFlash();
         AlignArrowSpawnToCamera();
         Debug.DrawRay(weaponUsed.shootPoint.position, weaponUsed.shootPoint.forward * weaponUsed.weaponData.range, Color.red);
         if (Physics.Raycast(weaponUsed.shootPoint.position, weaponUsed.shootPoint.forward, out RaycastHit hit, weaponUsed.weaponData.range))
