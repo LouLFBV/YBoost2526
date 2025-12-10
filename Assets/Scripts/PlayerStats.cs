@@ -1,4 +1,4 @@
-using System.Security.Cryptography;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +11,7 @@ public class PlayerStats : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Image life;
     [SerializeField] private GameObject healthBar;
+    [SerializeField] private TextMeshProUGUI healthQuantity;
 
 
     private void Start()
@@ -36,5 +37,6 @@ public class PlayerStats : MonoBehaviour
     private void UpdateHealthbar()
     {
         life.fillAmount = (float)currentHealth / health;
+        healthQuantity.text = $"{currentHealth}/{health}";
     }
 }
