@@ -2,15 +2,23 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public WeaponData weaponData;
+    public Transform shootPoint;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            Interact.instance.canInteract = true;
+            Interact.instance.currentWeapon = this;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Interact.instance.canInteract = false;
+            Interact.instance.currentWeapon = null;
+        }
     }
 }
