@@ -4,6 +4,8 @@ public class Weapon : MonoBehaviour
 {
     public WeaponData weaponData;
     public Transform shootPoint;
+    public ParticleSystem muzzleFlash;
+    public AudioSource audioSource;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -21,4 +23,13 @@ public class Weapon : MonoBehaviour
             Interact.instance.currentWeapon = null;
         }
     }
+
+    public void PlayMuzzleFlash()
+    {
+        if (muzzleFlash != null)
+            muzzleFlash.Play();
+        if (audioSource != null)
+            audioSource.PlayOneShot(audioSource.clip);
+    }
+
 }
