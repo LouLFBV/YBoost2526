@@ -180,7 +180,18 @@ public class Palette : MonoBehaviour
     {
         weapons[index].weaponData = newWeapon.weaponData;
         slotsIconeWeapon[index].sprite = newWeapon.weaponData.icone;
-        visual = Array.Find(allWeaponsInPalette, w => w.weaponData == newWeapon.weaponData).visualWeapon;
+        WeaponInPalette found = Array.Find(
+    allWeaponsInPalette,
+    w => w != null && w.weaponData == newWeapon.weaponData
+);
+
+        if (found == null)
+        {
+            Debug.LogError("Weapon non trouvé dans allWeaponsInPalette");
+            return;
+        }
+
+        visual = found.visualWeapon;
         weapons[index].visualWeapon = visual;
         if (!CheckIfOneWeaponIsEquipped())
         {
@@ -189,8 +200,11 @@ public class Palette : MonoBehaviour
         }
         if (attackBehaviour.weaponUsed == null)
             attackBehaviour.weaponUsed = Array.Find(allWeapons, w => w.weaponData == newWeapon.weaponData);
+
+        
+
     }
-    
+
     public void RemoveWeaponInPalette(WeaponType weaponType)
     {
         int index = 0;
@@ -257,16 +271,34 @@ public class Palette : MonoBehaviour
 
     private void UnequipWeapon(WeaponInPalette newWeapon)
     {
-        if (newWeapon.isEquipped)
+        if (!newWeapon.isEquipped)
+            return;
+
+        WeaponInPalette slot = Array.Find(
+            weapons,
+            wv => wv != null && wv.weaponData == newWeapon.weaponData
+        );
+
+        if (slot == null || slot.visualWeapon == null)
         {
-            GameObject currentWeapon = Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon;
-            if (currentWeapon.TryGetComponent<Knife>(out Knife knife))
-                knife.DesactiveAttack();
+            Debug.LogWarning("UnequipWeapon : visualWeapon introuvable");
             newWeapon.isEquipped = false;
-            if (currentWeapon != null) currentWeapon.SetActive(false);
             attackBehaviour.weaponUsed = null;
+            return;
         }
+
+        GameObject currentWeapon = slot.visualWeapon;
+
+        if (currentWeapon.TryGetComponent<Knife>(out Knife knife))
+        {
+            knife.DesactiveAttack();
+        }
+
+        newWeapon.isEquipped = false;
+        currentWeapon.SetActive(false);
+        attackBehaviour.weaponUsed = null;
     }
+
 
     private bool CheckIfOneWeaponIsEquipped()
     {

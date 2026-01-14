@@ -66356,6 +66356,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 912151826}
     m_Modifications:
+    - target: {fileID: 2447600511919717169, guid: 146329bb11abff940a6295d89bfc66be, type: 3}
+      propertyPath: stopAction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3278622701219908514, guid: 146329bb11abff940a6295d89bfc66be, type: 3}
       propertyPath: m_Name
       value: RPG7visual
@@ -66404,10 +66408,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4381246581557019687, guid: 146329bb11abff940a6295d89bfc66be, type: 3}
-      propertyPath: weaponData
-      value: 
-      objectReference: {fileID: 11400000, guid: f44c89dbbca89be43ae22f7a9ce9b0bc, type: 2}
+    - target: {fileID: 6230665504838146906, guid: 146329bb11abff940a6295d89bfc66be, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.144
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230665504838146906, guid: 146329bb11abff940a6295d89bfc66be, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.025
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
