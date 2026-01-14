@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using Unity.Netcode;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -166,59 +166,85 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (rb == null) rb = GetComponent<Rigidbody>();
-
         if (IsOwner)
         {
+            // Owner : active caméra et input
             if (playerCamera != null)
                 playerCamera.enabled = true;
 
-            Cursor.lockState = lockCursor ? CursorLockMode.Locked : CursorLockMode.None;
-            Cursor.visible = !lockCursor;
+            var listener = playerCamera != null ? playerCamera.GetComponent<AudioListener>() : null;
+            if (listener != null)
+                listener.enabled = true;
+
+            if (playerInput != null)
+                playerInput.enabled = true;
+
+            // Rigidbody actif pour bouger
+            if (rb != null)
+                rb.isKinematic = false;
+
+            // Activer InputActions
+            moveAction?.action.Enable();
+            lookAction?.action.Enable();
+            jumpAction?.action.Enable();
+            sprintAction?.action.Enable();
+            crouchAction?.action.Enable();
+            zoomAction?.action.Enable();
         }
         else
         {
+            // Non-owner : désactive caméra et input, Rigidbody inactif
             if (playerCamera != null)
                 playerCamera.enabled = false;
 
-            if (playerCamera != null)
-            {
-                var audio = playerCamera.GetComponent<AudioListener>();
-                if (audio != null) audio.enabled = false;
-            }
+            var listener = playerCamera != null ? playerCamera.GetComponent<AudioListener>() : null;
+            if (listener != null)
+                listener.enabled = false;
 
-            // disable local physics for non-owners
-            rb.isKinematic = true;
+            if (playerInput != null)
+                playerInput.enabled = false;
+
+            if (rb != null)
+                rb.isKinematic = true;
         }
     }
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
 
-        // prefer inspector-assigned crosshair; otherwise try to find
+        // Garder la référence du crosshair si assignée
         if (crosshairObject == null)
         {
-            // try to find an Image named "Crosshair" in children (if present)
-            var found = GetComponentInChildren<Image>();
+            var found = GetComponentInChildren<UnityEngine.UI.Image>();
             if (found != null && found.name.ToLower().Contains("crosshair"))
                 crosshairObject = found;
-            // else keep null (we handle null later)
         }
 
-        // Safeguard references
         if (playerCamera != null)
             playerCamera.fieldOfView = fov;
 
         originalScale = transform.localScale;
-        if (joint != null) jointOriginalPos = joint.localPosition;
+        if (joint != null)
+            jointOriginalPos = joint.localPosition;
 
         if (!unlimitedSprint)
         {
             sprintRemaining = sprintDuration;
             sprintCooldownReset = sprintCooldown;
         }
+
+        // IMPORTANT : désactiver caméra et input par défaut
+        if (playerCamera != null)
+            playerCamera.enabled = false;
+        var listener = playerCamera != null ? playerCamera.GetComponent<AudioListener>() : null;
+        if (listener != null)
+            listener.enabled = false;
+
+        if (playerInput != null)
+            playerInput.enabled = false;
     }
 
     void Start()
@@ -274,6 +300,9 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     private void Update()
     {
+        if (!IsOwner)
+            return; // seul le propriétaire exécute les mouvements et la caméra
+
         if (!IsOwner || !Application.isFocused) return;
 
         // Collecte des inputs du Player Input System (après IsOwner check)
@@ -446,6 +475,9 @@ public class FirstPersonController_Networked : NetworkBehaviour
     void FixedUpdate()
     {
         #region Movement
+
+        if (!IsOwner)
+            return; // seul le propriétaire exécute les mouvements et la caméra
 
         if (playerCanMove)
         {
