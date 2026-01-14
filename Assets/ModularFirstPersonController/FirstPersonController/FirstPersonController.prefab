@@ -1702,9 +1702,7 @@ MonoBehaviour:
   playerCanMove: 1
   walkSpeed: 5
   maxVelocityChange: 10
-  enableSprint: 1
   unlimitedSprint: 1
-  sprintKey: 304
   sprintSpeed: 7
   sprintDuration: 5
   sprintCooldown: 0.5
@@ -1717,23 +1715,16 @@ MonoBehaviour:
   sprintBarWidthPercent: 0.3
   sprintBarHeightPercent: 0.02
   enableJump: 1
-  jumpKey: 32
   jumpPower: 5
   enableCrouch: 1
   holdToCrouch: 1
-  crouchKey: 306
   crouchHeight: 0.75
   speedReduction: 0.5
   enableHeadBob: 1
   joint: {fileID: 4459864851508666808}
   bobSpeed: 10
   bobAmount: {x: 0, y: 0.1, z: 0}
-  moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  lookAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  jumpAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  sprintAction: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  crouchAction: {fileID: 7040659881675835329, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  zoomAction: {fileID: -4038934298611004535, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  playerInput: {fileID: 979787726325526734}
 --- !u!114 &7644809491101109231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1809,10 +1800,11 @@ MonoBehaviour:
     visualWeapon: {fileID: 2226226275187678026}
     isEquipped: 0
   allWeapons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8956940647203040725}
+  - {fileID: 4554361593769324575}
+  - {fileID: 4931100152528269952}
+  - {fileID: 8650724366174016313}
+  playerInput: {fileID: 979787726325526734}
 --- !u!114 &6837502555805184869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1828,7 +1820,7 @@ MonoBehaviour:
   interactionText: {fileID: 4561474830905610881}
   canInteract: 0
   currentWeapon: {fileID: 0}
-  playerInput: {fileID: 0}
+  playerInput: {fileID: 979787726325526734}
 --- !u!114 &979787726325526734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3703,6 +3695,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3471281659658209923, guid: 69de55390edcbae4696eefa994876d77, type: 3}
+      propertyPath: enableFloating
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6007697791020877446, guid: 69de55390edcbae4696eefa994876d77, type: 3}
       propertyPath: m_Name
       value: AK74Visual
@@ -3721,6 +3717,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3109264940910148779, guid: 69de55390edcbae4696eefa994876d77, type: 3}
   m_PrefabInstance: {fileID: 1087672062141332124}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4554361593769324575 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3471281659658209923, guid: 69de55390edcbae4696eefa994876d77, type: 3}
+  m_PrefabInstance: {fileID: 1087672062141332124}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6649440286629837850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56957f1bbe064f8468e992f7bda8e3d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AssaultRifle
 --- !u!1 &6649440286629837850 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6007697791020877446, guid: 69de55390edcbae4696eefa994876d77, type: 3}
@@ -3782,6 +3789,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8343352445449628949, guid: a0264a4e17e072742b40128dfa186e1c, type: 3}
+      propertyPath: enableFloating
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8868152620471500198, guid: a0264a4e17e072742b40128dfa186e1c, type: 3}
       propertyPath: stopAction
       value: 0
@@ -3820,6 +3831,21 @@ MonoBehaviour:
   shootPoint: {fileID: 0}
   muzzleFlash: {fileID: 0}
   audioSource: {fileID: 0}
+  floatAmplitude: 0.25
+  floatSpeed: 2
+  rotationSpeed: 60
+  enableFloating: 0
+--- !u!114 &8956940647203040725 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8343352445449628949, guid: a0264a4e17e072742b40128dfa186e1c, type: 3}
+  m_PrefabInstance: {fileID: 1118292145709646016}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215329866186424703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58d32dc99d1ea3a45aa5f91417f8ba11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gun
 --- !u!1001 &1240191350383164866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3868,6 +3894,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6149878597274029890, guid: 6d32d4757ac02b94b820c5af04370f9a, type: 3}
+      propertyPath: enableFloating
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6514028601977675393, guid: 6d32d4757ac02b94b820c5af04370f9a, type: 3}
       propertyPath: m_Name
       value: RGD-5
@@ -3895,6 +3925,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5777515228069817636, guid: 6d32d4757ac02b94b820c5af04370f9a, type: 3}
   m_PrefabInstance: {fileID: 1240191350383164866}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4931100152528269952 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6149878597274029890, guid: 6d32d4757ac02b94b820c5af04370f9a, type: 3}
+  m_PrefabInstance: {fileID: 1240191350383164866}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426962854245081923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f654163f46baad4a90fb591f5473c37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrenadeLauncher
 --- !u!1 &5426962854245081923 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6514028601977675393, guid: 6d32d4757ac02b94b820c5af04370f9a, type: 3}
@@ -3918,7 +3959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6621169091149887237, guid: cdba905a2d2c89046bf91c161a30eb01, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.28990555
+      value: 0.2899055
       objectReference: {fileID: 0}
     - target: {fileID: 6621169091149887237, guid: cdba905a2d2c89046bf91c161a30eb01, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3956,6 +3997,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7087158280622311228, guid: cdba905a2d2c89046bf91c161a30eb01, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 2338483880445571492}
+    - target: {fileID: 7087158280622311228, guid: cdba905a2d2c89046bf91c161a30eb01, type: 3}
+      propertyPath: enableFloating
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2141041154820740360, guid: cdba905a2d2c89046bf91c161a30eb01, type: 3}
     m_RemovedGameObjects: []
@@ -3964,6 +4013,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 338343996761542479, guid: cdba905a2d2c89046bf91c161a30eb01, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6960653743347042022}
+    - targetCorrespondingSourceObject: {fileID: 338343996761542479, guid: cdba905a2d2c89046bf91c161a30eb01, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2338483880445571492}
   m_SourcePrefab: {fileID: 100100000, guid: cdba905a2d2c89046bf91c161a30eb01, type: 3}
 --- !u!1 &2226226275187678026 stripped
 GameObject:
@@ -3991,8 +4043,41 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.06669855, y: 0.5529991, z: 0.15192103}
   m_Center: {x: 0.00000008895533, y: 0.1893813, z: -0.0000039013944}
+--- !u!95 &2338483880445571492
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2226226275187678026}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5fae466fc10970a44bfdd9b29a60edd6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &4734463152436060928 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6621169091149887237, guid: cdba905a2d2c89046bf91c161a30eb01, type: 3}
   m_PrefabInstance: {fileID: 1898037522733749253}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8650724366174016313 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7087158280622311228, guid: cdba905a2d2c89046bf91c161a30eb01, type: 3}
+  m_PrefabInstance: {fileID: 1898037522733749253}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2226226275187678026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8567c02a15f511a48bf2214b45a4f132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Knife
