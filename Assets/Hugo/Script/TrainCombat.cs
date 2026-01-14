@@ -12,8 +12,11 @@ public class TrainCombat : MonoBehaviour
 
     [Header("Puissance de Feu")]
     [SerializeField] private float fireForce = 50f;
+    // Conservez fireForce, mais nous allons l'utiliser différemment ou la remplacer.
+
     [SerializeField] private float rotationSpeed = 5f;
     [SerializeField] private float timeToCharge = 5f;
+
     [SerializeField] private float postFireDelay = 2.5f;
 
     private GameObject currentTargetZone;
@@ -49,19 +52,27 @@ public class TrainCombat : MonoBehaviour
         StartCoroutine(AimAndFireRoutine());
     }
 
+   
     private void HandleTargeting()
     {
         if (turretPivot == null) return;
 
-        // Utilise la position CIBLE et la position du PIVOT de la tourelle
         Vector3 direction = targetPosition - turretPivot.position;
         direction.y = 0;
 
         if (direction != Vector3.zero)
         {
             Quaternion lookRotation = Quaternion.LookRotation(direction);
-            // On s'assure que C'EST BIEN turretPivot QUI TOURNE
-            turretPivot.rotation = Quaternion.Slerp(turretPivot.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+
+            // La rotation visée est correcte, mais le modèle est monté de 90° sur son axe.
+            // Nous appliquons une rotation additionnelle de 90° (ou -90°) pour compenser l'orientation du modèle 3D.
+            // Vous devez tester si c'est +90 ou -90. Nous allons partir sur +90f pour le test.
+            Quaternion compensation = Quaternion.Euler(0, -30f, 0);
+
+            // La rotation finale est la rotation visée multipliée par la compensation
+            Quaternion finalRotation = lookRotation * compensation;
+
+            turretPivot.rotation = Quaternion.Slerp(turretPivot.rotation, finalRotation, Time.deltaTime * rotationSpeed);
         }
     }
 
@@ -130,13 +141,14 @@ public class TrainCombat : MonoBehaviour
 
     private void FirePhysicalShell()
     {
-        GameObject obus = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-        Rigidbody rb = obus.GetComponent<Rigidbody>();
+        Vector3 fireDirection = firePoint.forward;
+        fireDirection.y = 0; // On s'assure d'avoir la direction purement horizontale
 
-        if (rb != null)
-        {
-            // Tir physique
-            rb.AddForce(firePoint.forward * fireForce, ForceMode.Impulse);
-        }
+        GameObject obus = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity); // Pas besoin de rotation si le RB gère tout
+        Rigidbody rb = obus.GetComponent<Rigidbody>();
+        rb.AddForce(firePoint.forward * fireForce, ForceMode.Impulse);
+
     }
+
+    
 }
