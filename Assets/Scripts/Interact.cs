@@ -41,6 +41,7 @@ public class Interact : MonoBehaviour
 
     private void IsInteractingPerformed(InputAction.CallbackContext context)
     {
+        Debug.Log("Interacting Performed");
         isInteracting = true;
     }
 

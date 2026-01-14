@@ -11451,11 +11451,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4459864850019384740, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 1560235366}
     - target: {fileID: 4459864850019384750, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
       propertyPath: m_Name
       value: FirstPersonController
       objectReference: {fileID: 0}
+    - target: {fileID: 4554361593769324575, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: enableFloating
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931100152528269952, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: enableFloating
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6837502555805184869, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 1560235366}
+    - target: {fileID: 7121486939283029115, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 1560235366}
@@ -11475,6 +11491,10 @@ PrefabInstance:
       propertyPath: 'allWeapons.Array.data[3]'
       value: 
       objectReference: {fileID: 162975830}
+    - target: {fileID: 8956940647203040725, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: enableFloating
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35297,7 +35317,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3307856943439987699, guid: a9c5968133d15a4418031afbc01ce9f5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4175093582455383784, guid: a9c5968133d15a4418031afbc01ce9f5, type: 3}
       propertyPath: NetworkConfig.PlayerPrefab
