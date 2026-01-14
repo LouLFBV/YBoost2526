@@ -4,64 +4,45 @@ using UnityEngine;
 public class Knife : Weapon, IWeapon
 {
     private bool canAttack = false;
-    public float attackDistance = 0.5f;
-    public float attackDuration = 0.2f;
-    public float attackArcHeight = 0.2f;
-
-    private Collider attackCollider;
+    [SerializeField] private Animator animator;
+    
+    private BoxCollider attackCollider;
 
     private void Awake()
     {
-        attackCollider = GetComponent<Collider>();
+        attackCollider = GetComponent<BoxCollider>();
         attackCollider.enabled = false;
+        animator = GetComponent<Animator>();
     }
 
     public void Attack()
     {
-        if (!canAttack)
+        if (canAttack)
         {
             Debug.Log("Coup de couteau !");
-            StartCoroutine(AttackMovement());
+            animator.SetTrigger("Atttack");
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player") && canAttack)
+        if (collision.collider.CompareTag("Player") && canAttack)
         {
-            Debug.Log("Hit " + other.name);
-            if (other.transform.TryGetComponent<PlayerStats>(out var enemy))
+            Debug.Log("Hit " + collision.collider.name);
+            if (collision.transform.TryGetComponent<PlayerStats>(out var enemy))
             {
                 enemy.TakeDamage(weaponData.damage);
             }
         }
     }
-
-    private IEnumerator AttackMovement()
+    public void ActiveAttack()
     {
-
-        canAttack = true;
         attackCollider.enabled = true;
-
-        Vector3 startPos = transform.localPosition;
-        Vector3 endPos = startPos + transform.forward * attackDistance;
-
-        float elapsed = 0f;
-
-        while (elapsed < attackDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = elapsed / attackDuration;
-
-            // Mouvement circulaire : utilise une courbe parabolique
-            float height = Mathf.Sin(t * Mathf.PI) * attackArcHeight;
-            transform.localPosition = Vector3.Lerp(startPos, endPos, t) + transform.up * height;
-
-            yield return null;
-        }
-
-        transform.localPosition = startPos;
-        attackCollider.enabled = false;
         canAttack = false;
+    }
+    public void DesactiveAttack()
+    {
+        canAttack = true;
+        attackCollider.enabled = false;
     }
 }
