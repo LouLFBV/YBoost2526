@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8445630658599235590}
   - component: {fileID: 9020079732373201769}
   - component: {fileID: 4584632869155820736}
-  - component: {fileID: 8445602530875458275}
   - component: {fileID: 1783672893071022096}
   - component: {fileID: 3758097661485173072}
   m_Layer: 8
@@ -114,33 +113,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.2361536
   m_Center: {x: 0.00000011920929, y: 0.35371208, z: -0.00000011920929}
---- !u!54 &8445602530875458275
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6661575364198694600}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &1783672893071022096
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -178,3 +150,9 @@ MonoBehaviour:
   shootPoint: {fileID: 0}
   muzzleFlash: {fileID: 0}
   audioSource: {fileID: 0}
+  floatAmplitude: 0.25
+  floatSpeed: 2
+  rotationSpeed: 60
+  attackDistance: 0.5
+  attackDuration: 0.2
+  attackArcHeight: 0.2

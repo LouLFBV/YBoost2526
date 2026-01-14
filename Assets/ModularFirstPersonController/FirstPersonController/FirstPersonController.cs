@@ -3,6 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
+using System;
+
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -146,23 +150,110 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     private void OnEnable()
     {
-        if (moveAction != null) moveAction.action.Enable();
-        if (lookAction != null) lookAction.action.Enable();
-        if (jumpAction != null) jumpAction.action.Enable();
-        if (sprintAction != null) sprintAction.action.Enable();
-        if (crouchAction != null) crouchAction.action.Enable();
-        if (zoomAction != null) zoomAction.action.Enable();
+        if (!IsOwner) return;
+
+        moveAction.action.Enable();
+        lookAction.action.Enable();
+        jumpAction.action.Enable();
+        sprintAction.action.Enable();
+        crouchAction.action.Enable();
+        zoomAction.action.Enable();
+
+        moveAction.action.performed += OnMove;
+        moveAction.action.canceled += OnMove;
+
+        lookAction.action.performed += OnLook;
+        lookAction.action.canceled += OnLook;
+
+        jumpAction.action.performed += OnJump;
+
+        sprintAction.action.performed += OnSprintStart;
+        sprintAction.action.canceled += OnSprintStop;
+
+        crouchAction.action.performed += OnCrouch;
+
+        zoomAction.action.performed += OnZoomStart;
+        zoomAction.action.canceled += OnZoomStop;
     }
 
     private void OnDisable()
     {
-        if (moveAction != null) moveAction.action.Disable();
-        if (lookAction != null) lookAction.action.Disable();
-        if (jumpAction != null) jumpAction.action.Disable();
-        if (sprintAction != null) sprintAction.action.Disable();
-        if (crouchAction != null) crouchAction.action.Disable();
-        if (zoomAction != null) zoomAction.action.Disable();
+        if (!IsOwner) return;
+
+        moveAction.action.performed -= OnMove;
+        moveAction.action.canceled -= OnMove;
+
+        lookAction.action.performed -= OnLook;
+        lookAction.action.canceled -= OnLook;
+
+        jumpAction.action.performed -= OnJump;
+
+        sprintAction.action.performed -= OnSprintStart;
+        sprintAction.action.canceled -= OnSprintStop;
+
+        crouchAction.action.performed -= OnCrouch;
+
+        zoomAction.action.performed -= OnZoomStart;
+        zoomAction.action.canceled -= OnZoomStop;
     }
+
+    private void OnSprintStop(InputAction.CallbackContext context)
+    {
+        sprintHeld = false;
+    }
+
+    private void OnSprintStart(InputAction.CallbackContext context)
+    {
+        sprintHeld = true;
+    }
+
+    private void OnMove(InputAction.CallbackContext ctx)
+    {
+        moveInput = ctx.ReadValue<Vector2>();
+    }
+
+    private void OnLook(InputAction.CallbackContext ctx)
+    {
+        lookInput = ctx.ReadValue<Vector2>();
+    }
+
+    private void OnJump(InputAction.CallbackContext ctx)
+    {
+        if (!enableJump || !isGrounded) return;
+        Jump();
+    }
+
+    private void OnZoomStart(InputAction.CallbackContext ctx)
+    {
+        if (!enableZoom || isSprinting) return;
+
+        if (holdToZoom)
+            isZoomed = true;
+        else
+            isZoomed = !isZoomed;
+    }
+
+    private void OnZoomStop(InputAction.CallbackContext ctx)
+    {
+        if (holdToZoom)
+            isZoomed = false;
+    }
+
+    private void OnCrouch(InputAction.CallbackContext ctx)
+    {
+        if (!enableCrouch) return;
+
+        if (holdToCrouch)
+        {
+            isCrouched = true;
+            Crouch();
+        }
+        else
+        {
+            ToggleCrouch();
+        }
+    }
+
 
     public override void OnNetworkSpawn()
     {
@@ -272,29 +363,191 @@ public class FirstPersonController_Networked : NetworkBehaviour
         #endregion
     }
 
+    //private void Update()
+    //{
+    //    if (!IsOwner || !Application.isFocused) return;
+
+    //    // Collecte des inputs du Player Input System (après IsOwner check)
+    //    if (moveAction != null) moveInput = moveAction.action.ReadValue<Vector2>();
+    //    else moveInput = Vector2.zero;
+    //    Debug.Log("Move Input: " + moveInput);
+    //    if (lookAction != null) lookInput = lookAction.action.ReadValue<Vector2>();
+    //    else lookInput = Vector2.zero;
+
+    //    if (jumpAction != null) jumpPressed = jumpAction.action.WasPressedThisFrame();
+    //    else jumpPressed = false;
+
+    //    if (sprintAction != null) sprintHeld = sprintAction.action.IsPressed();
+    //    else sprintHeld = false;
+
+    //    if (crouchAction != null) crouchPressed = crouchAction.action.WasPressedThisFrame();
+    //    else crouchPressed = false;
+
+    //    if (zoomAction != null) zoomPressed = zoomAction.action.IsPressed();
+    //    else zoomPressed = false;
+
+    //    #region Camera
+
+    //    // Control camera movement
+    //    if (cameraCanMove && playerCamera != null)
+    //    {
+    //        yaw += lookInput.x * mouseSensitivity;
+
+    //        if (!invertCamera)
+    //            pitch -= lookInput.y * mouseSensitivity;
+    //        else
+    //            pitch += lookInput.y * mouseSensitivity;
+
+    //        pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
+
+    //        transform.localEulerAngles = new Vector3(0, yaw, 0);
+    //        playerCamera.transform.localEulerAngles = new Vector3(pitch, 0, 0);
+    //    }
+
+    //    #region Camera Zoom
+
+    //    if (enableZoom && playerCamera != null)
+    //    {
+    //        // Toggle vs Hold zoom handling
+    //        if (!holdToZoom && zoomPressed && !isSprinting)
+    //        {
+    //            isZoomed = !isZoomed;
+    //        }
+    //        else if (holdToZoom && !isSprinting)
+    //        {
+    //            isZoomed = zoomPressed;
+    //        }
+
+    //        // Lerps camera.fieldOfView to allow for a smooth transition
+    //        if (isZoomed)
+    //        {
+    //            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, zoomFOV, zoomStepTime * Time.deltaTime);
+    //        }
+    //        else if (!isZoomed && !isSprinting)
+    //        {
+    //            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, fov, zoomStepTime * Time.deltaTime);
+    //        }
+    //    }
+
+    //    #endregion
+
+    //    #endregion
+
+    //    #region Sprint
+
+    //    if (enableSprint)
+    //    {
+    //        // Determine sprint state (activate if conditions met and player is moving)
+    //        bool canSprint = enableSprint && sprintHeld && sprintRemaining > 0f && !isSprintCooldown && moveInput.sqrMagnitude > 0.01f;
+
+    //        if (canSprint)
+    //        {
+    //            isSprinting = true;
+    //            isZoomed = false; // block zoom while sprinting
+    //            // FOV change handled in movement code (FixedUpdate via isSprinting)
+    //        }
+    //        else
+    //        {
+    //            isSprinting = false;
+    //        }
+
+    //        if (isSprinting)
+    //        {
+    //            // Drain sprint remaining while sprinting
+    //            if (!unlimitedSprint)
+    //            {
+    //                sprintRemaining -= 1 * Time.deltaTime;
+    //                if (sprintRemaining <= 0f)
+    //                {
+    //                    isSprinting = false;
+    //                    isSprintCooldown = true;
+    //                }
+    //            }
+    //        }
+    //        else
+    //        {
+    //            // Regain sprint while not sprinting
+    //            sprintRemaining = Mathf.Clamp(sprintRemaining + 1 * Time.deltaTime, 0, sprintDuration);
+    //        }
+
+    //        // Handles sprint cooldown 
+    //        if (isSprintCooldown)
+    //        {
+    //            sprintCooldown -= 1 * Time.deltaTime;
+    //            if (sprintCooldown <= 0f)
+    //            {
+    //                isSprintCooldown = false;
+    //                sprintCooldown = sprintCooldownReset;
+    //            }
+    //        }
+
+    //        // Handles sprintBar 
+    //        if (useSprintBar && !unlimitedSprint && sprintBar != null)
+    //        {
+    //            float sprintRemainingPercent = sprintRemaining / sprintDuration;
+    //            sprintBar.transform.localScale = new Vector3(sprintRemainingPercent, 1f, 1f);
+
+    //            if (hideBarWhenFull && sprintBarCG != null)
+    //            {
+    //                // fade in/out
+    //                sprintBarCG.alpha = Mathf.MoveTowards(sprintBarCG.alpha, sprintRemainingPercent >= 1f ? 0f : 1f, 5f * Time.deltaTime);
+    //            }
+    //        }
+    //    }
+
+    //    #endregion
+
+    //    #region Jump
+
+    //    if (enableJump && jumpPressed && isGrounded)
+    //    {
+    //        Jump();
+    //    }
+
+    //    #endregion
+
+    //    #region Crouch
+
+    //    if (enableCrouch)
+    //    {
+    //        if (!holdToCrouch && crouchPressed)
+    //        {
+    //            // toggle crouch on press when not hold-to-crouch
+    //            ToggleCrouch();
+    //        }
+    //        else if (holdToCrouch)
+    //        {
+    //            // for hold-to-crouch, Crouch() will check isCrouched state and toggle scale
+    //            if (crouchPressed)
+    //            {
+    //                Crouch();
+    //            }
+    //        }
+    //    }
+
+    //    #endregion
+
+    //    CheckGround();
+
+    //    if (enableHeadBob)
+    //    {
+    //        HeadBob();
+    //    }
+    //}
+
     private void Update()
     {
         if (!IsOwner || !Application.isFocused) return;
 
-        // Collecte des inputs du Player Input System (après IsOwner check)
-        if (moveAction != null) moveInput = moveAction.action.ReadValue<Vector2>();
-        else moveInput = Vector2.zero;
+        HandleCamera();
+        CheckGround();
 
-        if (lookAction != null) lookInput = lookAction.action.ReadValue<Vector2>();
-        else lookInput = Vector2.zero;
+        if (enableHeadBob)
+            HeadBob();
+    }
 
-        if (jumpAction != null) jumpPressed = jumpAction.action.WasPressedThisFrame();
-        else jumpPressed = false;
-
-        if (sprintAction != null) sprintHeld = sprintAction.action.IsPressed();
-        else sprintHeld = false;
-
-        if (crouchAction != null) crouchPressed = crouchAction.action.WasPressedThisFrame();
-        else crouchPressed = false;
-
-        if (zoomAction != null) zoomPressed = zoomAction.action.IsPressed();
-        else zoomPressed = false;
-
+    private void HandleCamera()
+    {
         #region Camera
 
         // Control camera movement
@@ -313,6 +566,7 @@ public class FirstPersonController_Networked : NetworkBehaviour
             playerCamera.transform.localEulerAngles = new Vector3(pitch, 0, 0);
         }
 
+        #endregion
         #region Camera Zoom
 
         if (enableZoom && playerCamera != null)
@@ -339,108 +593,7 @@ public class FirstPersonController_Networked : NetworkBehaviour
         }
 
         #endregion
-        #endregion
 
-        #region Sprint
-
-        if (enableSprint)
-        {
-            // Determine sprint state (activate if conditions met and player is moving)
-            bool canSprint = enableSprint && sprintHeld && sprintRemaining > 0f && !isSprintCooldown && moveInput.sqrMagnitude > 0.01f;
-
-            if (canSprint)
-            {
-                isSprinting = true;
-                isZoomed = false; // block zoom while sprinting
-                // FOV change handled in movement code (FixedUpdate via isSprinting)
-            }
-            else
-            {
-                isSprinting = false;
-            }
-
-            if (isSprinting)
-            {
-                // Drain sprint remaining while sprinting
-                if (!unlimitedSprint)
-                {
-                    sprintRemaining -= 1 * Time.deltaTime;
-                    if (sprintRemaining <= 0f)
-                    {
-                        isSprinting = false;
-                        isSprintCooldown = true;
-                    }
-                }
-            }
-            else
-            {
-                // Regain sprint while not sprinting
-                sprintRemaining = Mathf.Clamp(sprintRemaining + 1 * Time.deltaTime, 0, sprintDuration);
-            }
-
-            // Handles sprint cooldown 
-            if (isSprintCooldown)
-            {
-                sprintCooldown -= 1 * Time.deltaTime;
-                if (sprintCooldown <= 0f)
-                {
-                    isSprintCooldown = false;
-                    sprintCooldown = sprintCooldownReset;
-                }
-            }
-
-            // Handles sprintBar 
-            if (useSprintBar && !unlimitedSprint && sprintBar != null)
-            {
-                float sprintRemainingPercent = sprintRemaining / sprintDuration;
-                sprintBar.transform.localScale = new Vector3(sprintRemainingPercent, 1f, 1f);
-
-                if (hideBarWhenFull && sprintBarCG != null)
-                {
-                    // fade in/out
-                    sprintBarCG.alpha = Mathf.MoveTowards(sprintBarCG.alpha, sprintRemainingPercent >= 1f ? 0f : 1f, 5f * Time.deltaTime);
-                }
-            }
-        }
-
-        #endregion
-
-        #region Jump
-
-        if (enableJump && jumpPressed && isGrounded)
-        {
-            Jump();
-        }
-
-        #endregion
-
-        #region Crouch
-
-        if (enableCrouch)
-        {
-            if (!holdToCrouch && crouchPressed)
-            {
-                // toggle crouch on press when not hold-to-crouch
-                ToggleCrouch();
-            }
-            else if (holdToCrouch)
-            {
-                // for hold-to-crouch, Crouch() will check isCrouched state and toggle scale
-                if (crouchPressed)
-                {
-                    Crouch();
-                }
-            }
-        }
-
-        #endregion
-
-        CheckGround();
-
-        if (enableHeadBob)
-        {
-            HeadBob();
-        }
     }
 
     void FixedUpdate()
