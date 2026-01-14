@@ -217,6 +217,7 @@ public class Palette : MonoBehaviour
         {
             newWeapon.isEquipped = true;
             GameObject currentWeapon = Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon;
+            if (currentWeapon != null) currentWeapon.SetActive(true);
             attackBehaviour.weaponUsed = Array.Find(allWeapons, w => w.weaponData == newWeapon.weaponData);
         }
     }
