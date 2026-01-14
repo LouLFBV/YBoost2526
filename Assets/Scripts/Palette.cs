@@ -18,11 +18,13 @@ public class Palette : MonoBehaviour
     public WeaponInPalette[] allWeaponsInPalette;
     [SerializeField] private Weapon[] allWeapons;
 
-    private PlayerInput playerInput;
+    [SerializeField]private PlayerInput playerInput;
     private bool takingMainWeapon;
     private bool takingSecondaryWeapon;
     private bool takingMeleeWeapon;
     private bool takingProjectile;
+
+    private bool isInitialized = false;
 
 
     private void Awake()
@@ -34,14 +36,26 @@ public class Palette : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return; 
         }
 
         playerInput = GetComponent<PlayerInput>();
+
+        if (playerInput == null)
+        {
+            Debug.LogError("Palette : PlayerInput manquant !");
+            return;
+        }
+
+        isInitialized = true;
     }
+
 
     #region Méthodes Player Input 
     private void OnEnable()
     {
+        if (!isInitialized || playerInput == null)
+            return;
         playerInput.actions["MainWeapon"].Enable();
         playerInput.actions["SecondaryWeapon"].Enable();
         playerInput.actions["MeleeWeapon"].Enable();
@@ -59,6 +73,9 @@ public class Palette : MonoBehaviour
     }
     private void OnDisable()
     {
+
+        if (!isInitialized || playerInput == null)
+            return;
         playerInput.actions["MainWeapon"].Disable();
         playerInput.actions["SecondaryWeapon"].Disable();
         playerInput.actions["MeleeWeapon"].Disable();
@@ -199,7 +216,8 @@ public class Palette : MonoBehaviour
         if (!newWeapon.isEquipped)
         {
             newWeapon.isEquipped = true;
-            Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon.SetActive(true);
+            GameObject currentWeapon = Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon;
+            if (currentWeapon != null) currentWeapon.SetActive(true);
             attackBehaviour.weaponUsed = Array.Find(allWeapons, w => w.weaponData == newWeapon.weaponData);
         }
     }
@@ -209,7 +227,8 @@ public class Palette : MonoBehaviour
         if (newWeapon.isEquipped)
         {
             newWeapon.isEquipped = false;
-            Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon.SetActive(false);
+            GameObject currentWeapon = Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon;
+            if (currentWeapon != null) currentWeapon.SetActive(false);
             attackBehaviour.weaponUsed = null;
         }
     }

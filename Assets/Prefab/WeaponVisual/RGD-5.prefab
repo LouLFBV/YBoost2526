@@ -88,7 +88,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &6514028601977675393
 GameObject:
@@ -101,14 +100,14 @@ GameObject:
   - component: {fileID: 2454671822369704042}
   - component: {fileID: 6357218839534369463}
   - component: {fileID: 860731568126774204}
-  - component: {fileID: 8891987654833865933}
+  - component: {fileID: 6149878597274029890}
   m_Layer: 8
   m_Name: RGD-5
   m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2454671822369704042
 Transform:
   m_ObjectHideFlags: 0
@@ -180,9 +179,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8891987654833865933
+--- !u!114 &6149878597274029890
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,11 +189,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6514028601977675393}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c3395433d8c5ee4d8a56823fde6810b, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f654163f46baad4a90fb591f5473c37, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  m_EditorClassIdentifier: Assembly-CSharp::GrenadeLauncher
   weaponData: {fileID: 11400000, guid: f5dd2b55c6c8660448e4ff3da7318f70, type: 2}
   shootPoint: {fileID: 0}
+  muzzleFlash: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &6982953738119627418
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,5 +285,4 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}

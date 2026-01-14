@@ -88,7 +88,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4697875476350103162
 GameObject:
@@ -102,9 +101,8 @@ GameObject:
   - component: {fileID: 3870426858466116170}
   - component: {fileID: 683282365605874463}
   - component: {fileID: 8838529241996828105}
-  - component: {fileID: 809770226839548208}
-  - component: {fileID: 2052834771841455562}
   - component: {fileID: 2803472397025781121}
+  - component: {fileID: 1847186842363308771}
   m_Layer: 8
   m_Name: RGD-5
   m_TagString: Object
@@ -183,7 +181,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!135 &8838529241996828105
 SphereCollider:
@@ -206,47 +203,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.078770235
   m_Center: {x: 0, y: 0.027652785, z: 0}
---- !u!54 &809770226839548208
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4697875476350103162}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 4.76
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &2052834771841455562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4697875476350103162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c3395433d8c5ee4d8a56823fde6810b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  weaponData: {fileID: 11400000, guid: f5dd2b55c6c8660448e4ff3da7318f70, type: 2}
-  shootPoint: {fileID: 4022367250285783080}
 --- !u!135 &2803472397025781121
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -268,6 +224,25 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.6
   m_Center: {x: 0, y: 0.027264815, z: 0}
+--- !u!114 &1847186842363308771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4697875476350103162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f654163f46baad4a90fb591f5473c37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrenadeLauncher
+  weaponData: {fileID: 11400000, guid: f5dd2b55c6c8660448e4ff3da7318f70, type: 2}
+  shootPoint: {fileID: 0}
+  muzzleFlash: {fileID: 0}
+  audioSource: {fileID: 0}
+  floatAmplitude: 0.25
+  floatSpeed: 2
+  rotationSpeed: 60
 --- !u!1 &5977150324845317394
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,5 +332,4 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}

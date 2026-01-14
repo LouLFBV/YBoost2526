@@ -88,7 +88,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1620780442430432
 GameObject:
@@ -209,7 +208,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1694449805434718
 GameObject:
@@ -221,9 +219,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4952727429218122}
   - component: {fileID: 7609652478600592669}
-  - component: {fileID: 802769925631550862}
-  - component: {fileID: 6240231786471900738}
   - component: {fileID: 7694786761511479266}
+  - component: {fileID: 856201011768704387}
   m_Layer: 8
   m_Name: M1911
   m_TagString: Object
@@ -270,47 +267,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.035654485, y: 0.16225833, z: 0.2592318}
   m_Center: {x: 0.002693683, y: -0.02559033, z: -0.025590062}
---- !u!54 &802769925631550862
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1694449805434718}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &6240231786471900738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1694449805434718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c3395433d8c5ee4d8a56823fde6810b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  weaponData: {fileID: 11400000, guid: e9e8d3237e43eb84db1ed36a172fa18d, type: 2}
-  shootPoint: {fileID: 8190792868167450799}
 --- !u!135 &7694786761511479266
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -332,6 +288,25 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.6
   m_Center: {x: 0, y: -0.023909718, z: -0.027077392}
+--- !u!114 &856201011768704387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694449805434718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58d32dc99d1ea3a45aa5f91417f8ba11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gun
+  weaponData: {fileID: 11400000, guid: e9e8d3237e43eb84db1ed36a172fa18d, type: 2}
+  shootPoint: {fileID: 8190792868167450799}
+  muzzleFlash: {fileID: 0}
+  audioSource: {fileID: 0}
+  floatAmplitude: 0.25
+  floatSpeed: 2
+  rotationSpeed: 60
 --- !u!1 &1748277932983872
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,7 +399,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1765096765920448
 GameObject:
@@ -514,7 +488,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1929811568968954
 GameObject:
@@ -604,7 +577,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &7621130083550068102
 GameObject:

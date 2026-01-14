@@ -1809,10 +1809,10 @@ MonoBehaviour:
     visualWeapon: {fileID: 2226226275187678026}
     isEquipped: 0
   allWeapons:
-  - {fileID: 5062746070707820643}
-  - {fileID: 2940006003687454185}
-  - {fileID: 7660804245260712207}
-  - {fileID: 5270161134780741336}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &6837502555805184869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1828,6 +1828,7 @@ MonoBehaviour:
   interactionText: {fileID: 4561474830905610881}
   canInteract: 0
   currentWeapon: {fileID: 0}
+  playerInput: {fileID: 0}
 --- !u!114 &979787726325526734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3720,17 +3721,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3109264940910148779, guid: 69de55390edcbae4696eefa994876d77, type: 3}
   m_PrefabInstance: {fileID: 1087672062141332124}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2940006003687454185 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2870147666174709621, guid: 69de55390edcbae4696eefa994876d77, type: 3}
-  m_PrefabInstance: {fileID: 1087672062141332124}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6649440286629837850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c3395433d8c5ee4d8a56823fde6810b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Weapon
 --- !u!1 &6649440286629837850 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6007697791020877446, guid: 69de55390edcbae4696eefa994876d77, type: 3}
@@ -3799,7 +3789,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2258907997089890751, guid: a0264a4e17e072742b40128dfa186e1c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 864946687952449149}
   m_SourcePrefab: {fileID: 100100000, guid: a0264a4e17e072742b40128dfa186e1c, type: 3}
 --- !u!4 &1209820679967301995 stripped
 Transform:
@@ -3811,17 +3804,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2258907997089890751, guid: a0264a4e17e072742b40128dfa186e1c, type: 3}
   m_PrefabInstance: {fileID: 1118292145709646016}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5062746070707820643 stripped
+--- !u!114 &864946687952449149
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5316082036806080675, guid: a0264a4e17e072742b40128dfa186e1c, type: 3}
-  m_PrefabInstance: {fileID: 1118292145709646016}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215329866186424703}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c3395433d8c5ee4d8a56823fde6810b, type: 3}
+  m_Script: {fileID: 11500000, guid: 58d32dc99d1ea3a45aa5f91417f8ba11, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  m_EditorClassIdentifier: Assembly-CSharp::Gun
+  weaponData: {fileID: 0}
+  shootPoint: {fileID: 0}
+  muzzleFlash: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1001 &1240191350383164866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3874,6 +3872,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RGD-5
       objectReference: {fileID: 0}
+    - target: {fileID: 6514028601977675393, guid: 6d32d4757ac02b94b820c5af04370f9a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8891987654833865933, guid: 6d32d4757ac02b94b820c5af04370f9a, type: 3}
       propertyPath: shootPoint
       value: 
@@ -3898,17 +3900,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6514028601977675393, guid: 6d32d4757ac02b94b820c5af04370f9a, type: 3}
   m_PrefabInstance: {fileID: 1240191350383164866}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7660804245260712207 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8891987654833865933, guid: 6d32d4757ac02b94b820c5af04370f9a, type: 3}
-  m_PrefabInstance: {fileID: 1240191350383164866}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5426962854245081923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c3395433d8c5ee4d8a56823fde6810b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Weapon
 --- !u!1001 &1898037522733749253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4005,14 +3996,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6621169091149887237, guid: cdba905a2d2c89046bf91c161a30eb01, type: 3}
   m_PrefabInstance: {fileID: 1898037522733749253}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5270161134780741336 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6013555317408047837, guid: cdba905a2d2c89046bf91c161a30eb01, type: 3}
-  m_PrefabInstance: {fileID: 1898037522733749253}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2226226275187678026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c3395433d8c5ee4d8a56823fde6810b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Weapon

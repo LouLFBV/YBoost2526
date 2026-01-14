@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +10,8 @@ public class Interact : MonoBehaviour
     public Weapon currentWeapon;
 
 
-    private PlayerControls controls;
+    [SerializeField] private PlayerInput playerInput;
+    private bool isInteracting = false;
 
     private void Awake()
     {
@@ -21,10 +23,34 @@ public class Interact : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        controls = new PlayerControls();
+        playerInput = GetComponent<PlayerInput>();
     }
-    private void OnEnable() => controls.Enable();
-    private void OnDisable() => controls.Disable();
+    #region Méthodes Player Input
+    private void OnEnable()
+    {
+        playerInput.actions["Interact"].Enable();
+        playerInput.actions["Interact"].performed += IsInteractingPerformed;
+        playerInput.actions["Interact"].canceled += IsInteractingCanceled;
+    }
+    private void OnDisable()
+    {
+        playerInput.actions["Interact"].Disable();
+        playerInput.actions["Interact"].performed -= IsInteractingPerformed;
+        playerInput.actions["Interact"].canceled -= IsInteractingCanceled;
+    }
+
+    private void IsInteractingPerformed(InputAction.CallbackContext context)
+    {
+        Debug.Log("Interacting Performed");
+        isInteracting = true;
+    }
+
+    private void IsInteractingCanceled(InputAction.CallbackContext context)
+    {
+        isInteracting = false;
+    }
+    #endregion 
+
     private void Start()
     {
         interactionText.SetActive(false);
@@ -35,11 +61,12 @@ public class Interact : MonoBehaviour
         {
             interactionText.SetActive(true);
 
-            if(controls.Player.PickUp.triggered)
+            if(isInteracting)
             {
                 Palette.instance.AddWeapon(currentWeapon);
                 Destroy(currentWeapon.gameObject);
                 canInteract = false;
+                isInteracting = false;
             }
         }
         else
