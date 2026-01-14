@@ -216,7 +216,7 @@ public class Palette : MonoBehaviour
         if (!newWeapon.isEquipped)
         {
             newWeapon.isEquipped = true;
-            Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon.SetActive(true);
+            GameObject currentWeapon = Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon;
             attackBehaviour.weaponUsed = Array.Find(allWeapons, w => w.weaponData == newWeapon.weaponData);
         }
     }
@@ -226,7 +226,8 @@ public class Palette : MonoBehaviour
         if (newWeapon.isEquipped)
         {
             newWeapon.isEquipped = false;
-            Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon.SetActive(false);
+            GameObject currentWeapon = Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon;
+            if (currentWeapon != null) currentWeapon.SetActive(false);
             attackBehaviour.weaponUsed = null;
         }
     }
