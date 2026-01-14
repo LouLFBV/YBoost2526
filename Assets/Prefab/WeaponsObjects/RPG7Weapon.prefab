@@ -116,6 +116,8 @@ MonoBehaviour:
   enableFloating: 1
   rocketPrefab: {fileID: 6010818470733232845, guid: 3dca06c2d28a76f4b8ce9876f70fd045, type: 3}
   launchForce: 25
+  delayBetweenShots: 2
+  visualRocket: {fileID: 0}
 --- !u!135 &1310699904941493370
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -309,7 +311,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1813184310846846027, guid: 3dca06c2d28a76f4b8ce9876f70fd045, type: 3}
+    - {fileID: 3536958281798053473, guid: 3dca06c2d28a76f4b8ce9876f70fd045, type: 3}
+    - {fileID: 6010818470733232845, guid: 3dca06c2d28a76f4b8ce9876f70fd045, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

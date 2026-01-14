@@ -6,7 +6,7 @@ public class RPG7 : Weapon, IWeapon
     [SerializeField] private RocketProjectile rocketPrefab;
     [SerializeField] private float launchForce = 25f;
     [SerializeField] private float delayBetweenShots = 2.0f;
-
+    [SerializeField] private GameObject visualRocket;
     private bool canAttack = true;
 
     public void Attack()
@@ -27,14 +27,15 @@ public class RPG7 : Weapon, IWeapon
         );
 
         rocket.Launch(shootPoint.forward * launchForce);
-
+        visualRocket.SetActive(false);
         canAttack = false;
         StartCoroutine(CooldownCoroutine());
     }
 
-    private IEnumerator CooldownCoroutine()
+    public IEnumerator CooldownCoroutine()
     {
         yield return new WaitForSeconds(delayBetweenShots);
         canAttack = true;
+        visualRocket.SetActive(true);
     }
 }

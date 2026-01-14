@@ -181,9 +181,9 @@ public class Palette : MonoBehaviour
         weapons[index].weaponData = newWeapon.weaponData;
         slotsIconeWeapon[index].sprite = newWeapon.weaponData.icone;
         WeaponInPalette found = Array.Find(
-    allWeaponsInPalette,
-    w => w != null && w.weaponData == newWeapon.weaponData
-);
+            allWeaponsInPalette,
+            w => w != null && w.weaponData == newWeapon.weaponData
+        );
 
         if (found == null)
         {
@@ -228,7 +228,8 @@ public class Palette : MonoBehaviour
                 visual = weapons[3].visualWeapon;
                 break;
         }
-        weapons[index].weaponData.weaponType = weaponType;
+        weapons[index].weaponData = null;
+        weapons[index].visualWeapon = null;
         slotsIconeWeapon[index].sprite = null;
         if (CheckIfOneWeaponIsEquipped())
         {
@@ -292,6 +293,10 @@ public class Palette : MonoBehaviour
         if (currentWeapon.TryGetComponent<Knife>(out Knife knife))
         {
             knife.DesactiveAttack();
+        }
+        if (currentWeapon.TryGetComponent<RPG7>(out RPG7 rpg))
+        {
+            rpg.StartCoroutine(rpg.CooldownCoroutine());
         }
 
         newWeapon.isEquipped = false;
