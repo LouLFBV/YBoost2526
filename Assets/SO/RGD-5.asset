@@ -15,5 +15,5 @@ MonoBehaviour:
   damage: 100
   range: 100
   icone: {fileID: 21300000, guid: 1748d7c132285b445b6cdded9fb108ef, type: 3}
-  weaponType: 2
+  weaponType: 3
   weaponPrefab: {fileID: 4697875476350103162, guid: 9b4bedd31b374b041994df34f7697607, type: 3}

@@ -125,14 +125,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""852140f2-7766-474d-8707-702459ba45f3"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Crouch"",
                     ""type"": ""Button"",
                     ""id"": ""27c5f898-bc57-4ee1-8800-db469aca5fe3"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -177,6 +177,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""PickUp"",
                     ""type"": ""Button"",
                     ""id"": ""9a60f170-d578-43eb-be55-d6b0573e4eaf"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Button"",
+                    ""id"": ""466dd6bb-0d8d-4e33-a307-409fbd5b6447"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -577,6 +586,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fa95c767-a6e1-4562-b8a4-7b2b51cd1c18"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1128,6 +1148,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Projectile"",
+                    ""type"": ""Button"",
+                    ""id"": ""c7394bd9-7e84-496e-8213-6ca096905040"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1161,6 +1190,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MeleeWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ecb53e5a-29d8-47a4-9d9c-f2cec4508164"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Projectile"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1242,6 +1282,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_PickUp = m_Player.FindAction("PickUp", throwIfNotFound: true);
+        m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1259,6 +1300,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Weapons_MainWeapon = m_Weapons.FindAction("MainWeapon", throwIfNotFound: true);
         m_Weapons_SecondaryWeapon = m_Weapons.FindAction("SecondaryWeapon", throwIfNotFound: true);
         m_Weapons_MeleeWeapon = m_Weapons.FindAction("MeleeWeapon", throwIfNotFound: true);
+        m_Weapons_Projectile = m_Weapons.FindAction("Projectile", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -1351,6 +1393,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_PickUp;
+    private readonly InputAction m_Player_Zoom;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1402,6 +1445,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/PickUp".
         /// </summary>
         public InputAction @PickUp => m_Wrapper.m_Player_PickUp;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Zoom".
+        /// </summary>
+        public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1458,6 +1505,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @PickUp.started += instance.OnPickUp;
             @PickUp.performed += instance.OnPickUp;
             @PickUp.canceled += instance.OnPickUp;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
         }
 
         /// <summary>
@@ -1499,6 +1549,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @PickUp.started -= instance.OnPickUp;
             @PickUp.performed -= instance.OnPickUp;
             @PickUp.canceled -= instance.OnPickUp;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
         }
 
         /// <summary>
@@ -1734,6 +1787,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Weapons_MainWeapon;
     private readonly InputAction m_Weapons_SecondaryWeapon;
     private readonly InputAction m_Weapons_MeleeWeapon;
+    private readonly InputAction m_Weapons_Projectile;
     /// <summary>
     /// Provides access to input actions defined in input action map "Weapons".
     /// </summary>
@@ -1757,6 +1811,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Weapons/MeleeWeapon".
         /// </summary>
         public InputAction @MeleeWeapon => m_Wrapper.m_Weapons_MeleeWeapon;
+        /// <summary>
+        /// Provides access to the underlying input action "Weapons/Projectile".
+        /// </summary>
+        public InputAction @Projectile => m_Wrapper.m_Weapons_Projectile;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1792,6 +1850,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @MeleeWeapon.started += instance.OnMeleeWeapon;
             @MeleeWeapon.performed += instance.OnMeleeWeapon;
             @MeleeWeapon.canceled += instance.OnMeleeWeapon;
+            @Projectile.started += instance.OnProjectile;
+            @Projectile.performed += instance.OnProjectile;
+            @Projectile.canceled += instance.OnProjectile;
         }
 
         /// <summary>
@@ -1812,6 +1873,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @MeleeWeapon.started -= instance.OnMeleeWeapon;
             @MeleeWeapon.performed -= instance.OnMeleeWeapon;
             @MeleeWeapon.canceled -= instance.OnMeleeWeapon;
+            @Projectile.started -= instance.OnProjectile;
+            @Projectile.performed -= instance.OnProjectile;
+            @Projectile.canceled -= instance.OnProjectile;
         }
 
         /// <summary>
@@ -1987,6 +2051,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPickUp(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Zoom" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnZoom(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
@@ -2094,5 +2165,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMeleeWeapon(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Projectile" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnProjectile(InputAction.CallbackContext context);
     }
 }
