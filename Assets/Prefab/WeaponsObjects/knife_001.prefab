@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8445630658599235590}
   - component: {fileID: 9020079732373201769}
   - component: {fileID: 4584632869155820736}
-  - component: {fileID: 1783672893071022096}
   - component: {fileID: 3758097661485173072}
   m_Layer: 8
   m_Name: knife_001
@@ -113,27 +112,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.2361536
   m_Center: {x: 0.00000011920929, y: 0.35371208, z: -0.00000011920929}
---- !u!65 &1783672893071022096
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6661575364198694600}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.06669854, y: 0.5529991, z: 0.151921}
-  m_Center: {x: 0.00000008754432, y: 0.18938226, z: -0.000000078231096}
 --- !u!114 &3758097661485173072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +131,5 @@ MonoBehaviour:
   floatAmplitude: 0.25
   floatSpeed: 2
   rotationSpeed: 60
-  attackDistance: 0.5
-  attackDuration: 0.2
-  attackArcHeight: 0.2
+  enableFloating: 1
+  animator: {fileID: 0}

@@ -36,17 +36,18 @@ public abstract class Weapon : MonoBehaviour
         transform.position = new Vector3(transform.position.x, newY, transform.position.z);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && transform.CompareTag("Object"))
         {
             Interact.instance.canInteract = true;
             Interact.instance.currentWeapon = this;
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && transform.CompareTag("Object"))
         {
             Interact.instance.canInteract = false;
             Interact.instance.currentWeapon = null;

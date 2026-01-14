@@ -190,7 +190,40 @@ public class Palette : MonoBehaviour
         if (attackBehaviour.weaponUsed == null)
             attackBehaviour.weaponUsed = Array.Find(allWeapons, w => w.weaponData == newWeapon.weaponData);
     }
-
+    
+    public void RemoveWeaponInPalette(WeaponType weaponType)
+    {
+        int index = 0;
+        GameObject visual = null;
+        switch (weaponType)
+        {
+            case WeaponType.Main:
+                index = 0;
+                visual = weapons[0].visualWeapon;
+                break;
+            case WeaponType.Secondary:
+                index = 1;
+                visual = weapons[1].visualWeapon;
+                break;
+            case WeaponType.Melee:
+                index = 2;
+                visual = weapons[2].visualWeapon;
+                break;
+            case WeaponType.Projectile:
+                index = 3;
+                visual = weapons[3].visualWeapon;
+                break;
+        }
+        weapons[index].weaponData.weaponType = weaponType;
+        slotsIconeWeapon[index].sprite = null;
+        if (CheckIfOneWeaponIsEquipped())
+        {
+            weapons[index].isEquipped = false;
+            visual.SetActive(false);
+        }
+        if (attackBehaviour.weaponUsed != null)
+            attackBehaviour.weaponUsed = null;
+    }
 
     private void ChangeWeapon(WeaponInPalette weapon)
     {
@@ -226,13 +259,14 @@ public class Palette : MonoBehaviour
     {
         if (newWeapon.isEquipped)
         {
-            newWeapon.isEquipped = false;
             GameObject currentWeapon = Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon;
+            if (currentWeapon.TryGetComponent<Knife>(out Knife knife))
+                knife.DesactiveAttack();
+            newWeapon.isEquipped = false;
             if (currentWeapon != null) currentWeapon.SetActive(false);
             attackBehaviour.weaponUsed = null;
         }
     }
-
 
     private bool CheckIfOneWeaponIsEquipped()
     {

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac2285d85dcdcd4eb4c262e38d23689, type: 3}
   m_Name: Knife
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  damage: 20
+  damage: 50
   range: 0
   icone: {fileID: 21300000, guid: 880f200d2296dd04aa767a4f724868b5, type: 3}
   weaponType: 2

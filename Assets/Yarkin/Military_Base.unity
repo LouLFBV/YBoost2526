@@ -4050,6 +4050,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8125521008550867370, guid: 38fcb473a8f39364e919afa6fc18e6d7, type: 3}
   m_PrefabInstance: {fileID: 136682159}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &137331090 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4734463152436060928, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+  m_PrefabInstance: {fileID: 344668135}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &137449511
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4661,6 +4666,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7998025327058000213, guid: 627facdd61ffa7744abeb35cc25c6c03, type: 3}
   m_PrefabInstance: {fileID: 146406261}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &146981446 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7121486939283029115, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+  m_PrefabInstance: {fileID: 344668135}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd26ba19aa1a95240956300809c8bec3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1001 &149197748
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9372,6 +9388,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7998025327058000213, guid: 627facdd61ffa7744abeb35cc25c6c03, type: 3}
   m_PrefabInstance: {fileID: 293619221}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &295901076 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3685831746795369896, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+  m_PrefabInstance: {fileID: 344668135}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &296036531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11436,6 +11457,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: FirstPersonController
       objectReference: {fileID: 0}
+    - target: {fileID: 4931100152528269952, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: palette
+      value: 
+      objectReference: {fileID: 146981446}
+    - target: {fileID: 4931100152528269952, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: shootPoint
+      value: 
+      objectReference: {fileID: 295901076}
+    - target: {fileID: 4931100152528269952, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: launchPoint
+      value: 
+      objectReference: {fileID: 295901076}
+    - target: {fileID: 4931100152528269952, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: grenadePrefab
+      value: 
+      objectReference: {fileID: 3654686424118345961, guid: 2a3c4cc68e7ef6a4c99f120f7b1b0b14, type: 3}
+    - target: {fileID: 8650724366174016313, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: shootPoint
+      value: 
+      objectReference: {fileID: 137331090}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22657,6 +22698,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5415639185833406584, guid: cf719d43f3f5d954fbe0879e403e6c98, type: 3}
   m_PrefabInstance: {fileID: 673089425}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &674517265 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8243477805732468235, guid: 0b5c41d804f9f35489c6cfc279a31d93, type: 3}
+  m_PrefabInstance: {fileID: 1934340549}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &674620775
 PrefabInstance:
@@ -59720,6 +59766,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4475566635503893638, guid: 0b5c41d804f9f35489c6cfc279a31d93, type: 3}
+      propertyPath: ui
+      value: 
+      objectReference: {fileID: 674517265}
     - target: {fileID: 6636122108757628174, guid: 0b5c41d804f9f35489c6cfc279a31d93, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -60666,7 +60716,7 @@ GameObject:
   - component: {fileID: 1987115732}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
