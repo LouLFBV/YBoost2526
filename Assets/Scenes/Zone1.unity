@@ -145,14 +145,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 472744716}
   m_Enabled: 1
-  serializedVersion: 12
+  serializedVersion: 11
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize2D: {x: 10, y: 10}
+  m_CookieSize: 10
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -278,6 +278,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  debrisShape: 0
+  customDebrisPrefab: {fileID: 0}
+  fracturedPrefab: {fileID: 0}
+  debrisCountMin: 3
+  debrisCountMax: 12
+  explosionForce: 100
+  explosionRadius: 4
+  debrisScaleRange: {x: 0.05, y: 0.35}
+  debrisMaterial: {fileID: 0}
+  spawnBiasUp: 0.5
+  partialPlacementAttempts: 6
+  useOriginalMaterial: 1
+  debrisLifetime: 8
+  destroyOriginal: 1
+  debrisDensity: 800
+  debrisMassMin: 0.1
+  debrisMassMax: 200
 --- !u!65 &924421177
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -346,7 +363,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &924421179
 MeshFilter:
@@ -626,7 +642,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1327565225
 MeshFilter:

@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Unity.Netcode;
-using UnityEngine.InputSystem;
 using Unity.VisualScripting;
-using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 
 
@@ -140,12 +142,12 @@ public class FirstPersonController_Networked : NetworkBehaviour
     private float baseWalkSpeed;
 
 
-    public override void OnNetworkDespawn()
-    {
-        if (!IsOwner || playerInput == null) return;
+    //public override void OnNetworkDespawn()
+    //{
+    //    if (!IsOwner || playerInput == null) return;
 
-        DisableInput();
-    }
+    //    DisableInput();
+    //}
 
     private void EnableInput()
     {
@@ -201,38 +203,46 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     private void OnDisable()
     {
+        if (!IsOwner) return;
         DisableInput();
     }
 
     private void OnSprintStop(InputAction.CallbackContext context)
     {
+        if (!IsOwner) return;
         sprintHeld = false;
     }
 
     private void OnSprintStart(InputAction.CallbackContext context)
     {
+        if (!IsOwner) return;
         Debug.Log("Sprint input received.");
         sprintHeld = true;
     }
 
     private void OnMove(InputAction.CallbackContext ctx)
     {
+        if (!IsOwner) return;
+        Debug.Log("Move input received: " + ctx.ReadValue<Vector2>());
         moveInput = ctx.ReadValue<Vector2>();
     }
 
     private void OnLook(InputAction.CallbackContext ctx)
     {
+        if (!IsOwner) return;
         lookInput = ctx.ReadValue<Vector2>();
     }
 
     private void OnJump(InputAction.CallbackContext ctx)
     {
+        if (!IsOwner) return;
         if (!enableJump || !isGrounded) return;
         Jump();
     }
 
     private void OnZoomStart(InputAction.CallbackContext ctx)
     {
+        if (!IsOwner) return;
         if (!enableZoom || isSprinting) return;
 
         if (holdToZoom)
@@ -243,12 +253,14 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     private void OnZoomStop(InputAction.CallbackContext ctx)
     {
+        if (!IsOwner) return;
         if (holdToZoom)
             isZoomed = false;
     }
 
     private void OnCrouch(InputAction.CallbackContext ctx)
     {
+        if (!IsOwner) return;
         Debug.Log("Crouch input received. holdToCrouch = " + holdToCrouch);
         if (!this || !isActiveAndEnabled) return;
         if (!IsOwner) return;
@@ -284,37 +296,37 @@ public class FirstPersonController_Networked : NetworkBehaviour
     }
 
 
-
-
     public override void OnNetworkSpawn()
     {
-        Debug.Log("OnNetworkSpawn | IsOwner = " + IsOwner);
-        if (!IsOwner) return;
-
-        EnableInput();
+        // On s'assure d'avoir les composants tout de suite
         if (rb == null) rb = GetComponent<Rigidbody>();
+        playerInput = GetComponent<PlayerInput>();
 
         if (IsOwner)
         {
-            if (playerCamera != null)
-                playerCamera.enabled = true;
+            // On active l'input SEULEMENT si on a le composant
+            if (playerInput != null)
+            {
+                playerInput.enabled = true;
+                EnableInput();
+            }
+            else
+            {
+                Debug.LogError("Composant PlayerInput manquant sur le prefab !");
+            }
+
+            if (rb != null) rb.isKinematic = false;
+            if (playerCamera != null) playerCamera.enabled = true;
 
             Cursor.lockState = lockCursor ? CursorLockMode.Locked : CursorLockMode.None;
             Cursor.visible = !lockCursor;
         }
         else
         {
-            if (playerCamera != null)
-                playerCamera.enabled = false;
-
-            if (playerCamera != null)
-            {
-                var audio = playerCamera.GetComponent<AudioListener>();
-                if (audio != null) audio.enabled = false;
-            }
-
-            // disable local physics for non-owners
-            rb.isKinematic = true;
+            // Désactivation propre pour les clones
+            if (playerInput != null) playerInput.enabled = false;
+            if (playerCamera != null) playerCamera.enabled = false;
+            if (rb != null) rb.isKinematic = true;
         }
     }
 
@@ -322,9 +334,8 @@ public class FirstPersonController_Networked : NetworkBehaviour
     {
         baseWalkSpeed = walkSpeed;
 
-        playerInput = GetComponent<PlayerInput>();
+        baseWalkSpeed = walkSpeed;
         rb = GetComponent<Rigidbody>();
-        playerInput = GetComponent<PlayerInput>();
 
         // prefer inspector-assigned crosshair; otherwise try to find
         if (crosshairObject == null)
@@ -351,6 +362,10 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     void Start()
     {
+        // --- PROTECTION RÉSEAU ---
+        // Si ce n'est pas MON personnage, je ne touche pas à l'interface ni au curseur
+        if (!IsOwner) return;
+
         if (lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -377,6 +392,7 @@ public class FirstPersonController_Networked : NetworkBehaviour
             sprintBarBG.gameObject.SetActive(true);
             sprintBar.gameObject.SetActive(true);
 
+            // Note: Screen.width/height sont ok ici car on est sur l'instance locale du proprio
             float screenWidth = Screen.width;
             float screenHeight = Screen.height;
 
@@ -403,6 +419,7 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     private void Update()
     {
+        // Si je ne possède pas ce joueur, je ne calcule pas sa caméra ni son sol
         if (!IsOwner) return;
 
         HandleCamera();
@@ -453,6 +470,7 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     void FixedUpdate()
     {
+        // Sécurité réseau
         if (!IsOwner) return;
         #region Movement
 

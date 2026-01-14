@@ -202,14 +202,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 472744716}
   m_Enabled: 1
-  serializedVersion: 12
+  serializedVersion: 11
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize2D: {x: 10, y: 10}
+  m_CookieSize: 10
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -518,8 +518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   playerCamera: {fileID: 0}
-  canShoot: 0
-  chargeBow: 0
+  weaponUsed: {fileID: 0}
 --- !u!4 &1059109402
 Transform:
   m_ObjectHideFlags: 0
@@ -547,6 +546,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac2285d85dcdcd4eb4c262e38d23689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  damage: 10
+  range: 100
+  icone: {fileID: 0}
+  weaponType: 0
+  weaponPrefab: {fileID: 0}
 --- !u!1 &1063437140 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4459864851310106424, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
@@ -747,7 +751,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1327565225
 MeshFilter:
@@ -877,7 +880,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1432341366
 MeshFilter:
