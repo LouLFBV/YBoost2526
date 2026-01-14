@@ -130,15 +130,8 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     #endregion
 
-    private PlayerInput playerInput;
+    [SerializeField] private PlayerInput playerInput;
 
-    // Player Input System --- Actions
-    [SerializeField] private InputActionReference moveAction;       // Vector2 (WASD / joystick)
-    [SerializeField] private InputActionReference lookAction;       // Vector2 (Mouse delta / stick)
-    [SerializeField] private InputActionReference jumpAction;       // Button
-    [SerializeField] private InputActionReference sprintAction;     // Button (hold)
-    [SerializeField] private InputActionReference crouchAction;     // Button (hold or toggle)
-    [SerializeField] private InputActionReference zoomAction;       // Button (hold or toggle)
 
     // runtime input values
     private Vector2 moveInput;
@@ -152,49 +145,49 @@ public class FirstPersonController_Networked : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        moveAction.action.Enable();
-        lookAction.action.Enable();
-        jumpAction.action.Enable();
-        sprintAction.action.Enable();
-        crouchAction.action.Enable();
-        zoomAction.action.Enable();
+        playerInput.actions["Move"].Enable();
+        playerInput.actions["Look"].Enable();
+        playerInput.actions["Jump"].Enable();
+        playerInput.actions["Sprint"].Enable();
+        playerInput.actions["Zoom"].Enable();
+        playerInput.actions["Crouch"].Enable();
 
-        moveAction.action.performed += OnMove;
-        moveAction.action.canceled += OnMove;
+        playerInput.actions["Move"].performed += OnMove;
+        playerInput.actions["Move"].canceled += OnMove;
 
-        lookAction.action.performed += OnLook;
-        lookAction.action.canceled += OnLook;
+        playerInput.actions["Look"].performed += OnLook;
+        playerInput.actions["Look"].canceled += OnLook;
 
-        jumpAction.action.performed += OnJump;
+        playerInput.actions["Jump"].performed += OnJump;
 
-        sprintAction.action.performed += OnSprintStart;
-        sprintAction.action.canceled += OnSprintStop;
+        playerInput.actions["Sprint"].performed += OnSprintStart;
+        playerInput.actions["Sprint"].canceled += OnSprintStop;
 
-        crouchAction.action.performed += OnCrouch;
+        playerInput.actions["Crouch"].performed += OnCrouch;
 
-        zoomAction.action.performed += OnZoomStart;
-        zoomAction.action.canceled += OnZoomStop;
+        playerInput.actions["Zoom"].performed += OnZoomStart;
+        playerInput.actions["Zoom"].canceled += OnZoomStop;
     }
 
     private void OnDisable()
     {
         if (!IsOwner) return;
 
-        moveAction.action.performed -= OnMove;
-        moveAction.action.canceled -= OnMove;
+        playerInput.actions["Move"].performed -= OnMove;
+        playerInput.actions["Move"].canceled -= OnMove;
 
-        lookAction.action.performed -= OnLook;
-        lookAction.action.canceled -= OnLook;
+        playerInput.actions["Look"].performed -= OnLook;
+        playerInput.actions["Look"].canceled -= OnLook;
 
-        jumpAction.action.performed -= OnJump;
+        playerInput.actions["Jump"].performed -= OnJump;
 
-        sprintAction.action.performed -= OnSprintStart;
-        sprintAction.action.canceled -= OnSprintStop;
+        playerInput.actions["Sprint"].performed -= OnSprintStart;
+        playerInput.actions["Sprint"].canceled -= OnSprintStop;
 
-        crouchAction.action.performed -= OnCrouch;
+        playerInput.actions["Crouch"].performed -= OnCrouch;
 
-        zoomAction.action.performed -= OnZoomStart;
-        zoomAction.action.canceled -= OnZoomStop;
+        playerInput.actions["Zoom"].performed -= OnZoomStart;
+        playerInput.actions["Zoom"].canceled -= OnZoomStop;
     }
 
     private void OnSprintStop(InputAction.CallbackContext context)
@@ -209,16 +202,19 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     private void OnMove(InputAction.CallbackContext ctx)
     {
+        Debug.Log("OnMove called");
         moveInput = ctx.ReadValue<Vector2>();
     }
 
     private void OnLook(InputAction.CallbackContext ctx)
     {
+        Debug.Log("OnLook called");
         lookInput = ctx.ReadValue<Vector2>();
     }
 
     private void OnJump(InputAction.CallbackContext ctx)
     {
+        Debug.Log("OnJump called");
         if (!enableJump || !isGrounded) return;
         Jump();
     }
@@ -285,6 +281,7 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     private void Awake()
     {
+        playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
 
@@ -537,7 +534,12 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsOwner || !Application.isFocused) return;
+        Debug.Log("Update called");
+        //if (!IsOwner || !Application.isFocused)
+        //{
+        //    Debug.Log("Not owner or app not focused, returning");
+        //    return;
+        //}
 
         HandleCamera();
         CheckGround();
@@ -571,25 +573,13 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
         if (enableZoom && playerCamera != null)
         {
-            // Toggle vs Hold zoom handling
-            if (!holdToZoom && zoomPressed && !isSprinting)
-            {
-                isZoomed = !isZoomed;
-            }
-            else if (holdToZoom && !isSprinting)
-            {
-                isZoomed = zoomPressed;
-            }
+            float targetFov = isZoomed ? zoomFOV : fov;
+            playerCamera.fieldOfView = Mathf.Lerp(
+                playerCamera.fieldOfView,
+                targetFov,
+                zoomStepTime * Time.deltaTime
+            );
 
-            // Lerps camera.fieldOfView to allow for a smooth transition
-            if (isZoomed)
-            {
-                playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, zoomFOV, zoomStepTime * Time.deltaTime);
-            }
-            else if (!isZoomed && !isSprinting)
-            {
-                playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, fov, zoomStepTime * Time.deltaTime);
-            }
         }
 
         #endregion
@@ -666,13 +656,13 @@ public class FirstPersonController_Networked : NetworkBehaviour
                     rb.AddForce(velocityChange, ForceMode.VelocityChange);
             }
 
-            // Adjust camera FOV smoothly for sprint state
-            if (playerCamera != null)
-            {
-                float targetFov = isSprinting ? sprintFOV : (isZoomed ? zoomFOV : fov);
-                float step = isSprinting ? sprintFOVStepTime : zoomStepTime;
-                playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFov, step * Time.deltaTime);
-            }
+            //// Adjust camera FOV smoothly for sprint state
+            //if (playerCamera != null)
+            //{
+            //    float targetFov = isSprinting ? sprintFOV : (isZoomed ? zoomFOV : fov);
+            //    float step = isSprinting ? sprintFOVStepTime : zoomStepTime;
+            //    playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFov, step * Time.deltaTime);
+            //}
         }
 
         #endregion
