@@ -43,10 +43,7 @@ public class AttackBehaviour : MonoBehaviour
     void Update()
     {
         if (weaponUsed != null && isShooting)
-        {
             Shoot();
-            isShooting = false;
-        }
     }
 
     public void Shoot()

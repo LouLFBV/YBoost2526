@@ -6,6 +6,7 @@ public class RocketProjectile : MonoBehaviour
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private int damage = 80;
     [SerializeField] private GameObject explosionVFX;
+    [SerializeField]  private AudioSource explosionAudio;
 
     [Header("Movement")]
     [SerializeField] private float lifeTime = 5f;
@@ -16,6 +17,7 @@ public class RocketProjectile : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        explosionAudio = GetComponent<AudioSource>();
     }
 
     public void Launch(Vector3 velocity)
@@ -30,14 +32,14 @@ public class RocketProjectile : MonoBehaviour
 
         Explode();
     }
-
+    
     private void Explode()
     {
         hasExploded = true;
 
         if (explosionVFX != null)
             Instantiate(explosionVFX, transform.position, Quaternion.identity);
-
+        explosionAudio.PlayOneShot(explosionAudio.clip);
         Collider[] hits = Physics.OverlapSphere(
             transform.position,
             explosionRadius
@@ -54,7 +56,7 @@ public class RocketProjectile : MonoBehaviour
             }
         }
 
-        Destroy(gameObject);
+        Destroy(gameObject,5);
     }
 
     private void OnDrawGizmosSelected()

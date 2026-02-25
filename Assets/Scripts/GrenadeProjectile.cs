@@ -6,6 +6,7 @@ public class GrenadeProjectile : MonoBehaviour
     [SerializeField] private float explosionRadius = 4f;
     [SerializeField] private int damage = 40;
     [SerializeField] private GameObject explosionVFX;
+    [SerializeField] private AudioSource explosionAudio;
 
     [Header("Physics")]
     [SerializeField] private float fuseTime = 0f; // optionnel
@@ -16,6 +17,7 @@ public class GrenadeProjectile : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        explosionAudio = GetComponent<AudioSource>();
     }
 
     public void Launch(Vector3 force)
@@ -43,7 +45,7 @@ public class GrenadeProjectile : MonoBehaviour
 
         if (explosionVFX != null)
             Instantiate(explosionVFX, transform.position, Quaternion.identity);
-
+        explosionAudio.PlayOneShot(explosionAudio.clip);
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
 
         foreach (Collider hit in hits)
@@ -57,7 +59,7 @@ public class GrenadeProjectile : MonoBehaviour
             }
         }
 
-        Destroy(gameObject);
+        Destroy(gameObject,5);
     }
 
 

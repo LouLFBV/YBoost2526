@@ -286,6 +286,9 @@ MonoBehaviour:
   floatSpeed: 2
   rotationSpeed: 60
   enableFloating: 1
+  startPositionY: 1
+  animatorVisual: {fileID: 0}
+  timmBeforeDespawn: 0.2
 --- !u!1 &1748277932983872
 GameObject:
   m_ObjectHideFlags: 0

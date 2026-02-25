@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac2285d85dcdcd4eb4c262e38d23689, type: 3}
   m_Name: RGD-5
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  weaponID: 
   damage: 100
+  ammunitionInStock: 1
   range: 100
   icone: {fileID: 21300000, guid: 1748d7c132285b445b6cdded9fb108ef, type: 3}
   weaponType: 3

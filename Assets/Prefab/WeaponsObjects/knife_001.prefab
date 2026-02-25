@@ -132,4 +132,6 @@ MonoBehaviour:
   floatSpeed: 2
   rotationSpeed: 60
   enableFloating: 1
+  startPositionY: 1
+  isAttacking: 0
   animator: {fileID: 0}

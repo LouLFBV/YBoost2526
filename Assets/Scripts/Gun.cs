@@ -1,10 +1,22 @@
+using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public class Gun : Weapon, IWeapon
 {
+    [SerializeField] private Animator animatorVisual;
+    [SerializeField] private float timmBeforeDespawn = 0.2f;
+    [SerializeField] private float delayBetweenShots = 0.25f;
+    private bool _canShoot = true;
+
     public void Attack()
     {
+        if (ammunitionAccount == 0 || !_canShoot)
+            return;
+        ammunitionAccount--;
+        Palette.instance.UpdateAmmunitionText(WeaponType.Secondary, ammunitionAccount);
         Debug.Log("Tire");
+        _canShoot = false;
         PlayMuzzleFlash();
         Debug.DrawRay(shootPoint.position, shootPoint.forward * weaponData.range, Color.red);
         if (Physics.Raycast(shootPoint.position, shootPoint.forward, out RaycastHit hit, weaponData.range))
@@ -28,5 +40,26 @@ public class Gun : Weapon, IWeapon
                 }
             }
         }
+        StartCoroutine(CooldownCoroutineShoot());
+        if (ammunitionAccount == 0)
+            StartCoroutine(CooldownCoroutine());
     }
+    public IEnumerator CooldownCoroutineShoot()
+    {
+        yield return new WaitForSeconds(delayBetweenShots);
+        _canShoot = true;
+    }
+
+    #region Despawn Méthodes
+    public IEnumerator CooldownCoroutine()
+    {
+        yield return new WaitForSeconds(timmBeforeDespawn);
+        animatorVisual.SetTrigger("Despawn");
+    }
+    public void Despawn()
+    {
+        Palette.instance.RemoveWeaponInPalette(WeaponType.Secondary);
+        gameObject.SetActive(false);
+    }
+    #endregion
 }

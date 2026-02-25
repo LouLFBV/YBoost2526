@@ -1,4 +1,3 @@
-using NUnit.Framework.Interfaces;
 using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
@@ -13,17 +12,21 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] private float floatSpeed = 2f;
     [SerializeField] private float rotationSpeed = 60f;
     [SerializeField] private bool enableFloating = true;
-    private Vector3 startPosition;
+    [SerializeField] private float startPositionY = 1f;
     private float timeOffset;
+
+
+    public int ammunitionAccount;
     private void Awake()
     {
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
+
+        ammunitionAccount = weaponData.ammunitionInStock;
     }
 
     private void Start()
     {
-        startPosition = transform.position;
         timeOffset = Random.Range(0f, 100f);
     }
 
@@ -32,7 +35,7 @@ public abstract class Weapon : MonoBehaviour
         if (!enableFloating) return;
         transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime, Space.World);
 
-        float newY = startPosition.y + Mathf.Sin((Time.time + timeOffset) * floatSpeed) * floatAmplitude;
+        float newY = startPositionY + Mathf.Sin((Time.time + timeOffset) * floatSpeed) * floatAmplitude;
         transform.position = new Vector3(transform.position.x, newY, transform.position.z);
     }
 

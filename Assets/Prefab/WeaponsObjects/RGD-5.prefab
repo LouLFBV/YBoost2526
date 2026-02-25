@@ -222,8 +222,10 @@ MonoBehaviour:
   floatSpeed: 2
   rotationSpeed: 60
   enableFloating: 1
+  startPositionY: 1
   grenadePrefab: {fileID: 0}
   launchForce: 12
+  palette: {fileID: 0}
 --- !u!1 &5977150324845317394
 GameObject:
   m_ObjectHideFlags: 0
