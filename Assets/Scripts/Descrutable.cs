@@ -1,9 +1,15 @@
 using UnityEngine;
+using System;
+using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Transform))]
 public class Descrutable : MonoBehaviour
 {
     public enum DebrisShape { Cube, Sphere, Triangle, Custom }
+
+    private const float MinDimension = 1e-4f;
+    private const float MinValue = 1e-6f;
 
     [Header("Debris shape")]
     [Tooltip("Shape of the debris pieces generated when this object is destroyed.\nChoose 'Custom' to use a specific prefab for each piece.\nSphere is weird with non-uniform scaling, not really usable.")]
@@ -37,10 +43,35 @@ public class Descrutable : MonoBehaviour
     [Tooltip("Clamp mass of individual debris pieces between these values (kg).")]
     [SerializeField, Min(0.01f)] private float debrisMassMin = 0.1f;
     [SerializeField, Min(0.1f)] private float debrisMassMax = 200f;
+    [Tooltip("Extra initial burst speed applied to each debris piece to guarantee visible motion at spawn.")]
+    [SerializeField, Min(0f)] private float initialBurstSpeed = 6f;
+    [Tooltip("Random variation applied to initial burst speed (0..1).")]
+    [SerializeField, Range(0f, 1f)] private float initialBurstRandomness = 0.35f;
+    [Header("Pooling")]
+    [Tooltip("Reuse debris instances instead of destroying/re-instantiating them to reduce spikes and GC allocations.")]
+    [SerializeField] private bool useDebrisPooling = true;
+    [Tooltip("Maximum inactive debris kept in pool for each debris type.")]
+    [SerializeField, Range(8, 256)] private int maxPooledDebrisPerKey = 64;
+    [Header("Destruction permissions")]
+    [Tooltip("If disabled, player attacks cannot destroy this object. External systems can still call DestroyObject().")]
+    [SerializeField] private bool canBeDestroyedByPlayers = true;
+
+    private Transform cachedTransform;
+    private Collider[] cachedColliders;
+    private Renderer[] cachedRenderers;
+    private Renderer primaryRenderer;
+
+    private void Awake()
+    {
+        CacheChildComponents();
+    }
 
     // Validate inspector inputs so max is never smaller than min and ranges stay valid.
     private void OnValidate()
     {
+        if (cachedTransform == null)
+            cachedTransform = transform;
+
         debrisCountMin = Mathf.Max(1, debrisCountMin);
         if (debrisCountMax < debrisCountMin)
             debrisCountMax = debrisCountMin;
@@ -52,39 +83,62 @@ public class Descrutable : MonoBehaviour
         debrisLifetime = Mathf.Max(0f, debrisLifetime);
         explosionForce = Mathf.Max(0f, explosionForce);
         explosionRadius = Mathf.Max(0f, explosionRadius);
+        initialBurstSpeed = Mathf.Max(0f, initialBurstSpeed);
+        initialBurstRandomness = Mathf.Clamp01(initialBurstRandomness);
+        maxPooledDebrisPerKey = Mathf.Clamp(maxPooledDebrisPerKey, 8, 256);
+
+        CacheChildComponents();
     }
 
     // Public API: destroy the object fully (no hit point)
     public void DestroyObject()
     {
-        if (fracturedPrefab != null)
-        {
-            Instantiate(fracturedPrefab, transform.position, transform.rotation, transform.parent);
-            if (destroyOriginal)
-                Destroy(gameObject);
+        if (TrySpawnFracturedPrefab())
             return;
-        }
 
         GenerateProceduralDebris(null, 0f);
+    }
+
+    // Public API: attempt destruction from player interactions.
+    // Returns false when this object is configured to ignore player destruction.
+    public bool TryDestroyFromPlayer()
+    {
+        if (!canBeDestroyedByPlayers)
+            return false;
+
+        DestroyObject();
+        return true;
     }
 
     // Public API: destroy around a hit point (partial destruction)
     public void DestroyObject(Vector3 hitPoint, float radius)
     {
-        if (fracturedPrefab != null)
-        {
-            Instantiate(fracturedPrefab, transform.position, transform.rotation, transform.parent);
-            if (destroyOriginal)
-                Destroy(gameObject);
+        if (TrySpawnFracturedPrefab())
             return;
-        }
 
         GenerateProceduralDebris(hitPoint, radius);
+    }
+
+    // Public API: attempt partial destruction from player interactions.
+    // Returns false when this object is configured to ignore player destruction.
+    public bool TryDestroyFromPlayer(Vector3 hitPoint, float radius)
+    {
+        if (!canBeDestroyedByPlayers)
+            return false;
+
+        DestroyObject(hitPoint, radius);
+        return true;
     }
 
     // Core procedural generator. If hitPoint is provided and radius > 0, debris will be biased to spawn near that point (partial destruction).
     private void GenerateProceduralDebris(Vector3? hitPoint, float radius)
     {
+        if (cachedTransform == null)
+            cachedTransform = transform;
+
+        if (cachedRenderers == null)
+            CacheChildComponents();
+
         // Choose piece count from configured range (inclusive)
         int pieceCount = Mathf.Max(1, debrisCountMin);
         if (debrisCountMax <= debrisCountMin)
@@ -92,22 +146,24 @@ public class Descrutable : MonoBehaviour
         else
             pieceCount = Random.Range(debrisCountMin, debrisCountMax + 1);
 
-        // Try to copy material from the original renderer if requested
-        var mf = GetComponent<MeshFilter>();
-        var mr = GetComponent<MeshRenderer>();
         // Determine which material to apply to generated debris: explicit override, else original if requested
         Material debrisMat = null;
         if (debrisMaterial != null)
             debrisMat = debrisMaterial;
-        else if (mr != null && useOriginalMaterial)
-            debrisMat = mr.sharedMaterial;
+        else if (primaryRenderer != null && useOriginalMaterial)
+            debrisMat = primaryRenderer.sharedMaterial;
 
-        // Use mesh bounds if available to place debris roughly inside the object volume
-        Bounds bounds = (mf != null && mf.sharedMesh != null) ? mf.sharedMesh.bounds : new Bounds(Vector3.zero, Vector3.one);
-        // Compute world-space bounds size (taking into account lossyScale)
-        Vector3 worldSize = Vector3.Scale(bounds.size, transform.lossyScale);
+        // Use robust world-space bounds so assets with off-center pivots (like some map props)
+        // still spawn debris around the visible object and not around a parent/world origin.
+        Bounds worldBounds;
+        if (!TryGetWorldSpawnBounds(out worldBounds))
+        {
+            worldBounds = new Bounds(cachedTransform.position, Vector3.one);
+        }
+
+        Vector3 worldSize = worldBounds.size;
         // Ensure non-zero volume
-        float objectVolume = Mathf.Max(1e-6f, worldSize.x * worldSize.y * worldSize.z);
+        float objectVolume = Mathf.Max(MinValue, worldSize.x * worldSize.y * worldSize.z);
 
         // Interpret debrisScaleRange as fraction of the object's corresponding axis size
         float minFrac = Mathf.Clamp01(debrisScaleRange.x);
@@ -122,9 +178,9 @@ public class Descrutable : MonoBehaviour
             float wy = Random.Range(minFrac * worldSize.y, maxFrac * worldSize.y);
             float wz = Random.Range(minFrac * worldSize.z, maxFrac * worldSize.z);
             // Prevent degenerate zero dimensions
-            wx = Mathf.Max(wx, 1e-4f);
-            wy = Mathf.Max(wy, 1e-4f);
-            wz = Mathf.Max(wz, 1e-4f);
+            wx = Mathf.Max(wx, MinDimension);
+            wy = Mathf.Max(wy, MinDimension);
+            wz = Mathf.Max(wz, MinDimension);
             worldSizes[i] = new Vector3(wx, wy, wz);
             totalVolume += wx * wy * wz;
         }
@@ -141,138 +197,80 @@ public class Descrutable : MonoBehaviour
         }
 
         // World center to apply explosion from
-        Vector3 worldCenter = transform.TransformPoint(bounds.center);
+        Vector3 worldCenter = worldBounds.center;
         
         // Create a container GameObject to group all debris pieces for easier inspection during testing
-        GameObject debrisRoot = new GameObject($"Debris_{gameObject.name}_{System.DateTime.Now.Ticks % 1000000}");
+        GameObject debrisRoot = new GameObject($"Debris_{name}_{GetInstanceID()}_{Time.frameCount}");
         // Parent the root next to the original object so hierarchy stays tidy
-        debrisRoot.transform.SetParent(transform.parent, true);
-        debrisRoot.transform.position = transform.position;
+        debrisRoot.transform.SetParent(cachedTransform.parent, true);
+        debrisRoot.transform.position = worldCenter;
+
+        bool isPartialDestruction = hitPoint.HasValue && radius > 0f;
+        int attemptsPerPiece = isPartialDestruction ? partialPlacementAttempts : 1;
+        Vector3 upBiasOffset = cachedTransform.up * (spawnBiasUp * worldSize.y * 0.5f);
 
         for (int i = 0; i < pieceCount; i++)
         {
             Vector3 desiredWorldSize = worldSizes[i]; // (width, height, depth) in world units
 
             // We allow multiple attempts to find a spawn location near the hitPoint when doing partial destruction.
-            int attempts = (hitPoint.HasValue && radius > 0f) ? partialPlacementAttempts : 1;
-            bool placed = false;
             Vector3 worldPos = Vector3.zero;
-            Vector3 desiredLocalSize = Vector3.zero;
-
-            for (int attempt = 0; attempt < attempts; attempt++)
+            for (int attempt = 0; attempt < attemptsPerPiece; attempt++)
             {
-                // Compute desired local size relative to the object's local space so we can pick a valid inside-local position
-                desiredLocalSize = new Vector3(
-                    desiredWorldSize.x / Mathf.Max(transform.lossyScale.x, 1e-6f),
-                    desiredWorldSize.y / Mathf.Max(transform.lossyScale.y, 1e-6f),
-                    desiredWorldSize.z / Mathf.Max(transform.lossyScale.z, 1e-6f)
+                // Compute a world position that keeps the piece inside the world bounds.
+                Vector3 halfWorld = desiredWorldSize * 0.5f;
+                Vector3 minWorld = worldBounds.min + halfWorld;
+                Vector3 maxWorld = worldBounds.max - halfWorld;
+                // If the piece is larger than bounds on one axis, collapse to center on that axis.
+                if (minWorld.x > maxWorld.x) { minWorld.x = maxWorld.x = worldCenter.x; }
+                if (minWorld.y > maxWorld.y) { minWorld.y = maxWorld.y = worldCenter.y; }
+                if (minWorld.z > maxWorld.z) { minWorld.z = maxWorld.z = worldCenter.z; }
+
+                worldPos = new Vector3(
+                    Random.Range(minWorld.x, maxWorld.x),
+                    Random.Range(minWorld.y, maxWorld.y),
+                    Random.Range(minWorld.z, maxWorld.z)
                 );
-
-                // Compute a local position that keeps the piece inside the original bounds (accounting for the piece half-size)
-                Vector3 halfLocal = desiredLocalSize * 0.5f;
-                Vector3 minLocal = -bounds.extents + halfLocal;
-                Vector3 maxLocal = bounds.extents - halfLocal;
-                // If the piece is larger than the bounds on an axis, clamp min>max; we'll allow center placement then
-                if (minLocal.x > maxLocal.x) { minLocal.x = maxLocal.x = 0f; }
-                if (minLocal.y > maxLocal.y) { minLocal.y = maxLocal.y = 0f; }
-                if (minLocal.z > maxLocal.z) { minLocal.z = maxLocal.z = 0f; }
-
-                Vector3 localRandomPos = new Vector3(
-                    Random.Range(minLocal.x, maxLocal.x),
-                    Random.Range(minLocal.y, maxLocal.y),
-                    Random.Range(minLocal.z, maxLocal.z)
-                );
-
-                worldPos = transform.TransformPoint(localRandomPos);
 
                 // Apply a small upward bias along the object's local up to reduce chance of spawning debris below ground
-                worldPos += transform.up * (spawnBiasUp * worldSize.y * 0.5f);
+                worldPos += upBiasOffset;
 
-                // If the original object has a collider, ensure debris won't be placed below the collider's bottom in world space
-                var origCollider = GetComponent<Collider>();
-                if (origCollider != null)
+                // Keep debris from spawning below the object's bottom bound.
+                float pieceHalfHeight = desiredWorldSize.y * 0.5f;
+                float minAllowedY = worldBounds.min.y + pieceHalfHeight + 0.01f;
+                if (worldPos.y < minAllowedY)
                 {
-                    float pieceHalfHeight = desiredWorldSize.y * 0.5f;
-                    float minAllowedY = origCollider.bounds.min.y + pieceHalfHeight + 0.01f;
-                    if (worldPos.y < minAllowedY)
-                    {
-                        float delta = minAllowedY - worldPos.y;
-                        worldPos += Vector3.up * delta;
-                    }
+                    float delta = minAllowedY - worldPos.y;
+                    worldPos += Vector3.up * delta;
                 }
 
                 // If partial (hitPoint provided), prefer positions close to it
-                if (hitPoint.HasValue && radius > 0f)
+                if (isPartialDestruction)
                 {
                     float dist = Vector3.Distance(worldPos, hitPoint.Value);
                     if (dist <= radius)
-                    {
-                        placed = true;
                         break;
-                    }
+
                     // allow some chance based on distance to still place a piece (soft falloff)
                     float p = Mathf.Clamp01(1f - (dist / radius));
                     if (Random.value < p * 0.25f)
-                    {
-                        placed = true;
                         break;
-                    }
                 }
                 else
                 {
-                    placed = true;
                     break;
                 }
             }
 
-            if (!placed)
-            {
-                // If we couldn't find a good local spot near hitPoint after attempts,
-                // fall back to the last sampled position instead of skipping the piece so
-                // the configured piece count is honored.
-                // `worldPos` already holds the last sampled position from the attempts loop.
-            }
-
-            GameObject piece = null;
-            bool instantiatedFromPrefab = false;
-
-            switch (debrisShape)
-            {
-                case DebrisShape.Cube:
-                    piece = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    break;
-                case DebrisShape.Sphere:
-                    piece = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                    break;
-                case DebrisShape.Triangle:
-                    piece = CreateTetrahedron();
-                    break;
-                case DebrisShape.Custom:
-                    if (customDebrisPrefab != null)
-                    {
-                        piece = Instantiate(customDebrisPrefab, worldPos, Random.rotation, transform.parent);
-                        instantiatedFromPrefab = true;
-                    }
-                    else
-                    {
-                        piece = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    }
-                    break;
-                default:
-                    piece = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    break;
-            }
-
-            if (!instantiatedFromPrefab)
-            {
-                piece.transform.SetParent(debrisRoot.transform, true);
-                piece.transform.position = worldPos;
-                piece.transform.rotation = Random.rotation;
-            }
+            string poolKey;
+            GameObject piece = AcquireDebrisPiece(out poolKey);
+            piece.transform.SetParent(debrisRoot.transform, true);
+            piece.transform.position = worldPos;
+            piece.transform.rotation = Random.rotation;
 
             // Compute localScale so that piece's world scale equals desiredWorldSize (accounting for parent's lossyScale)
             Vector3 parentLossy = (piece.transform.parent != null) ? piece.transform.parent.lossyScale : Vector3.one;
-            parentLossy = new Vector3(Mathf.Max(parentLossy.x, 1e-6f), Mathf.Max(parentLossy.y, 1e-6f), Mathf.Max(parentLossy.z, 1e-6f));
+            parentLossy = new Vector3(Mathf.Max(parentLossy.x, MinValue), Mathf.Max(parentLossy.y, MinValue), Mathf.Max(parentLossy.z, MinValue));
             Vector3 localScale = new Vector3(
                 desiredWorldSize.x / parentLossy.x,
                 desiredWorldSize.y / parentLossy.y,
@@ -281,10 +279,15 @@ public class Descrutable : MonoBehaviour
 
             piece.transform.localScale = localScale;
 
+            var pieceCache = piece.GetComponent<DebrisPieceCache>();
+            if (pieceCache == null)
+                pieceCache = piece.AddComponent<DebrisPieceCache>();
+            pieceCache.Refresh();
+
             // Apply material to all renderers on the piece (useful for prefabs with multiple renderers)
             if (debrisMat != null)
             {
-                var rends = piece.GetComponentsInChildren<Renderer>();
+                var rends = pieceCache.Renderers;
                 foreach (var r in rends)
                     r.sharedMaterial = debrisMat;
             }
@@ -292,25 +295,53 @@ public class Descrutable : MonoBehaviour
             // Ensure there is a collider suitable for physics (tetra uses mesh collider added in CreateTetrahedron)
             if (debrisShape == DebrisShape.Triangle)
             {
-                var meshCol = piece.GetComponent<MeshCollider>();
+                var meshCol = pieceCache.MeshCollider;
                 if (meshCol == null)
                 {
                     meshCol = piece.AddComponent<MeshCollider>();
                     meshCol.convex = true;
+                    pieceCache.MeshCollider = meshCol;
                 }
             }
 
             // Add or reuse Rigidbody and apply explosion
-            var rb = piece.GetComponent<Rigidbody>();
-            if (rb == null) rb = piece.AddComponent<Rigidbody>();
+            var rb = pieceCache.Rigidbody;
+            if (rb == null)
+            {
+                rb = piece.AddComponent<Rigidbody>();
+                pieceCache.Rigidbody = rb;
+            }
+
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = false;
+            rb.useGravity = true;
+            rb.constraints = RigidbodyConstraints.None;
             // Compute volume in cubic meters (world units) and convert to mass using density
-            float pieceVolume = Mathf.Max(1e-6f, desiredWorldSize.x * desiredWorldSize.y * desiredWorldSize.z);
+            float pieceVolume = Mathf.Max(MinValue, desiredWorldSize.x * desiredWorldSize.y * desiredWorldSize.z);
             float computedMass = pieceVolume * debrisDensity;
             rb.mass = Mathf.Clamp(computedMass, debrisMassMin, debrisMassMax);
             rb.AddExplosionForce(explosionForce * Random.Range(0.8f, 1.2f), worldCenter, explosionRadius);
-            rb.AddTorque(Random.insideUnitSphere * 2f, ForceMode.Impulse);
 
-            Destroy(piece, debrisLifetime + Random.Range(0f, 2f));
+            // Add a guaranteed outward kick so debris does not appear static with heavy pieces or constrained prefab settings.
+            Vector3 burstDir = (worldPos - worldCenter);
+            if (burstDir.sqrMagnitude < MinValue)
+                burstDir = Random.onUnitSphere;
+            burstDir.Normalize();
+
+            float burstMultiplier = 1f + Random.Range(-initialBurstRandomness, initialBurstRandomness);
+            float burstSpeed = Mathf.Max(0f, initialBurstSpeed * burstMultiplier);
+            rb.linearVelocity += burstDir * burstSpeed;
+            rb.AddForce(burstDir * burstSpeed * rb.mass * 0.5f, ForceMode.Impulse);
+
+            rb.AddTorque(Random.insideUnitSphere * 2f, ForceMode.Impulse);
+            rb.WakeUp();
+
+            float pieceLife = debrisLifetime + Random.Range(0f, 2f);
+            var autoReturn = piece.GetComponent<DebrisAutoReturn>();
+            if (autoReturn == null)
+                autoReturn = piece.AddComponent<DebrisAutoReturn>();
+            autoReturn.Schedule(poolKey, useDebrisPooling, maxPooledDebrisPerKey, pieceLife);
         }
 
         // Finally remove the original object
@@ -320,6 +351,121 @@ public class Descrutable : MonoBehaviour
         // Destroy the debris root after all pieces have been removed to keep hierarchy tidy.
         // Pieces are destroyed at `debrisLifetime + jitter` where jitter in [0,2], so add a small buffer.
         Destroy(debrisRoot, debrisLifetime + 4f);
+    }
+
+    private bool TryGetWorldSpawnBounds(out Bounds bounds)
+    {
+        bool hasBounds = false;
+        bounds = default;
+
+        // Prefer colliders because they are usually a better gameplay volume reference.
+        var colliders = GetComponentsInChildren<Collider>();
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            var c = colliders[i];
+            if (c == null || !c.enabled)
+                continue;
+
+            if (!hasBounds)
+            {
+                bounds = c.bounds;
+                hasBounds = true;
+            }
+            else
+            {
+                bounds.Encapsulate(c.bounds);
+            }
+        }
+
+        // Fallback to renderer bounds when no collider is available.
+        if (!hasBounds)
+        {
+            var renderers = GetComponentsInChildren<Renderer>();
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                var r = renderers[i];
+                if (r == null || !r.enabled)
+                    continue;
+
+                if (!hasBounds)
+                {
+                    bounds = r.bounds;
+                    hasBounds = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(r.bounds);
+                }
+            }
+        }
+
+        return hasBounds;
+    }
+
+    private bool TrySpawnFracturedPrefab()
+    {
+        if (fracturedPrefab == null)
+            return false;
+
+        if (cachedTransform == null)
+            cachedTransform = transform;
+
+        Instantiate(fracturedPrefab, cachedTransform.position, cachedTransform.rotation, cachedTransform.parent);
+        if (destroyOriginal)
+            Destroy(gameObject);
+
+        return true;
+    }
+
+    private GameObject AcquireDebrisPiece(out string poolKey)
+    {
+        DebrisShape effectiveShape = debrisShape;
+        if (effectiveShape == DebrisShape.Custom && customDebrisPrefab == null)
+            effectiveShape = DebrisShape.Cube;
+
+        int customId = (effectiveShape == DebrisShape.Custom) ? customDebrisPrefab.GetInstanceID() : 0;
+        poolKey = $"{effectiveShape}_{customId}";
+
+        if (useDebrisPooling)
+            return DebrisPool.Acquire(poolKey, () => CreateDebrisPiece(effectiveShape));
+
+        return CreateDebrisPiece(effectiveShape);
+    }
+
+    private GameObject CreateDebrisPiece(DebrisShape shape)
+    {
+        switch (shape)
+        {
+            case DebrisShape.Cube:
+                return GameObject.CreatePrimitive(PrimitiveType.Cube);
+            case DebrisShape.Sphere:
+                return GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            case DebrisShape.Triangle:
+                return CreateTetrahedron();
+            case DebrisShape.Custom:
+                return Instantiate(customDebrisPrefab);
+            default:
+                return GameObject.CreatePrimitive(PrimitiveType.Cube);
+        }
+    }
+
+    private void CacheChildComponents()
+    {
+        if (cachedTransform == null)
+            cachedTransform = transform;
+
+        cachedColliders = GetComponentsInChildren<Collider>();
+        cachedRenderers = GetComponentsInChildren<Renderer>();
+
+        primaryRenderer = null;
+        for (int i = 0; i < cachedRenderers.Length; i++)
+        {
+            if (cachedRenderers[i] == null)
+                continue;
+
+            primaryRenderer = cachedRenderers[i];
+            break;
+        }
     }
 
     // Create a small tetrahedron mesh (unit-sized). The returned GameObject has MeshFilter + MeshRenderer + MeshCollider.
@@ -389,5 +535,126 @@ public class Descrutable : MonoBehaviour
         meshCol.convex = true;
 
         return go;
+    }
+}
+
+internal static class DebrisPool
+{
+    private static readonly Dictionary<string, Stack<GameObject>> PoolByKey = new Dictionary<string, Stack<GameObject>>();
+    private static Transform poolRoot;
+
+    private static Transform PoolRoot
+    {
+        get
+        {
+            if (poolRoot == null)
+            {
+                var rootObject = new GameObject("DebrisPoolRoot");
+                UnityEngine.Object.DontDestroyOnLoad(rootObject);
+                poolRoot = rootObject.transform;
+            }
+
+            return poolRoot;
+        }
+    }
+
+    public static GameObject Acquire(string key, Func<GameObject> factory)
+    {
+        if (PoolByKey.TryGetValue(key, out var stack))
+        {
+            while (stack.Count > 0)
+            {
+                var go = stack.Pop();
+                if (go == null)
+                    continue;
+
+                go.SetActive(true);
+                return go;
+            }
+        }
+
+        var created = factory();
+        var cache = created.GetComponent<DebrisPieceCache>();
+        if (cache == null)
+            cache = created.AddComponent<DebrisPieceCache>();
+        cache.Refresh();
+        return created;
+    }
+
+    public static void Release(string key, GameObject piece, int maxPerKey)
+    {
+        if (piece == null)
+            return;
+
+        if (!PoolByKey.TryGetValue(key, out var stack))
+        {
+            stack = new Stack<GameObject>();
+            PoolByKey[key] = stack;
+        }
+
+        if (stack.Count >= maxPerKey)
+        {
+            UnityEngine.Object.Destroy(piece);
+            return;
+        }
+
+        var rb = piece.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.Sleep();
+        }
+
+        piece.transform.SetParent(PoolRoot, false);
+        piece.SetActive(false);
+        stack.Push(piece);
+    }
+}
+
+internal sealed class DebrisPieceCache : MonoBehaviour
+{
+    public Renderer[] Renderers { get; private set; } = Array.Empty<Renderer>();
+    public Rigidbody Rigidbody { get; set; }
+    public MeshCollider MeshCollider { get; set; }
+
+    public void Refresh()
+    {
+        Renderers = GetComponentsInChildren<Renderer>(true);
+        Rigidbody = GetComponent<Rigidbody>();
+        MeshCollider = GetComponent<MeshCollider>();
+    }
+}
+
+internal sealed class DebrisAutoReturn : MonoBehaviour
+{
+    private string poolKey;
+    private bool usePooling;
+    private int maxPerKey;
+
+    public void Schedule(string key, bool enablePooling, int maxCount, float delay)
+    {
+        poolKey = key;
+        usePooling = enablePooling;
+        maxPerKey = maxCount;
+
+        CancelInvoke(nameof(ReturnNow));
+        if (delay <= 0f)
+            ReturnNow();
+        else
+            Invoke(nameof(ReturnNow), delay);
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke(nameof(ReturnNow));
+    }
+
+    private void ReturnNow()
+    {
+        if (usePooling)
+            DebrisPool.Release(poolKey, gameObject, maxPerKey);
+        else
+            Destroy(gameObject);
     }
 }
