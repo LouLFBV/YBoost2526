@@ -52,7 +52,8 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     [Header("Viseur de sniper")]
     [SerializeField] private GameObject sniperViseur;
-    private GameObject sniperCurseur;
+    [SerializeField] private GameObject sniperCurseur;
+    //[SerializeField] private GameObject sniperVisual;
     public float sniperZoomFOV = 30f;
 
     #endregion
@@ -447,14 +448,31 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
         if (enableZoom && playerCamera != null)
         {
-            //if(attackBehaviour.weaponUsed)
-            float targetFov = isZoomed ? zoomFOV : fov;
-            playerCamera.fieldOfView = Mathf.Lerp(
-                playerCamera.fieldOfView,
-                targetFov,
-                zoomStepTime * Time.deltaTime
-            );
+            float targetFov = 0f;
+            if (attackBehaviour == null || attackBehaviour.weaponUsed == null)
+            {
+                targetFov = isZoomed ? zoomFOV : fov;
+            }
+            else if (attackBehaviour.weaponUsed.weaponData.weaponFamilyType == WeaponFamilyType.Sniper && isZoomed)
+            {
+                Debug.Log("Sniper zoom active. Setting FOV to sniperZoomFOV.");
+                targetFov = sniperZoomFOV;
+            }
+            else
+                targetFov = isZoomed ? zoomFOV : fov;
 
+            if (attackBehaviour != null && attackBehaviour.weaponUsed != null)
+            {
+                sniperCurseur.SetActive(isZoomed && attackBehaviour.weaponUsed.weaponData.weaponFamilyType == WeaponFamilyType.Sniper);
+                sniperViseur.SetActive(isZoomed && attackBehaviour.weaponUsed.weaponData.weaponFamilyType == WeaponFamilyType.Sniper);
+                //sniperVisual.SetActive(!isZoomed && attackBehaviour.weaponUsed.weaponData.weaponFamilyType == WeaponFamilyType.Sniper);
+            }
+
+            playerCamera.fieldOfView = Mathf.Lerp(
+                    playerCamera.fieldOfView,
+                    targetFov,
+                    zoomStepTime * Time.deltaTime
+                    );
         }
 
         #endregion

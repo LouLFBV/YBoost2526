@@ -314,10 +314,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 437271047}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
 --- !u!4 &6269573 stripped
 Transform:
@@ -3421,10 +3418,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1371365665}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690e4c2156e6a5442940823a29575782, type: 3}
 --- !u!4 &107496034 stripped
 Transform:
@@ -6316,11 +6310,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 193273739}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &195770117 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-  m_PrefabInstance: {fileID: 1648075190}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &202716118
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7083,10 +7072,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 856329572}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690e4c2156e6a5442940823a29575782, type: 3}
 --- !u!4 &216821469 stripped
 Transform:
@@ -9029,6 +9015,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1454482104356440768, guid: 38be789410d69ef40a29459dfa506f11, type: 3}
   m_PrefabInstance: {fileID: 2118663704}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &276760284 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3042307003288891868, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+  m_PrefabInstance: {fileID: 344668135}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &279705331
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9243,10 +9234,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 782069189}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690e4c2156e6a5442940823a29575782, type: 3}
 --- !u!4 &291552081 stripped
 Transform:
@@ -10898,10 +10886,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1457039229}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
 --- !u!4 &326567507 stripped
 Transform:
@@ -11408,17 +11393,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 834952049992184844, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2547948678966428727, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3977729883
       objectReference: {fileID: 0}
-    - target: {fileID: 2547948678966428727, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
-      propertyPath: SceneMigrationSynchronization
+    - target: {fileID: 3042307003288891868, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2547948678966428727, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
-      propertyPath: InScenePlacedSourceGlobalObjectIdHash
-      value: 1136634586
       objectReference: {fileID: 0}
     - target: {fileID: 4459864850019384738, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11460,20 +11445,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4459864850019384740, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: sniperVisual
+      value: 
+      objectReference: {fileID: 276760284}
+    - target: {fileID: 4459864850019384740, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: sniperZoomFOV
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4459864850019384750, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
       propertyPath: m_Name
       value: FirstPersonController
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796807480405672857, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
---- !u!1 &344988151 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-  m_PrefabInstance: {fileID: 861923285}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &348030064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11543,11 +11535,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 348030064}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &351046668 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-  m_PrefabInstance: {fileID: 732164065}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &359248709
 PrefabInstance:
@@ -12532,10 +12519,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1391672793}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
 --- !u!4 &383945100 stripped
 Transform:
@@ -15208,45 +15192,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf719d43f3f5d954fbe0879e403e6c98, type: 3}
---- !u!1 &437271043 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-  m_PrefabInstance: {fileID: 6269572}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &437271047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 437271043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1 &437650845
 GameObject:
   m_ObjectHideFlags: 0
@@ -16975,10 +16920,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 579221341}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
 --- !u!4 &489873857 stripped
 Transform:
@@ -17114,10 +17056,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1711451224}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
 --- !u!4 &491984983 stripped
 Transform:
@@ -17319,10 +17258,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2021993436}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
 --- !u!4 &503624609 stripped
 Transform:
@@ -17873,10 +17809,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1003324282}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
 --- !u!4 &527232850 stripped
 Transform:
@@ -18146,11 +18079,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1454482104356440768, guid: 38be789410d69ef40a29459dfa506f11, type: 3}
   m_PrefabInstance: {fileID: 533212712}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &536951497 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-  m_PrefabInstance: {fileID: 752070904}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &537046793
 GameObject:
@@ -19166,10 +19094,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1945684592}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690e4c2156e6a5442940823a29575782, type: 3}
 --- !u!4 &561426233 stripped
 Transform:
@@ -19659,45 +19584,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38be789410d69ef40a29459dfa506f11, type: 3}
---- !u!1 &579221337 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-  m_PrefabInstance: {fileID: 489873856}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &579221341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 579221337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &579439060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23556,10 +23442,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1115160078}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
 --- !u!4 &686247347 stripped
 Transform:
@@ -23631,11 +23514,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1454482104356440768, guid: 38be789410d69ef40a29459dfa506f11, type: 3}
   m_PrefabInstance: {fileID: 693715757}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &698221623 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-  m_PrefabInstance: {fileID: 1801089900}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &700482091
 PrefabInstance:
@@ -24465,50 +24343,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 732164070}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
 --- !u!4 &732164066 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6923396920241610856, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
   m_PrefabInstance: {fileID: 732164065}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &732164070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 351046668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &734398183
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25341,50 +25182,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 752070909}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690e4c2156e6a5442940823a29575782, type: 3}
 --- !u!4 &752070905 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6437394323481750932, guid: 690e4c2156e6a5442940823a29575782, type: 3}
   m_PrefabInstance: {fileID: 752070904}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &752070909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 536951497}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &752366441
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25601,11 +25405,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 757831264}
   m_Mesh: {fileID: -5495902117074765545, guid: cf4c16720fab71d439b0e6f26e63d921, type: 3}
---- !u!1 &757946434 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-  m_PrefabInstance: {fileID: 964419291}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &760087228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26225,45 +26024,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 778320895}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &782069185 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-  m_PrefabInstance: {fileID: 291552080}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &782069189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 782069185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &785938829
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27253,11 +27013,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 806514281}
   m_Mesh: {fileID: -5495902117074765545, guid: cf4c16720fab71d439b0e6f26e63d921, type: 3}
---- !u!1 &813710294 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-  m_PrefabInstance: {fileID: 1165868962}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &813799644
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28996,45 +28751,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 851838424}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &856329568 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-  m_PrefabInstance: {fileID: 216821468}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &856329572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 856329568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!4 &857080827 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1454482104356440768, guid: 38be789410d69ef40a29459dfa506f11, type: 3}
@@ -29104,50 +28820,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 861923290}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
 --- !u!4 &861923286 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6923396920241610856, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
   m_PrefabInstance: {fileID: 861923285}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &861923290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 344988151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &866098474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32364,50 +32043,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 964419296}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
 --- !u!4 &964419292 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6923396920241610856, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
   m_PrefabInstance: {fileID: 964419291}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &964419296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 757946434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &967625481
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33257,40 +32899,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5599113554554142763, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
   m_PrefabInstance: {fileID: 1165868962}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1002346586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 813710294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1002552143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33361,45 +32969,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 1002552143}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1003324278 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-  m_PrefabInstance: {fileID: 527232849}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1003324282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1003324278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1004327740
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34358,11 +33927,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 1033250700}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1034073045 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-  m_PrefabInstance: {fileID: 1642839364}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1034495849
 PrefabInstance:
@@ -36368,11 +35932,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7998025327058000213, guid: 45ec7cc73a66c0d41ae5c3245360e71d, type: 3}
   m_PrefabInstance: {fileID: 1104499432}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1105620896 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-  m_PrefabInstance: {fileID: 1673159387}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1108101273
 GameObject:
   m_ObjectHideFlags: 0
@@ -36532,45 +36091,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 1110307159}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1115160074 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-  m_PrefabInstance: {fileID: 686247346}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1115160078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1115160074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1122192806
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36785,6 +36305,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5706766763646965151, guid: 3db4795cede81cb4688ba6b988f6f248, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 6423858710480308729, guid: f1066075552e2304eb5ce11d12056655, type: 3}
     - target: {fileID: 7490953376921949785, guid: 3db4795cede81cb4688ba6b988f6f248, type: 3}
       propertyPath: m_LocalPosition.x
       value: -41.5
@@ -36838,11 +36362,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7490953376921949785, guid: 3db4795cede81cb4688ba6b988f6f248, type: 3}
   m_PrefabInstance: {fileID: 1125608799}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1127144284 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-  m_PrefabInstance: {fileID: 1489789047}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1129228580
 PrefabInstance:
@@ -38123,6 +37642,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 675448012}
     m_Modifications:
+    - target: {fileID: -2949171023063413413, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -5685363115531012651, guid: cc58fa23cf2a44d44bdf6773c768ce63, type: 3}
     - target: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
       propertyPath: m_Name
       value: Container_blue
@@ -38174,10 +37697,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1002346586}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
 --- !u!1001 &1168131035
 PrefabInstance:
@@ -39848,10 +39368,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1376230733}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
 --- !u!4 &1209775040 stripped
 Transform:
@@ -43000,10 +42517,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2113814670}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
 --- !u!4 &1328429354 stripped
 Transform:
@@ -43987,10 +43501,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1647044714}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690e4c2156e6a5442940823a29575782, type: 3}
 --- !u!4 &1351894894 stripped
 Transform:
@@ -44270,89 +43781,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1454482104356440768, guid: 38be789410d69ef40a29459dfa506f11, type: 3}
   m_PrefabInstance: {fileID: 879022661}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1371365661 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-  m_PrefabInstance: {fileID: 107496033}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1371365665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371365661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
---- !u!1 &1372231947 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-  m_PrefabInstance: {fileID: 1749095532}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1376230729 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-  m_PrefabInstance: {fileID: 1209775039}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1376230733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1376230729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1377754184
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44888,45 +44316,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8125521008550867370, guid: 38fcb473a8f39364e919afa6fc18e6d7, type: 3}
   m_PrefabInstance: {fileID: 1385914247}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1391672789 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-  m_PrefabInstance: {fileID: 383945099}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1391672793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1391672789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1392967444
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45692,45 +45081,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 1404065248}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1405366654 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-  m_PrefabInstance: {fileID: 1933890413}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1405366655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1405366654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1405701597
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46651,45 +46001,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 1455928124}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1457039225 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-  m_PrefabInstance: {fileID: 326567506}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1457039229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457039225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1459480155
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47632,87 +46943,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1489789049}
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1489789053}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
 --- !u!4 &1489789048 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6923396920241610856, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
   m_PrefabInstance: {fileID: 1489789047}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1489789049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127144284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
---- !u!114 &1489789053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127144284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1501616962
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51495,50 +50732,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1642839369}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
 --- !u!4 &1642839365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6923396920241610856, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
   m_PrefabInstance: {fileID: 1642839364}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1642839369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034073045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1643959611
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51806,45 +51006,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5415639185833406584, guid: cf719d43f3f5d954fbe0879e403e6c98, type: 3}
   m_PrefabInstance: {fileID: 1645778809}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1647044710 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-  m_PrefabInstance: {fileID: 1351894893}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1647044714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1647044710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1648075190
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51904,50 +51065,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1648075195}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
 --- !u!4 &1648075191 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5599113554554142763, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
   m_PrefabInstance: {fileID: 1648075190}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1648075195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 195770117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1650539834
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52395,50 +51519,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1673159392}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
 --- !u!4 &1673159388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6923396920241610856, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
   m_PrefabInstance: {fileID: 1673159387}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1673159392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1105620896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!4 &1673321738 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7998025327058000213, guid: 627facdd61ffa7744abeb35cc25c6c03, type: 3}
@@ -53751,45 +52838,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 1711393542}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1711451220 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-  m_PrefabInstance: {fileID: 491984982}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1711451224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711451220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!4 &1711525695 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1454482104356440768, guid: f2ed0f58a15163a43ac2e3bdd99340d2, type: 3}
@@ -54949,50 +53997,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1749095537}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
 --- !u!4 &1749095533 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5599113554554142763, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
   m_PrefabInstance: {fileID: 1749095532}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1749095537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1372231947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!4 &1751814363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1454482104356440768, guid: 38be789410d69ef40a29459dfa506f11, type: 3}
@@ -55428,11 +54439,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 1763186527}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1766304223 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-  m_PrefabInstance: {fileID: 2038488677}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1767698252
 PrefabInstance:
@@ -56472,50 +55478,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1801089905}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690e4c2156e6a5442940823a29575782, type: 3}
 --- !u!4 &1801089901 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6437394323481750932, guid: 690e4c2156e6a5442940823a29575782, type: 3}
   m_PrefabInstance: {fileID: 1801089900}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1801089905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 698221623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1807335176
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57424,11 +56393,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 1829112618}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1833830565 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-  m_PrefabInstance: {fileID: 2021590138}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1836917211
 PrefabInstance:
@@ -60564,10 +59528,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2037388653}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
 --- !u!1001 &1930137323
 PrefabInstance:
@@ -60698,10 +59659,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1405366655}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690e4c2156e6a5442940823a29575782, type: 3}
 --- !u!1 &1934185177
 GameObject:
@@ -61046,45 +60004,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1454482104356440768, guid: 38be789410d69ef40a29459dfa506f11, type: 3}
   m_PrefabInstance: {fileID: 1944017703}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1945684588 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-  m_PrefabInstance: {fileID: 561426232}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1945684592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1945684588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &1946639948
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62904,89 +61823,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6437394323481750929, guid: 690e4c2156e6a5442940823a29575782, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2021590143}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690e4c2156e6a5442940823a29575782, type: 3}
 --- !u!4 &2021590139 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6437394323481750932, guid: 690e4c2156e6a5442940823a29575782, type: 3}
   m_PrefabInstance: {fileID: 2021590138}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2021590143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1833830565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
---- !u!1 &2021993432 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 98fcad534a3f33341b209e50e498b901, type: 3}
-  m_PrefabInstance: {fileID: 503624608}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2021993436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2021993432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &2022174037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63399,45 +62242,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 2034290461}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2037388649 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6923396920241610861, guid: 8aee102a345aa7d45a037e036297ad27, type: 3}
-  m_PrefabInstance: {fileID: 1929661117}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2037388653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2037388649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &2037523787
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63563,50 +62367,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2038488682}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
 --- !u!4 &2038488678 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5599113554554142763, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
   m_PrefabInstance: {fileID: 2038488677}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2038488682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1766304223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &2038649195
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -66255,45 +65022,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396, type: 3}
   m_PrefabInstance: {fileID: 2113161088}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2113814666 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5116050351647496849, guid: 51faba9de6c4dec499159d098b08de3b, type: 3}
-  m_PrefabInstance: {fileID: 1328429353}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2113814670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2113814666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9410f3536f5224abd999be009281fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Descrutable
-  debrisShape: 0
-  customDebrisPrefab: {fileID: 0}
-  fracturedPrefab: {fileID: 0}
-  debrisCountMin: 3
-  debrisCountMax: 12
-  explosionForce: 100
-  explosionRadius: 4
-  debrisScaleRange: {x: 0.05, y: 0.35}
-  debrisMaterial: {fileID: 0}
-  spawnBiasUp: 0.5
-  partialPlacementAttempts: 6
-  useOriginalMaterial: 1
-  debrisLifetime: 8
-  destroyOriginal: 1
-  debrisDensity: 800
-  debrisMassMin: 0.1
-  debrisMassMax: 200
-  initialBurstSpeed: 6
-  initialBurstRandomness: 0.35
-  useDebrisPooling: 1
-  maxPooledDebrisPerKey: 64
-  canBeDestroyedByPlayers: 1
 --- !u!1001 &2114914287
 PrefabInstance:
   m_ObjectHideFlags: 0

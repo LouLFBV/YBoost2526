@@ -349,18 +349,6 @@ public class Palette : MonoBehaviour
         }
     }
 }
-
-#region WeaponType and WeaponInPalette Classes
-[System.Serializable]
-public enum WeaponType
-{
-    Main,
-    Secondary,
-    Melee,
-    Projectile
-}
-
-
 [System.Serializable]
 public class WeaponInPalette
 {
@@ -369,5 +357,3 @@ public class WeaponInPalette
     public TextMeshProUGUI ammunition;
     public bool isEquipped;
 }
-
-#endregion

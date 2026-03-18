@@ -18,4 +18,5 @@ MonoBehaviour:
   range: 1000
   icone: {fileID: 21300000, guid: b3947bf94a6507d4bacc5a3486431e3a, type: 3}
   weaponType: 0
+  weaponFamilyType: 2
   weaponPrefab: {fileID: 1487774384131766, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
