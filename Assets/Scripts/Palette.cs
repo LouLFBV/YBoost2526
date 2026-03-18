@@ -136,22 +136,22 @@ public class Palette : MonoBehaviour
 
     private void Update()
     {
-        if(takingMainWeapon && weapons[0] != null)
+        if(takingMainWeapon && weapons[0].weaponData != null)
         {
             ChangeWeapon(weapons[0]);
             takingMainWeapon = false;
         }
-        else if (takingSecondaryWeapon && weapons[1] != null)
+        else if (takingSecondaryWeapon && weapons[1].weaponData != null)
         {
             ChangeWeapon(weapons[1]);
             takingSecondaryWeapon = false;
         }
-        else if (takingMeleeWeapon && weapons[2] != null)
+        else if (takingMeleeWeapon && weapons[2].weaponData != null)
         {
             ChangeWeapon(weapons[2]);
             takingMeleeWeapon = false;
         }
-        else if (takingProjectile && weapons[3] != null)
+        else if (takingProjectile && weapons[3].weaponData != null)
         {
             ChangeWeapon(weapons[3]);
             takingProjectile = false;

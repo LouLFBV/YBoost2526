@@ -107,7 +107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2454671822369704042
 Transform:
   m_ObjectHideFlags: 0
@@ -116,7 +116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6514028601977675393}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.1662, y: -0.182, z: 0.389}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -193,9 +193,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrenadeLauncher
   weaponData: {fileID: 11400000, guid: f5dd2b55c6c8660448e4ff3da7318f70, type: 2}
-  shootPoint: {fileID: 0}
+  shootPoint: {fileID: 2454671822369704042}
   muzzleFlash: {fileID: 0}
   audioSource: {fileID: 0}
+  floatAmplitude: 0.25
+  floatSpeed: 2
+  rotationSpeed: 60
+  enableFloating: 0
+  startPositionY: 1
+  ammunitionAccount: 0
+  grenadePrefab: {fileID: 3654686424118345961, guid: 2a3c4cc68e7ef6a4c99f120f7b1b0b14, type: 3}
+  launchForce: 12
+  palette: {fileID: 0}
 --- !u!1 &6982953738119627418
 GameObject:
   m_ObjectHideFlags: 0

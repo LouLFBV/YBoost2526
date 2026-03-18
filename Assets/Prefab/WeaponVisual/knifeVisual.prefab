@@ -11,16 +11,16 @@ GameObject:
   - component: {fileID: 6621169091149887237}
   - component: {fileID: 3404308951935343531}
   - component: {fileID: 4186219075280881800}
-  - component: {fileID: 2141041154820740360}
   - component: {fileID: 7087158280622311228}
   - component: {fileID: 6100650923533978264}
+  - component: {fileID: 4358319805602204258}
   m_Layer: 0
   m_Name: knifeVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6621169091149887237
 Transform:
   m_ObjectHideFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338343996761542479}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14396423, y: -0.17136364, z: 0.025320886, w: 0.97430366}
+  m_LocalRotation: {x: 0.14396809, y: -0.17136629, z: 0.025321987, w: 0.97430265}
   m_LocalPosition: {x: 0.28990555, y: -0.3548856, z: 0.73485565}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -92,28 +92,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2141041154820740360
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 338343996761542479}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7039088848386547499, guid: b3e0aac5a7001ab4f892a4c1c3d2a1cc, type: 3}
 --- !u!114 &7087158280622311228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,12 +105,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Knife
   weaponData: {fileID: 11400000, guid: 520878f637dc17e4bbcc02267778b8f4, type: 2}
-  shootPoint: {fileID: 0}
+  shootPoint: {fileID: 6621169091149887237}
   muzzleFlash: {fileID: 0}
   audioSource: {fileID: 0}
-  attackDistance: 0.5
-  attackDuration: 0.2
-  attackArcHeight: 0.2
+  floatAmplitude: 0.25
+  floatSpeed: 2
+  rotationSpeed: 60
+  enableFloating: 0
+  startPositionY: 1
+  ammunitionAccount: 0
+  isAttacking: 0
+  animator: {fileID: 4358319805602204258}
 --- !u!65 &6100650923533978264
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -154,3 +137,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.027009342, y: 0.30907914, z: 0.07693349}
   m_Center: {x: -0.0000041862468, y: 0.3113417, z: -0.001219876}
+--- !u!95 &4358319805602204258
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338343996761542479}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5fae466fc10970a44bfdd9b29a60edd6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -59,7 +59,7 @@ public class GrenadeProjectile : MonoBehaviour
             }
         }
 
-        Destroy(gameObject,5);
+        Destroy(gameObject,10);
     }
 
 
