@@ -280,13 +280,14 @@ GameObject:
   - component: {fileID: 6143629284216525679}
   - component: {fileID: 3826731417660348702}
   - component: {fileID: 3471281659658209923}
+  - component: {fileID: 925116165664708046}
   m_Layer: 0
   m_Name: AK74Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3109264940910148779
 Transform:
   m_ObjectHideFlags: 0
@@ -476,6 +477,37 @@ MonoBehaviour:
   shootPoint: {fileID: 7896081509426203323}
   muzzleFlash: {fileID: 4136837954127227504}
   audioSource: {fileID: 3826731417660348702}
+  floatAmplitude: 0.25
+  floatSpeed: 2
+  rotationSpeed: 60
+  enableFloating: 0
+  startPositionY: 1
+  ammunitionAccount: 0
+  animatorVisual: {fileID: 925116165664708046}
+  timeBeforeDespawn: 0.2
+  delayBetweenShots: 0.1
+--- !u!95 &925116165664708046
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6007697791020877446}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5202b13a7fa85894cab4252d2fdb4af6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8516418785785503242
 GameObject:
   m_ObjectHideFlags: 0

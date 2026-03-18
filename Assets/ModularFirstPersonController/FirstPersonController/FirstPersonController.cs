@@ -17,6 +17,8 @@ public class FirstPersonController_Networked : NetworkBehaviour
 {
     private Rigidbody rb;
 
+    [SerializeField] private AttackBehaviour attackBehaviour;
+
     #region Camera Movement Variables
 
     public Camera playerCamera;
@@ -42,12 +44,16 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     public bool enableZoom = true;
     public bool holdToZoom = false;
-    public KeyCode zoomKey = KeyCode.Mouse1; // kept for backwards compat if needed
     public float zoomFOV = 30f;
     public float zoomStepTime = 5f;
 
     // Internal Variables
     private bool isZoomed = false;
+
+    [Header("Viseur de sniper")]
+    [SerializeField] private GameObject sniperViseur;
+    private GameObject sniperCurseur;
+    public float sniperZoomFOV = 30f;
 
     #endregion
     #endregion
@@ -125,6 +131,7 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     #endregion
 
+    #region Input 
     [SerializeField] private PlayerInput playerInput;
 
 
@@ -266,6 +273,8 @@ public class FirstPersonController_Networked : NetworkBehaviour
             ToggleCrouch();
         }
     }
+
+    #endregion 
 
     private void ApplyCrouchState()
     {
@@ -438,6 +447,7 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
         if (enableZoom && playerCamera != null)
         {
+            //if(attackBehaviour.weaponUsed)
             float targetFov = isZoomed ? zoomFOV : fov;
             playerCamera.fieldOfView = Mathf.Lerp(
                 playerCamera.fieldOfView,

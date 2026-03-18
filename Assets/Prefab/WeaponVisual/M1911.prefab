@@ -100,13 +100,14 @@ GameObject:
   - component: {fileID: 2255984243748200875}
   - component: {fileID: 1320107380823449441}
   - component: {fileID: 8343352445449628949}
+  - component: {fileID: 6894106571422668254}
   m_Layer: 0
   m_Name: M1911
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2255984243748200875
 Transform:
   m_ObjectHideFlags: 0
@@ -239,6 +240,37 @@ MonoBehaviour:
   shootPoint: {fileID: 7995243364528660046}
   muzzleFlash: {fileID: 8868152620471500198}
   audioSource: {fileID: 1320107380823449441}
+  floatAmplitude: 0.25
+  floatSpeed: 2
+  rotationSpeed: 60
+  enableFloating: 0
+  startPositionY: 1
+  ammunitionAccount: 0
+  animatorVisual: {fileID: 6894106571422668254}
+  timmBeforeDespawn: 0.2
+  delayBetweenShots: 0.25
+--- !u!95 &6894106571422668254
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2258907997089890751}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5202b13a7fa85894cab4252d2fdb4af6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2258963963305859233
 GameObject:
   m_ObjectHideFlags: 0

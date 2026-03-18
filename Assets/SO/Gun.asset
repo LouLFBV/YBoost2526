@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac2285d85dcdcd4eb4c262e38d23689, type: 3}
   m_Name: Gun
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  weaponID: 
   damage: 10
+  ammunitionInStock: 12
   range: 50
   icone: {fileID: 21300000, guid: f46d573ae26352c4bbe1b5c5fd3127eb, type: 3}
   weaponType: 1
-  weaponPrefab: {fileID: 2258907997089890751, guid: a0264a4e17e072742b40128dfa186e1c, type: 3}
+  weaponPrefab: {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}

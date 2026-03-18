@@ -100,7 +100,6 @@ GameObject:
   - component: {fileID: 4022367250285783080}
   - component: {fileID: 3870426858466116170}
   - component: {fileID: 683282365605874463}
-  - component: {fileID: 8838529241996828105}
   - component: {fileID: 2803472397025781121}
   - component: {fileID: 1847186842363308771}
   m_Layer: 8
@@ -182,27 +181,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &8838529241996828105
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4697875476350103162}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.078770235
-  m_Center: {x: 0, y: 0.027652785, z: 0}
 --- !u!135 &2803472397025781121
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -237,12 +215,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrenadeLauncher
   weaponData: {fileID: 11400000, guid: f5dd2b55c6c8660448e4ff3da7318f70, type: 2}
-  shootPoint: {fileID: 0}
+  shootPoint: {fileID: 4022367250285783080}
   muzzleFlash: {fileID: 0}
   audioSource: {fileID: 0}
   floatAmplitude: 0.25
   floatSpeed: 2
   rotationSpeed: 60
+  enableFloating: 1
+  startPositionY: 1
+  grenadePrefab: {fileID: 0}
+  launchForce: 12
+  palette: {fileID: 0}
 --- !u!1 &5977150324845317394
 GameObject:
   m_ObjectHideFlags: 0

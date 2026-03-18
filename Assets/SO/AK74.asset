@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac2285d85dcdcd4eb4c262e38d23689, type: 3}
   m_Name: AK74
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  weaponID: 
   damage: 20
+  ammunitionInStock: 26
   range: 100
   icone: {fileID: 21300000, guid: e14b4cb68b597c6418290f5e5f255bda, type: 3}
   weaponType: 0
-  weaponPrefab: {fileID: 6007697791020877446, guid: 69de55390edcbae4696eefa994876d77, type: 3}
+  weaponPrefab: {fileID: 1487774384131766, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
