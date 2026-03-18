@@ -53,8 +53,10 @@ public class FirstPersonController_Networked : NetworkBehaviour
     [Header("Viseur de sniper")]
     [SerializeField] private GameObject sniperViseur;
     [SerializeField] private GameObject sniperCurseur;
-    //[SerializeField] private GameObject sniperVisual;
-    public float sniperZoomFOV = 30f;
+    [SerializeField] private GameObject sniperVisual;
+    [SerializeField] private float sniperZoomFOV = 30f;
+    [SerializeField] private Vector3 sniperVisualOffset;
+    [SerializeField] private Vector3 sniperVisualOriginalPosition;
 
     #endregion
     #endregion
@@ -446,34 +448,35 @@ public class FirstPersonController_Networked : NetworkBehaviour
         #endregion
         #region Camera Zoom
 
-        if (enableZoom && playerCamera != null)
+        if (!enableZoom || playerCamera == null)
+            return;
+
+        var weapon = attackBehaviour?.weaponUsed;
+        bool hasWeapon = weapon != null;
+        bool isSniper = hasWeapon && weapon.weaponData.weaponFamilyType == WeaponFamilyType.Sniper;
+
+        float targetFov = fov;
+
+        if (isZoomed)
         {
-            float targetFov = 0f;
-            if (attackBehaviour == null || attackBehaviour.weaponUsed == null)
-            {
-                targetFov = isZoomed ? zoomFOV : fov;
-            }
-            else if (attackBehaviour.weaponUsed.weaponData.weaponFamilyType == WeaponFamilyType.Sniper && isZoomed)
-            {
-                Debug.Log("Sniper zoom active. Setting FOV to sniperZoomFOV.");
-                targetFov = sniperZoomFOV;
-            }
-            else
-                targetFov = isZoomed ? zoomFOV : fov;
-
-            if (attackBehaviour != null && attackBehaviour.weaponUsed != null)
-            {
-                sniperCurseur.SetActive(isZoomed && attackBehaviour.weaponUsed.weaponData.weaponFamilyType == WeaponFamilyType.Sniper);
-                sniperViseur.SetActive(isZoomed && attackBehaviour.weaponUsed.weaponData.weaponFamilyType == WeaponFamilyType.Sniper);
-                //sniperVisual.SetActive(!isZoomed && attackBehaviour.weaponUsed.weaponData.weaponFamilyType == WeaponFamilyType.Sniper);
-            }
-
-            playerCamera.fieldOfView = Mathf.Lerp(
-                    playerCamera.fieldOfView,
-                    targetFov,
-                    zoomStepTime * Time.deltaTime
-                    );
+            targetFov = isSniper ? sniperZoomFOV : zoomFOV;
         }
+
+        if (isSniper)
+        {
+            bool sniperZoom = isZoomed;
+
+            sniperCurseur.SetActive(sniperZoom);
+            sniperViseur.SetActive(sniperZoom);
+
+            sniperVisual.transform.localPosition = sniperZoom ? sniperVisualOffset : sniperVisualOriginalPosition;
+        }
+
+        playerCamera.fieldOfView = Mathf.Lerp(
+            playerCamera.fieldOfView,
+            targetFov,
+            zoomStepTime * Time.deltaTime
+        );
 
         #endregion
 
