@@ -11403,6 +11403,14 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 3977729883
       objectReference: {fileID: 0}
+    - target: {fileID: 2547948678966428727, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: SceneMigrationSynchronization
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547948678966428727, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 1136634586
+      objectReference: {fileID: 0}
     - target: {fileID: 4459864850019384738, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
       propertyPath: m_LocalPosition.x
       value: -35.19513
@@ -30519,7 +30527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 928608602}
   m_Layer: 0
-  m_Name: Lines
+  m_Name: Liness
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

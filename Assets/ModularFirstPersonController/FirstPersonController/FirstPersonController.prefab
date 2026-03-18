@@ -1839,7 +1839,10 @@ MonoBehaviour:
   zoomStepTime: 5
   sniperViseur: {fileID: 834952049992184844}
   sniperCurseur: {fileID: 1029991219177301952}
-  sniperZoomFOV: 30
+  sniperVisual: {fileID: 3042307003288891868}
+  sniperZoomFOV: 20
+  sniperVisualOffset: {x: 0, y: -0.27, z: 0.9300003}
+  sniperVisualOriginalPosition: {x: 0.346, y: -0.156, z: 0.9300003}
   playerCanMove: 1
   walkSpeed: 5
   maxVelocityChange: 10
@@ -4343,11 +4346,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6666387936843680647, guid: 0501f40fddbbf7148a7c207e819b7af7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.346
+      value: 0.337
       objectReference: {fileID: 0}
     - target: {fileID: 6666387936843680647, guid: 0501f40fddbbf7148a7c207e819b7af7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.156
+      value: -0.211
       objectReference: {fileID: 0}
     - target: {fileID: 6666387936843680647, guid: 0501f40fddbbf7148a7c207e819b7af7, type: 3}
       propertyPath: m_LocalPosition.z
