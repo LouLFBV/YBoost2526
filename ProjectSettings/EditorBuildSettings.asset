@@ -24,7 +24,7 @@ EditorBuildSettings:
     path: Assets/Scenes/ZoneHugo.unity
     guid: 1bd526074682d4747a057e5993905006
   - enabled: 1
-    path: Assets/Yarkin/Military_Base.unity
+    path: Assets/Yarkin/Broot.unity
     guid: 5159fa81ee61f2846b699a4d967b2b1d
   - enabled: 1
     path: Assets/Nathan/Map desert.unity
