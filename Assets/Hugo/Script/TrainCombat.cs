@@ -3,31 +3,36 @@ using System.Collections;
 
 public class TrainCombat : MonoBehaviour
 {
-    [Header("Cibles & Munitions")]
-    [SerializeField] private Transform targetZone; // Référence de la zone prédéfinie (peut être ignorée ici)
-    [SerializeField] private GameObject targetZonePrefab; // Le prefab de la zone rouge
+    [Header("Éléments 3D")]
+    [SerializeField] private Transform turretPivot;  // Tourne Gauche/Droite
+    [SerializeField] private Transform cannonBarrel; // Tourne Haut/Bas
+
+    [Header("Cibles & Zone")]
+    [SerializeField] private Transform zoneCenter;
+    [SerializeField] private float firingRadius = 10f;
+    [SerializeField] private GameObject targetZonePrefab;
+
+    [Header("Munitions & Tourelle")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private Transform turretPivot; // L'objet 'turret' à faire tourner
+    [SerializeField] private float launchAngle = 45f;
 
-    [Header("Puissance de Feu")]
-    [SerializeField] private float fireForce = 50f;
-    // Conservez fireForce, mais nous allons l'utiliser différemment ou la remplacer.
-
+    [Header("Réglages Séquence")]
     [SerializeField] private float rotationSpeed = 5f;
     [SerializeField] private float timeToCharge = 5f;
-
     [SerializeField] private float postFireDelay = 2.5f;
 
     private GameObject currentTargetZone;
-    private Vector3 targetPosition;
+    private Vector3 randomTargetPosition;
     private bool isSequenceStarted = false;
     private WaypointMover movementScript;
 
-    void Start()
-    {
-        movementScript = GetComponent<WaypointMover>();
-    }
+    [Header("Effets de Départ")]
+    [SerializeField] private AudioClip fireSound;
+    [SerializeField] private GameObject muzzleFlashVFX;
+    [SerializeField] private float fireVolume = 1f;
+
+    void Start() { movementScript = GetComponent<WaypointMover>(); }
 
     void Update()
     {
@@ -37,118 +42,98 @@ public class TrainCombat : MonoBehaviour
         }
     }
 
-    // Fonction appelée par WaypointMover
     public void StartArtillerySequence(Vector3 targetWptPosition)
     {
         if (isSequenceStarted) return;
-
         isSequenceStarted = true;
-        targetPosition = targetWptPosition; // La position cible est le Waypoint de tir
 
-        // Fait apparaître la zone rouge
-        currentTargetZone = Instantiate(targetZonePrefab, targetPosition + Vector3.up * 0.1f, Quaternion.identity);
+        Vector3 center = (zoneCenter != null) ? zoneCenter.position : targetWptPosition;
+        Vector2 randomCircle = Random.insideUnitCircle * firingRadius;
+        randomTargetPosition = new Vector3(center.x + randomCircle.x, center.y, center.z + randomCircle.y);
 
-        // Lance la routine d'attente/tir
+        if (targetZonePrefab != null)
+        {
+            currentTargetZone = Instantiate(targetZonePrefab, randomTargetPosition + Vector3.up * 0.1f, Quaternion.identity);
+        }
+
         StartCoroutine(AimAndFireRoutine());
     }
 
-   
     private void HandleTargeting()
     {
         if (turretPivot == null) return;
 
-        Vector3 direction = targetPosition - turretPivot.position;
-        direction.y = 0;
+        // 1. Calcul de la direction vers la zone aléatoire
+        Vector3 direction = randomTargetPosition - turretPivot.position;
+        direction.y = 0; // On ignore la hauteur pour ne pas incliner le canon
 
         if (direction != Vector3.zero)
         {
+            // 2. Calcul de la rotation de base "Regarder vers"
             Quaternion lookRotation = Quaternion.LookRotation(direction);
 
-            // La rotation visée est correcte, mais le modèle est monté de 90° sur son axe.
-            // Nous appliquons une rotation additionnelle de 90° (ou -90°) pour compenser l'orientation du modèle 3D.
-            // Vous devez tester si c'est +90 ou -90. Nous allons partir sur +90f pour le test.
-            Quaternion compensation = Quaternion.Euler(0, -30f, 0);
+            // 3. APPLICATION DE LA COMPENSATION PRÉCISE
+            // Si ton canon est à -31 au lieu de -110, on ajoute la différence (-79 degrés)
+            // Modifie le chiffre -79f ci-dessous pour ajuster si besoin
+            Quaternion compensation = Quaternion.Euler(0, 80f, 0);
 
-            // La rotation finale est la rotation visée multipliée par la compensation
             Quaternion finalRotation = lookRotation * compensation;
 
+            // 4. Rotation fluide uniquement sur le pivot
             turretPivot.rotation = Quaternion.Slerp(turretPivot.rotation, finalRotation, Time.deltaTime * rotationSpeed);
         }
-    }
 
-    // TrainCombat.cs - Fonction AimAndFireRoutine()
+        // Le CannonBarrel reste fixe ou suit simplement le pivot sans changer son X
+    }
 
     private IEnumerator AimAndFireRoutine()
     {
-        float angleThreshold = 5f;
-        float maxRotationTime = 5f; // NOUVEAU : Temps maximum alloué pour la rotation
-        float elapsedRotationTime = 0f; // NOUVEAU : Compteur de temps
-
-        // 1. Attente de l'alignement
-        while (true)
-        {
-            elapsedRotationTime += Time.deltaTime;
-
-            // Sécurité : Si le temps max est dépassé, on sort et on tire
-            if (elapsedRotationTime >= maxRotationTime)
-            {
-                Debug.LogWarning("Tourelle non alignée après 5s, tir forcé.");
-                break;
-            }
-
-            // Vérification de l'alignement (Logique inchangée)
-            Vector3 direction = targetPosition - turretPivot.position;
-            direction.y = 0;
-
-            if (direction == Vector3.zero || turretPivot == null) break;
-
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            float angle = Quaternion.Angle(turretPivot.rotation, targetRotation);
-
-            if (angle <= angleThreshold)
-            {
-                break; // Alignement OK
-            }
-
-            yield return null;
-        }
-
-        // 2. Délai de chargement de 5 secondes
         yield return new WaitForSeconds(timeToCharge);
-
-        // 3. Tir
-        FirePhysicalShell();
-
-        // 4. Fin de la séquence (isSequenceStarted = false)
+        FireBallisticShell();
         isSequenceStarted = false;
-
-        // 5. Destruction de la zone rouge
-        if (currentTargetZone != null)
-        {
-            Destroy(currentTargetZone);
-        }
-
-        // --- NOUVEAU : Délai de sécurité après le tir ---
-        // On attend que l'obus soit loin avant de bouger
         yield return new WaitForSeconds(postFireDelay);
+        if (movementScript != null) movementScript.ResumeMoving();
+    }
 
-        // 6. Redémarrage du train
-        if (movementScript != null)
+    private void FireBallisticShell()
+    {
+        if (fireSound != null) AudioSource.PlayClipAtPoint(fireSound, firePoint.position, fireVolume);
+
+        GameObject obus = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+
+        ProjectileExplosion scriptExplosion = obus.GetComponent<ProjectileExplosion>();
+        if (scriptExplosion != null) scriptExplosion.zoneToDestroy = currentTargetZone;
+
+        if (muzzleFlashVFX != null)
         {
-            movementScript.ResumeMoving();
+            GameObject flash = Instantiate(muzzleFlashVFX, firePoint.position, firePoint.rotation);
+            Destroy(flash, 2f);
+        }
+
+        Rigidbody rb = obus.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = CalculateBallisticVelocity(firePoint.position, randomTargetPosition, launchAngle);
         }
     }
 
-    private void FirePhysicalShell()
+    private Vector3 CalculateBallisticVelocity(Vector3 start, Vector3 end, float angle)
     {
-        Vector3 fireDirection = firePoint.forward;
-        fireDirection.y = 0; // On s'assure d'avoir la direction purement horizontale
-
-        GameObject obus = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity); // Pas besoin de rotation si le RB gère tout
-        Rigidbody rb = obus.GetComponent<Rigidbody>();
-        rb.AddForce(firePoint.forward * fireForce, ForceMode.Impulse);
-
+        Vector3 direction = end - start;
+        float height = direction.y;
+        direction.y = 0;
+        float distance = direction.magnitude;
+        float a = angle * Mathf.Deg2Rad;
+        direction.y = distance * Mathf.Tan(a);
+        distance += height / Mathf.Tan(a);
+        float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * a));
+        return direction.normalized * velocity;
     }
 
-    
-}
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 center = (zoneCenter != null) ? zoneCenter.position : transform.position;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(center, firingRadius);
+    }
+}   

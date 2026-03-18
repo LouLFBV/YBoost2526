@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Descrutable
   - Object
+  - Ground
   layers:
   - Default
   - TransparentFX
