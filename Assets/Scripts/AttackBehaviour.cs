@@ -37,7 +37,10 @@ public class AttackBehaviour : MonoBehaviour
                 {
                     Debug.Log("Hit Descrutable: " + hit.collider.name);
                     // Call partial destruction centered on the hit point with a default radius
-                    environment.DestroyObject(hit.point, 1.5f);
+                    // while respecting the per-object player destruction permission.
+                    bool destroyed = environment.TryDestroyFromPlayer(hit.point, 1.5f);
+                    if (!destroyed)
+                        Debug.Log("Destruction blocked for players on: " + hit.collider.name);
                 }
             }
         }
