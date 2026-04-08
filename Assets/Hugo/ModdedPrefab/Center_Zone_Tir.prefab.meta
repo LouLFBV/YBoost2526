@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Hugo/ModdedPrefab/Center_Zone_Tir.prefab.meta
 guid: cdf94570bf6bbe94e9435edcd47b2a6f
 PrefabImporter:
+========
+guid: 7392c95bb628e4ee883df7e5a2bab101
+TextScriptImporter:
+>>>>>>>> lou:Packages/com.bezi.sidekick/README.md.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
