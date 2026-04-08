@@ -18,7 +18,7 @@ public class Waypoints : MonoBehaviour
             Gizmos.DrawLine(transform.GetChild(i).position, transform.GetChild(i + 1).position);
         }
 
-        Gizmos.DrawLine(transform.GetChild(transform.childCount - 1).position, transform.GetChild(0).position);
+        //Gizmos.DrawLine(transform.GetChild(transform.childCount - 1).position, transform.GetChild(0).position);
     }
 
     public Transform GetNextWaypoint(Transform currentWaypoint)
@@ -28,13 +28,15 @@ public class Waypoints : MonoBehaviour
             return transform.GetChild(0);
         }
 
+        // Si on n'est pas encore au dernier waypoint
         if (currentWaypoint.GetSiblingIndex() < transform.childCount - 1)
         {
             return transform.GetChild(currentWaypoint.GetSiblingIndex() + 1);
         }
         else
         {
-            return transform.GetChild(0);
+            // Au lieu de retourner le premier (index 0), on retourne null
+            return null;
         }
     }
 }

@@ -32,10 +32,10 @@ public class WaypointMover : MonoBehaviour
     void Update()
     {
         // Gestion de la touche Clavier (Start/Stop)
-        if (Input.GetKeyDown(startStopKey))
+        /*if (Input.GetKeyDown(startStopKey))
         {
             isMoving = !isMoving;
-        }
+        }*/
 
         if (isMoving == false) return;
 
@@ -46,21 +46,30 @@ public class WaypointMover : MonoBehaviour
         // --- Déclenchement de l'événement de tir ---
         if (Vector3.Distance(transform.position, currentWaypoint.position) < distanceThreshold)
         {
-            // Vérifie si le waypoint contient le mot 'FIRE' (ex: Waypoint_FIRE)
             if (currentWaypoint.name.Contains("FIRE"))
             {
-                isMoving = false; // Arrêt du train
-
+                isMoving = false;
                 if (trainCombat != null)
                 {
-                    // Lancement de la séquence de tir
                     trainCombat.StartArtillerySequence(currentWaypoint.position);
                 }
             }
             else
             {
-                // Waypoint normal, on passe au suivant
-                currentWaypoint = waypoints.GetNextWaypoint(currentWaypoint);
+                // On demande le prochain waypoint
+                Transform nextWP = waypoints.GetNextWaypoint(currentWaypoint);
+
+                if (nextWP == null)
+                {
+                    // Si c'est null, on s'arrête définitivement
+                    isMoving = false;
+                    Debug.Log("Dernier waypoint atteint. Arrêt du train.");
+                }
+                else
+                {
+                    // Sinon, on continue
+                    currentWaypoint = nextWP;
+                }
             }
         }
     }
@@ -86,8 +95,28 @@ public class WaypointMover : MonoBehaviour
     // Fonction pour redémarrer le train (appelée par TrainCombat après le tir)
     public void ResumeMoving()
     {
-        // On passe au waypoint suivant avant de repartir
-        currentWaypoint = waypoints.GetNextWaypoint(currentWaypoint);
-        isMoving = true;
+        Transform nextWP = waypoints.GetNextWaypoint(currentWaypoint);
+
+        if (nextWP != null)
+        {
+            currentWaypoint = nextWP;
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+            Debug.Log("Fin de trajet après combat.");
+        }
     }
+
+    // Nouvelle méthode pour lancer le train via le timer
+    public void StartTrain()
+    {
+        if (!isMoving)
+        {
+            isMoving = true;
+            Debug.Log("Le train de combat est en route !");
+        }
+    }
+
 }
