@@ -7,6 +7,10 @@ public class AssaultRifle : Weapon, IWeapon
     [SerializeField] private float timeBeforeDespawn = 0.2f;
     [SerializeField] private float delayBetweenShots = 0.1f;
 
+    [Header("Sniper")]
+    [SerializeField] private GameObject sniperViseur;
+    [SerializeField] private GameObject sniperCurseur;
+
     private bool _canShoot = true;
 
     private void OnEnable()
@@ -74,6 +78,8 @@ public class AssaultRifle : Weapon, IWeapon
     public void Despawn()
     {
         Palette.instance.RemoveWeaponInPalette(WeaponType.Main);
+        sniperViseur.SetActive(false);
+        sniperCurseur.SetActive(false);
         gameObject.SetActive(false);
     }
 }

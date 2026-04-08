@@ -185,6 +185,8 @@ public class FirstPersonController_Networked : NetworkBehaviour
         playerInput.actions["Zoom"].performed += OnZoomStart;
         playerInput.actions["Zoom"].canceled += OnZoomStop;
     }
+
+
     private void DisableInput()
     {
         if (!inputEnabled || playerInput == null) return;

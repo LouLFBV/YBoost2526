@@ -11994,6 +11994,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+--- !u!1 &549472728 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1029991219177301952, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+  m_PrefabInstance: {fileID: 1096458362}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &549866964
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23159,6 +23164,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: FirstPersonController
       objectReference: {fileID: 0}
+    - target: {fileID: 5165315098366448766, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: sniperViseur
+      value: 
+      objectReference: {fileID: 1529275061}
+    - target: {fileID: 5165315098366448766, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: sniperCurseur
+      value: 
+      objectReference: {fileID: 549472728}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33647,6 +33660,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8348473906653305165, guid: bb81a67ad1cf2984784527d333cae7d2, type: 3}
   m_PrefabInstance: {fileID: 1527836220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1529275061 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 834952049992184844, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+  m_PrefabInstance: {fileID: 1096458362}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1529890639
 PrefabInstance:
