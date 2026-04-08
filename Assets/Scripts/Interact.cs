@@ -13,6 +13,7 @@ public class Interact : MonoBehaviour
     [SerializeField] private PlayerInput playerInput;
     private bool isInteracting = false;
 
+
     private void Awake()
     {
         if (instance == null)

@@ -1652,7 +1652,6 @@ GameObject:
   - component: {fileID: 7121486939283029115}
   - component: {fileID: 6837502555805184869}
   - component: {fileID: 979787726325526734}
-  - component: {fileID: 3114364256440299281}
   m_Layer: 6
   m_Name: FirstPersonController
   m_TagString: Player
@@ -1795,7 +1794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1136634586
+  GlobalObjectIdHash: 813522480
   InScenePlacedSourceGlobalObjectIdHash: 1136634586
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2023,27 +2022,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 4459864851310106426}
---- !u!114 &3114364256440299281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4459864850019384750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b91bb9def20090a49b228a796fdb6781, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponDataBase
-  weapons:
-  - {fileID: 11400000, guid: 001227731a821054bb88e5259d36d156, type: 2}
-  - {fileID: 11400000, guid: f44c89dbbca89be43ae22f7a9ce9b0bc, type: 2}
-  - {fileID: 11400000, guid: e9e8d3237e43eb84db1ed36a172fa18d, type: 2}
-  - {fileID: 11400000, guid: f5dd2b55c6c8660448e4ff3da7318f70, type: 2}
-  - {fileID: 11400000, guid: 520878f637dc17e4bbcc02267778b8f4, type: 2}
-  - {fileID: 11400000, guid: 49afb061177c51b4d8b8e27141d5b6a6, type: 2}
-  - {fileID: 11400000, guid: 04ccbcb457cdb8b4a8f012967b4bff8e, type: 2}
-  - {fileID: 11400000, guid: 98b8b9901b5b49e48937c9b56556f5fb, type: 2}
 --- !u!1 &4459864850190357393
 GameObject:
   m_ObjectHideFlags: 0
@@ -2255,7 +2233,7 @@ GameObject:
   - component: {fileID: 4459864851310106429}
   - component: {fileID: 4459864851310106426}
   - component: {fileID: 4459864851310106427}
-  - component: {fileID: 705992582278855031}
+  - component: {fileID: 2357784628123239514}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: MainCamera
@@ -2347,7 +2325,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4459864851310106424}
   m_Enabled: 1
---- !u!114 &705992582278855031
+--- !u!114 &2357784628123239514
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4384,6 +4362,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7769944604256214591, guid: 0501f40fddbbf7148a7c207e819b7af7, type: 3}
+      propertyPath: sniperViseur
+      value: 
+      objectReference: {fileID: 834952049992184844}
+    - target: {fileID: 7769944604256214591, guid: 0501f40fddbbf7148a7c207e819b7af7, type: 3}
+      propertyPath: sniperCurseur
+      value: 
+      objectReference: {fileID: 1029991219177301952}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

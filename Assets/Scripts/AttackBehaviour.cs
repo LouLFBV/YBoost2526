@@ -50,34 +50,8 @@ public class AttackBehaviour : MonoBehaviour
     {
         AlignArrowSpawnToCamera();
         weaponUsed.GetComponent<IWeapon>().Attack();
-        Debug.Log("Tire");
 
         AlignArrowSpawnToCamera();
-        Debug.DrawRay(weaponUsed.shootPoint.position, weaponUsed.shootPoint.forward * weaponUsed.weaponData.range, Color.red);
-        if (Physics.Raycast(weaponUsed.shootPoint.position, weaponUsed.shootPoint.forward, out RaycastHit hit, weaponUsed.weaponData.range))
-        {
-            if (hit.collider.CompareTag("Player"))
-            {
-                Debug.Log("Hit " + hit.collider.name);
-                if (hit.transform.TryGetComponent<PlayerStats>(out var enemy))
-                {
-                    enemy.TakeDamage(weaponUsed.weaponData.damage);
-                }
-            }
-            else
-            {
-                // If the hit object has a Descrutable component, call DestroyObject()
-                if (hit.transform.TryGetComponent<Descrutable>(out var environment))
-                {
-                    Debug.Log("Hit Descrutable: " + hit.collider.name);
-                    // Call partial destruction centered on the hit point with a default radius
-                    // while respecting the per-object player destruction permission.
-                    bool destroyed = environment.TryDestroyFromPlayer(hit.point, 1.5f);
-                    if (!destroyed)
-                        Debug.Log("Destruction blocked for players on: " + hit.collider.name);
-                }
-            }
-        }
     }
     private void AlignArrowSpawnToCamera()
     {

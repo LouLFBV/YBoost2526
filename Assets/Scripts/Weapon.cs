@@ -17,6 +17,10 @@ public abstract class Weapon : MonoBehaviour
 
 
     public int ammunitionAccount;
+
+
+    public event System.Action OnPickedUp;
+
     private void Awake()
     {
         if (audioSource == null)
@@ -63,5 +67,10 @@ public abstract class Weapon : MonoBehaviour
             muzzleFlash.Play();
         if (audioSource != null)
             audioSource.PlayOneShot(audioSource.clip);
+    }
+
+    private void OnDestroy()
+    {
+        OnPickedUp?.Invoke();
     }
 }
