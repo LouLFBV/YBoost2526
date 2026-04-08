@@ -295,6 +295,11 @@ MonoBehaviour:
   debrisDensity: 800
   debrisMassMin: 0.1
   debrisMassMax: 200
+  initialBurstSpeed: 6
+  initialBurstRandomness: 0.35
+  useDebrisPooling: 1
+  maxPooledDebrisPerKey: 64
+  canBeDestroyedByPlayers: 1
 --- !u!65 &924421177
 BoxCollider:
   m_ObjectHideFlags: 0
