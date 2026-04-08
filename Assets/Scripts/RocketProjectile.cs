@@ -54,6 +54,8 @@ public class RocketProjectile : MonoBehaviour
                     enemy.TakeDamage(damage);
                 }
             }
+            if (hit.transform.TryGetComponent<Descrutable>(out var environment))
+                environment.DestroyObject(hit.transform.position, 1.5f);
         }
 
         Destroy(gameObject,5);

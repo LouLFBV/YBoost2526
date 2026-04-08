@@ -64,10 +64,10 @@ public class AttackBehaviour : MonoBehaviour
         else
             targetPoint = ray.origin + ray.direction * 100f;
 
-        if (weaponUsed.shootPoint != null)
-            weaponUsed.shootPoint.LookAt(targetPoint);
-
-
-        Debug.DrawLine(weaponUsed.shootPoint.position, targetPoint, Color.yellow, 0.5f);
+        if (weaponUsed != null)
+        {
+            weaponUsed.shootPoint?.LookAt(targetPoint);
+            Debug.DrawLine(weaponUsed.shootPoint.position, targetPoint, Color.yellow, 0.5f);
+        }
     }
 }

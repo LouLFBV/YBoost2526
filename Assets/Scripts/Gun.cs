@@ -30,16 +30,6 @@ public class Gun : Weapon, IWeapon
                     enemy.TakeDamage(weaponData.damage);
                 }
             }
-            else
-            {
-                // If the hit object has a Descrutable component, call DestroyObject()
-                if (hit.transform.TryGetComponent<Descrutable>(out var environment))
-                {
-                    Debug.Log("Hit Descrutable: " + hit.collider.name);
-                    // Call partial destruction centered on the hit point with a default radius
-                    environment.DestroyObject(hit.point, 1.5f);
-                }
-            }
         }
         StartCoroutine(CooldownCoroutineShoot());
         if (ammunitionAccount == 0)

@@ -3,6 +3,7 @@ using UnityEngine;
 public class GrenadeProjectile : MonoBehaviour
 {
     [Header("Explosion")]
+    [SerializeField] private bool isGrenade = true;
     [SerializeField] private float explosionRadius = 4f;
     [SerializeField] private int damage = 40;
     [SerializeField] private GameObject explosionVFX;
@@ -57,6 +58,8 @@ public class GrenadeProjectile : MonoBehaviour
                     enemy.TakeDamage(damage);
                 }
             }
+            if (hit.transform.TryGetComponent<Descrutable>(out var environment) && isGrenade)
+                environment.DestroyObject(hit.transform.position, 1.5f);
         }
 
         Destroy(gameObject,10);

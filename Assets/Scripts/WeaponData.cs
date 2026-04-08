@@ -27,5 +27,6 @@ public enum WeaponFamilyType
 {
     AssaultRifle,
     Shotgun,
-    Sniper
+    Sniper,
+    Explosive
 }

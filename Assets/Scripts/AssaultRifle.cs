@@ -52,7 +52,7 @@ public class AssaultRifle : Weapon, IWeapon
             if (hit.transform.TryGetComponent<PlayerStats>(out var enemy))
                 enemy.TakeDamage(weaponData.damage);
 
-            if (hit.transform.TryGetComponent<Descrutable>(out var environment))
+            if (hit.transform.TryGetComponent<Descrutable>(out var environment) && weaponData.weaponFamilyType == WeaponFamilyType.Explosive)
                 environment.DestroyObject(hit.point, 1.5f);
         }
 
@@ -78,8 +78,11 @@ public class AssaultRifle : Weapon, IWeapon
     public void Despawn()
     {
         Palette.instance.RemoveWeaponInPalette(WeaponType.Main);
-        sniperViseur.SetActive(false);
-        sniperCurseur.SetActive(false);
+        if (weaponData.weaponFamilyType == WeaponFamilyType.Sniper)
+        {
+            sniperViseur.SetActive(false);
+            sniperCurseur.SetActive(false);
+        }
         gameObject.SetActive(false);
     }
 }

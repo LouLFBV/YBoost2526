@@ -38508,6 +38508,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1196780359113801303, guid: 5ea0046aed644624a82cfcca6ba26304, type: 3}
+      propertyPath: weaponDataBase
+      value: 
+      objectReference: {fileID: 1043560989}
+    - target: {fileID: 1196780359113801303, guid: 5ea0046aed644624a82cfcca6ba26304, type: 3}
       propertyPath: spawnPoints.Array.size
       value: 9
       objectReference: {fileID: 0}
@@ -47356,7 +47360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de290f3315159a442a06eacfaba85f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameTimer
-  totalTime: 20
+  totalTime: 120
   timerText: {fileID: 1549939822}
   trainMover: {fileID: 781506462}
 --- !u!4 &1436590130

@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4b1ea67195f0c40a3cce96f40b6583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrenadeProjectile
+  isGrenade: 0
   explosionRadius: 4
   damage: 40
   explosionVFX: {fileID: 104829970813648393, guid: d3015b7eea383f64d8b81f965cc466e7, type: 3}
