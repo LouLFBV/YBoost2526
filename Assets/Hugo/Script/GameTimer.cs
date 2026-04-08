@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using Unity.Netcode;
 
 public class GameTimer : MonoBehaviour
 {
@@ -16,7 +17,10 @@ public class GameTimer : MonoBehaviour
     private void Start()
     {
         timeRemaining = totalTime;
-        timerIsRunning = true;
+        if (NetworkManager.Singleton.IsServer)
+        {
+            timerIsRunning = true;
+        }
     }
 
     void Update()
