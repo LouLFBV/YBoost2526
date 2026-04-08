@@ -1,21 +1,55 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AttackBehaviour : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;
     public Weapon weaponUsed;
 
+    #region Player Input
+    private PlayerInput playerInput;
+    private bool isShooting = false;
 
+
+    private void Awake()
+    {
+        playerInput = GetComponent<PlayerInput>();
+    }
+
+    private void OnEnable()
+    {
+        playerInput.actions["Attack"].Enable();
+        playerInput.actions["Attack"].performed += ShootPerformed;
+        playerInput.actions["Attack"].canceled += ShootCanceled;
+    }
+
+    private void OnDisable()
+    {
+        playerInput.actions["Attack"].Disable();
+        playerInput.actions["Attack"].performed -= ShootPerformed;
+        playerInput.actions["Attack"].canceled -= ShootCanceled;
+    }
+
+    private void ShootPerformed(InputAction.CallbackContext context)
+    {
+        isShooting = true;
+    }
+
+    private void ShootCanceled(InputAction.CallbackContext context)
+    {
+        isShooting = false;
+    }
+    #endregion
     void Update()
     {
-        if (weaponUsed != null && Input.GetKeyDown(KeyCode.Mouse0))
-        {
+        if (weaponUsed != null && isShooting)
             Shoot();
-        }
     }
 
     public void Shoot()
     {
+        AlignArrowSpawnToCamera();
+        weaponUsed.GetComponent<IWeapon>().Attack();
         Debug.Log("Tire");
 
         AlignArrowSpawnToCamera();
@@ -45,7 +79,6 @@ public class AttackBehaviour : MonoBehaviour
             }
         }
     }
-
     private void AlignArrowSpawnToCamera()
     {
         Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
@@ -57,7 +90,8 @@ public class AttackBehaviour : MonoBehaviour
         else
             targetPoint = ray.origin + ray.direction * 100f;
 
-        weaponUsed.shootPoint.LookAt(targetPoint);
+        if (weaponUsed.shootPoint != null)
+            weaponUsed.shootPoint.LookAt(targetPoint);
 
 
         Debug.DrawLine(weaponUsed.shootPoint.position, targetPoint, Color.yellow, 0.5f);
