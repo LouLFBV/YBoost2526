@@ -28,6 +28,7 @@ public class RPG7 : Weapon, IWeapon
             shootPoint.rotation
         );
 
+        rocket.SetOwner(transform.root.gameObject);
         rocket.Launch(shootPoint.forward * launchForce);
         visualRocket.SetActive(false);
         canAttack = false;

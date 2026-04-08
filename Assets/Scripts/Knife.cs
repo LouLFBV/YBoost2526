@@ -25,7 +25,6 @@ public class Knife : Weapon, IWeapon
     {
         if (canAttack)
         {
-            Debug.Log("Coup de couteau !");
             animator.SetTrigger("Attack");
         }
     }
@@ -38,7 +37,10 @@ public class Knife : Weapon, IWeapon
         if (collision.CompareTag("Player") && isAttacking && !transform.CompareTag("Object"))
         {
             if (collision.transform.TryGetComponent<PlayerStats>(out var enemy))
-                enemy.TakeDamage(weaponData.damage);
+            {
+                GameObject attacker = transform.root.gameObject;
+                enemy.TakeDamage(weaponData.damage, attacker);
+            }
         }
     }
 

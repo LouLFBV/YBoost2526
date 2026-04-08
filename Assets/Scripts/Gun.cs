@@ -27,7 +27,8 @@ public class Gun : Weapon, IWeapon
                 Debug.Log("Hit " + hit.collider.name);
                 if (hit.transform.TryGetComponent<PlayerStats>(out var enemy))
                 {
-                    enemy.TakeDamage(weaponData.damage);
+                    GameObject attacker = transform.root.gameObject;
+                    enemy.TakeDamage(weaponData.damage, attacker);
                 }
             }
         }

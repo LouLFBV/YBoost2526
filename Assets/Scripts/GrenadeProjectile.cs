@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class GrenadeProjectile : MonoBehaviour
 {
@@ -12,18 +13,19 @@ public class GrenadeProjectile : MonoBehaviour
     [Header("Physics")]
     [SerializeField] private float fuseTime = 0f; // optionnel
 
-    private Rigidbody rb;
-    private bool hasExploded = false;
+    private Rigidbody _rb;
+    private bool _hasExploded = false;
+    private GameObject _owner;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
         explosionAudio = GetComponent<AudioSource>();
     }
 
     public void Launch(Vector3 force)
     {
-        rb.AddForce(force, ForceMode.Impulse);
+        _rb.AddForce(force, ForceMode.Impulse);
 
         if (fuseTime > 0)
             Invoke(nameof(Explode), fuseTime);
@@ -31,7 +33,7 @@ public class GrenadeProjectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (hasExploded) return;
+        if (_hasExploded) return;
 
         // On explose au premier impact sol
         if (collision.collider.CompareTag("Ground"))
@@ -40,9 +42,13 @@ public class GrenadeProjectile : MonoBehaviour
         }
     }
 
+    public void SetOwner(GameObject shooter)
+    {
+        _owner = shooter;
+    }
     private void Explode()
     {
-        hasExploded = true;
+        _hasExploded = true;
 
         if (explosionVFX != null)
             Instantiate(explosionVFX, transform.position, Quaternion.identity);
@@ -55,13 +61,14 @@ public class GrenadeProjectile : MonoBehaviour
             {
                 if (hit.transform.TryGetComponent<PlayerStats>(out var enemy))
                 {
-                    enemy.TakeDamage(damage);
+                    enemy.TakeDamage(damage, _owner);
                 }
             }
             if (hit.transform.TryGetComponent<Descrutable>(out var environment) && isGrenade)
                 environment.DestroyObject(hit.transform.position, 1.5f);
         }
-
+        GetComponent<MeshRenderer>().enabled = false;
+        GetComponent<Collider>().enabled = false;
         Destroy(gameObject,10);
     }
 

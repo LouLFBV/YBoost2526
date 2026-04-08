@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 6748753174558869499}
   - component: {fileID: 7066555611420976064}
   - component: {fileID: 4475566635503893638}
+  - component: {fileID: 8438836302770989143}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Player
@@ -343,6 +344,8 @@ MonoBehaviour:
   life: {fileID: 7701723388017395334}
   healthBar: {fileID: 7504663609669363128}
   healthQuantity: {fileID: 3089367214753381238}
+  scoreSystem: {fileID: 8438836302770989143}
+  lastAttacker: {fileID: 0}
 --- !u!114 &4475566635503893638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,7 +358,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69956ace93d5d384aa1066b8934c95a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Billboard
-  ui: {fileID: 7504663609669363128}
+  ui: {fileID: 8243477805732468235}
+--- !u!114 &8438836302770989143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6636122108757628174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5970824c09fbb174e8d49baa1ffa22ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScoreSystem
+  score: 0
+  scoreText: {fileID: 0}
+  tues: 0
+  morts: 0
 --- !u!1 &6840320135189445564
 GameObject:
   m_ObjectHideFlags: 0

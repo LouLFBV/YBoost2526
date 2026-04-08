@@ -17,6 +17,7 @@ public class GrenadeLauncher : Weapon, IWeapon
         GrenadeProjectile grenade =
             Instantiate(grenadePrefab, shootPoint.position, shootPoint.rotation);
 
+        grenade.SetOwner(transform.root.gameObject);
         grenade.Launch(shootPoint.forward * launchForce);
         palette.RemoveWeaponInPalette(WeaponType.Projectile);  
     }

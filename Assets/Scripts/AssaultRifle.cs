@@ -50,7 +50,10 @@ public class AssaultRifle : Weapon, IWeapon
         if (Physics.Raycast(shootPoint.position, shootPoint.forward, out RaycastHit hit, weaponData.range))
         {
             if (hit.transform.TryGetComponent<PlayerStats>(out var enemy))
-                enemy.TakeDamage(weaponData.damage);
+            {
+                GameObject attacker = transform.root.gameObject;
+                enemy.TakeDamage(weaponData.damage, attacker);
+            }
 
             if (hit.transform.TryGetComponent<Descrutable>(out var environment) && weaponData.weaponFamilyType == WeaponFamilyType.Explosive)
                 environment.DestroyObject(hit.point, 1.5f);

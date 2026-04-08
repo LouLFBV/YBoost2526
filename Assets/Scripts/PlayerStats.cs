@@ -1,4 +1,5 @@
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,9 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private Image life;
     [SerializeField] private GameObject healthBar;
     [SerializeField] private TextMeshProUGUI healthQuantity;
+    public ScoreSystem scoreSystem;
+
+    public GameObject lastAttacker;
 
 
     private void Start()
@@ -19,9 +23,11 @@ public class PlayerStats : MonoBehaviour
         currentHealth = health;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject attacker = null)
     {
         currentHealth -= damage;
+
+        lastAttacker = attacker;
         UpdateHealthbar();
         if (currentHealth <= 0)
         {
@@ -30,6 +36,14 @@ public class PlayerStats : MonoBehaviour
     }
     private void Die()
     {
+        if (lastAttacker != null)
+        {
+            if (lastAttacker.TryGetComponent<ScoreSystem>(out var score))
+            {
+                score.AddTues();
+            }
+        }
+        scoreSystem.AddMorts();
         Debug.Log("Player has died.");
         Destroy(gameObject);
     }

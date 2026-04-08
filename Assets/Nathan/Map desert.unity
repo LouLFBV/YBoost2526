@@ -13746,45 +13746,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8684391252436569271, guid: 6c8c4c022a4cab845bb4278cf177acd4, type: 3}
+      propertyPath: trainMover
+      value: 
+      objectReference: {fileID: 1170395249}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6226782221987926386, guid: 6c8c4c022a4cab845bb4278cf177acd4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 613767355}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c8c4c022a4cab845bb4278cf177acd4, type: 3}
---- !u!1 &613767353 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6226782221987926386, guid: 6c8c4c022a4cab845bb4278cf177acd4, type: 3}
-  m_PrefabInstance: {fileID: 613767352}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &613767354 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3564956488836930042, guid: 6c8c4c022a4cab845bb4278cf177acd4, type: 3}
-  m_PrefabInstance: {fileID: 613767352}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!114 &613767355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 613767353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de290f3315159a442a06eacfaba85f94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameTimer
-  totalTime: 120
-  timerText: {fileID: 613767354}
-  trainMover: {fileID: 1170395249}
 --- !u!1001 &614246632
 PrefabInstance:
   m_ObjectHideFlags: 0

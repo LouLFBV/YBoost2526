@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class RocketProjectile : MonoBehaviour
 {
@@ -11,31 +12,36 @@ public class RocketProjectile : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float lifeTime = 5f;
 
-    private Rigidbody rb;
-    private bool hasExploded = false;
+    private Rigidbody _rb;
+    private bool _hasExploded = false;
+    private GameObject _owner;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
         explosionAudio = GetComponent<AudioSource>();
     }
 
     public void Launch(Vector3 velocity)
     {
-        rb.linearVelocity = velocity;
+        _rb.linearVelocity = velocity;
         Destroy(gameObject, lifeTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (hasExploded) return;
+        if (_hasExploded) return;
 
         Explode();
     }
-    
+
+    public void SetOwner(GameObject shooter)
+    {
+        _owner = shooter;
+    }
     private void Explode()
     {
-        hasExploded = true;
+        _hasExploded = true;
 
         if (explosionVFX != null)
             Instantiate(explosionVFX, transform.position, Quaternion.identity);
@@ -51,7 +57,7 @@ public class RocketProjectile : MonoBehaviour
             {
                 if (hit.TryGetComponent<PlayerStats>(out var enemy))
                 {
-                    enemy.TakeDamage(damage);
+                    enemy.TakeDamage(damage, _owner);
                 }
             }
             if (hit.transform.TryGetComponent<Descrutable>(out var environment))

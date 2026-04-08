@@ -13,6 +13,9 @@ public class GameTimer : MonoBehaviour
     public TextMeshProUGUI timerText;
     public WaypointMover trainMover; // Glisse ton train ici dans l'Inspecteur
 
+    [Header("Panel de fin")]
+    [SerializeField] private GameObject endGamePanel;
+
     private void Start()
     {
         timeRemaining = totalTime;
@@ -44,7 +47,7 @@ public class GameTimer : MonoBehaviour
             {
                 timeRemaining = 0;
                 timerIsRunning = false;
-                // EndGame();
+                EndGame();
             }
         }
     }
@@ -58,8 +61,7 @@ public class GameTimer : MonoBehaviour
 
     void EndGame()
     {
-        // Logique de fin de partie (ex: Score, menu de fin, etc.)
-        // Dans CS:GO, si le temps finit et que la bombe n'est pas posée, les CT gagnent.
-        Debug.Log("La partie est terminée ! Victoire des Anti-Terroristes.");
+        endGamePanel.SetActive(true);
+        Time.timeScale = 0f;
     }
 }

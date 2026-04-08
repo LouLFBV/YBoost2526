@@ -1130,6 +1130,7 @@ GameObject:
   - component: {fileID: 8913686480923348453}
   - component: {fileID: 1758744745972925491}
   - component: {fileID: 6858493071870849401}
+  - component: {fileID: 8684391252436569271}
   m_Layer: 5
   m_Name: CanvasMain
   m_TagString: Untagged
@@ -1221,6 +1222,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8684391252436569271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6226782221987926386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de290f3315159a442a06eacfaba85f94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameTimer
+  totalTime: 120
+  timerText: {fileID: 3564956488836930042}
+  trainMover: {fileID: 0}
+  endGamePanel: {fileID: 5283161636167046162}
 --- !u!1 &7474247943172036830
 GameObject:
   m_ObjectHideFlags: 0
