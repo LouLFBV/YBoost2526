@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Nathan/Military_FREE/Meshes.meta
 guid: 1e36f8ac7b22a7b4290c59cb15515207
 folderAsset: yes
 DefaultImporter:
+========
+guid: b1b59250b6e228842b74d255fd217e4a
+PrefabImporter:
+>>>>>>>> origin/hugo:Assets/Hugo/Prefab/Shtouille/TargetZone Variant.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
