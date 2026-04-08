@@ -27,6 +27,8 @@ public class Palette : MonoBehaviour
 
     private bool isInitialized = false;
 
+    public event Action<bool> DestroySniperViseur;
+
 
     private void Awake()
     {
@@ -71,6 +73,8 @@ public class Palette : MonoBehaviour
         playerInput.actions["SecondaryWeapon"].canceled += SecondaryWeaponCanceled;
         playerInput.actions["MeleeWeapon"].canceled += MeleeWeaponCanceled;
         playerInput.actions["Projectile"].canceled += ProjectileCanceled;
+
+        
     }
     private void OnDisable()
     {

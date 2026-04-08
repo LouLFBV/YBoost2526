@@ -21,7 +21,6 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        Debug.Log("Proto");
         currentHealth -= damage;
         UpdateHealthbar();
         if (currentHealth <= 0)

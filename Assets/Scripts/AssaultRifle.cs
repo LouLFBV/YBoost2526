@@ -7,25 +7,40 @@ public class AssaultRifle : Weapon, IWeapon
     [SerializeField] private float timeBeforeDespawn = 0.2f;
     [SerializeField] private float delayBetweenShots = 0.1f;
 
+    [Header("Sniper")]
+    [SerializeField] private GameObject sniperViseur;
+    [SerializeField] private GameObject sniperCurseur;
+
     private bool _canShoot = true;
 
+    private void OnEnable()
+    {
+        _canShoot = true;
+    }
     public void Attack()
     {
         if (!_canShoot)
+        {
             return;
+        }
 
         if (ammunitionAccount <= 0)
+        {
+            Debug.Log("No ammunition left!");
             return;
+        }
 
-        StartCoroutine(ShootRoutine());
+        ShootRoutine();
     }
 
-    private IEnumerator ShootRoutine()
+    private void ShootRoutine()
     {
+        Debug.Log("Shooting Assault Rifle!");
         _canShoot = false;
 
         // 🔫 Consomme la balle
         ammunitionAccount--;
+
         Palette.instance.UpdateAmmunitionText(WeaponType.Main, ammunitionAccount);
 
         // 🔥 Effets
@@ -42,8 +57,7 @@ public class AssaultRifle : Weapon, IWeapon
         }
 
         // ⏱ Cadence de tir
-        yield return new WaitForSeconds(delayBetweenShots);
-        _canShoot = true;
+        StartCoroutine(CadenceDeTir());
 
         // 🔻 Plus de munitions ?
         if (ammunitionAccount == 0)
@@ -56,9 +70,16 @@ public class AssaultRifle : Weapon, IWeapon
         animatorVisual.SetTrigger("Despawn");
     }
 
+    private IEnumerator CadenceDeTir()
+    {
+        yield return new WaitForSeconds(delayBetweenShots);
+        _canShoot = true;
+    }
     public void Despawn()
     {
         Palette.instance.RemoveWeaponInPalette(WeaponType.Main);
+        sniperViseur.SetActive(false);
+        sniperCurseur.SetActive(false);
         gameObject.SetActive(false);
     }
 }

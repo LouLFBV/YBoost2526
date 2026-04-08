@@ -11,6 +11,7 @@ public class Gun : Weapon, IWeapon
 
     public void Attack()
     {
+        Debug.Log("Attack with Gun");
         if (ammunitionAccount == 0 || !_canShoot)
             return;
         ammunitionAccount--;
