@@ -29,6 +29,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Nathan/Map desert.unity
     guid: 1df42f15ef87ec54abda8f44b5decc75
+  - enabled: 1
+    path: Assets/Yarkin/IndustryMap.unity
+    guid: 5a463281e6e238742a45430f11e82829
+  - enabled: 1
+    path: Assets/Yarkin/Industry_Map.unity
+    guid: 1d35c8ff8df44934ab0d5619746c0699
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
