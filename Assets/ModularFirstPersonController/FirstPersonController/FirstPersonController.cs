@@ -23,6 +23,10 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     public Camera playerCamera;
 
+    [Header("UI Elements")]
+    [SerializeField] private GameObject playerHUD; // Le Canvas ou le Panel principal
+    [SerializeField] private GameObject pauseMenu;  // Ton menu de pause
+
     public float fov = 60f;
     public bool invertCamera = false;
     public bool cameraCanMove = true;
@@ -325,6 +329,10 @@ public class FirstPersonController_Networked : NetworkBehaviour
             if (playerInput != null)
                 playerInput.enabled = true;
 
+            if (playerHUD != null) playerHUD.SetActive(true);
+
+            Debug.Log("[UI] Interface activée pour l'Owner local.");
+
             EnableInput();
 
             if (playerCamera != null)
@@ -343,6 +351,11 @@ public class FirstPersonController_Networked : NetworkBehaviour
             // ✅ Garder PlayerInput désactivé pour les non-owners
             if (playerInput != null)
                 playerInput.enabled = false;
+
+            if (playerHUD != null) playerHUD.SetActive(false);
+            if (pauseMenu != null) pauseMenu.SetActive(false);
+
+            Debug.Log("[UI] Interface distante masquée.");
 
             if (playerCamera != null)
                 playerCamera.gameObject.SetActive(false);

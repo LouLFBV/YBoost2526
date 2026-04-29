@@ -519,7 +519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9017645000774028925
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1826,6 +1826,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   attackBehaviour: {fileID: 7556431651608135455}
   playerCamera: {fileID: 4459864851310106426}
+  playerHUD: {fileID: 1678935786416648693}
+  pauseMenu: {fileID: 0}
   fov: 60
   invertCamera: 0
   cameraCanMove: 1
