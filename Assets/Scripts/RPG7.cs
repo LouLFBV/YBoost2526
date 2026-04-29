@@ -43,7 +43,7 @@ public class RPG7 : Weapon, IWeapon
     public void Despawn()
     {
         canAttack = true;
-        Palette.instance.RemoveWeaponInPalette(WeaponType.Main);
+        palette.RemoveWeaponInPalette(WeaponType.Main);
         gameObject.SetActive(false);
     }
 

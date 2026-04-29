@@ -7,7 +7,6 @@ using TMPro;
 
 public class Palette : MonoBehaviour
 {
-    public static Palette instance;
 
     [Header("Slots for Weapons")]
     public WeaponInPalette[] weapons;
@@ -32,15 +31,6 @@ public class Palette : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return; 
-        }
 
         playerInput = GetComponent<PlayerInput>();
 

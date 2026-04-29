@@ -41,7 +41,7 @@ public class AssaultRifle : Weapon, IWeapon
         // 🔫 Consomme la balle
         ammunitionAccount--;
 
-        Palette.instance.UpdateAmmunitionText(WeaponType.Main, ammunitionAccount);
+        palette.UpdateAmmunitionText(WeaponType.Main, ammunitionAccount);
 
         // 🔥 Effets
         PlayMuzzleFlash();
@@ -80,7 +80,7 @@ public class AssaultRifle : Weapon, IWeapon
     }
     public void Despawn()
     {
-        Palette.instance.RemoveWeaponInPalette(WeaponType.Main);
+        palette.RemoveWeaponInPalette(WeaponType.Main);
         if (weaponData.weaponFamilyType == WeaponFamilyType.Sniper)
         {
             sniperViseur.SetActive(false);

@@ -3,26 +3,33 @@ using Unity.Netcode;
 
 public class StartNetwork : MonoBehaviour
 {
+    [SerializeField] private string sceneName;
+
     public void StartServer()
     {
         if (NetworkManager.Singleton.StartServer())
         {
-            NetworkManager.Singleton.SceneManager.LoadScene("Zone1", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
     }
 
     public void StartClient()
     {
+        // Le client ne charge JAMAIS de scène lui-même. 
+        // Il attend que le serveur lui dise "On change de scène".
         NetworkManager.Singleton.StartClient();
-        // Le client NE charge PAS de scène ici.
-        // Le serveur va le forcer automatiquement à rejoindre "Zone1"
     }
 
     public void StartHost()
     {
+        // 1. On lance le Host d'abord
         if (NetworkManager.Singleton.StartHost())
         {
-            NetworkManager.Singleton.SceneManager.LoadScene("Zone1", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            // 2. SEULEMENT APRES le succès du lancement, le serveur (Host) demande le changement de scène
+            // C'est cette ligne qui synchronise tout le monde (Host + Clients)
+            NetworkManager.Singleton.SceneManager.LoadScene(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Single);
+
+            Debug.Log("[NETCODE] Host lancé et changement de scène vers : " + sceneName);
         }
     }
 }

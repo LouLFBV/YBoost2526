@@ -4,7 +4,6 @@ public class GrenadeLauncher : Weapon, IWeapon
 {
     [SerializeField] private GrenadeProjectile grenadePrefab;
     [SerializeField] private float launchForce = 12f;
-    [SerializeField] private Palette palette;
 
     public void Attack()
     {

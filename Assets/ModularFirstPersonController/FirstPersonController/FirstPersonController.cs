@@ -281,6 +281,7 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     #endregion 
 
+
     private void ApplyCrouchState()
     {
         if (!this || !isActiveAndEnabled) return;
@@ -298,79 +299,111 @@ public class FirstPersonController_Networked : NetworkBehaviour
     }
 
 
-
-
-    public override void OnNetworkSpawn()
-    {
-        if (IsOwner)
-        {
-            // On active ce qui nous appartient
-            EnableInput();
-            if (playerCamera != null)
-            {
-                playerCamera.enabled = true;
-                playerCamera.GetComponent<AudioListener>().enabled = true;
-            }
-
-            rb = GetComponent<Rigidbody>();
-            rb.isKinematic = false; // On assure la physique pour nous
-
-            Cursor.lockState = lockCursor ? CursorLockMode.Locked : CursorLockMode.None;
-            Cursor.visible = !lockCursor;
-        }
-        else
-        {
-            // On désactive TOTALEMENT ce qui appartient aux autres
-            if (playerCamera != null)
-            {
-                playerCamera.enabled = false;
-                var audio = playerCamera.GetComponent<AudioListener>();
-                if (audio != null) audio.enabled = false;
-            }
-
-            // Pour les autres, on désactive le Rigidbody pour qu'ils 
-            // ne tombent pas à travers le sol avant que le réseau ne les place
-            rb = GetComponent<Rigidbody>();
-            rb.isKinematic = true;
-
-            // On désactive le script PlayerInput pour ne pas lire les touches des autres
-            if (playerInput != null) playerInput.enabled = false;
-        }
-    }
-
     private void Awake()
     {
         baseWalkSpeed = walkSpeed;
-
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
-        playerInput = GetComponent<PlayerInput>();
-
-        // prefer inspector-assigned crosshair; otherwise try to find
-        if (crosshairObject == null)
-        {
-            // try to find an Image named "Crosshair" in children (if present)
-            var found = GetComponentInChildren<Image>();
-            if (found != null && found.name.ToLower().Contains("crosshair"))
-                crosshairObject = found;
-            // else keep null (we handle null later)
-        }
-
-        // Safeguard references
-        if (playerCamera != null)
-            playerCamera.fieldOfView = fov;
-
         originalScale = transform.localScale;
-        if (joint != null) jointOriginalPos = joint.localPosition;
 
-        if (!unlimitedSprint)
+        if (joint != null) jointOriginalPos = joint.localPosition;
+        if (!unlimitedSprint) sprintRemaining = sprintDuration;
+
+        // ✅ Désactiver la caméra par défaut — sera réactivée uniquement pour l'owner
+        if (playerCamera != null)
+            playerCamera.gameObject.SetActive(false);
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        rb = GetComponent<Rigidbody>();
+
+        if (IsOwner)
         {
-            sprintRemaining = sprintDuration;
+            // ✅ Activer PlayerInput SEULEMENT pour l'owner, après le spawn
+            if (playerInput != null)
+                playerInput.enabled = true;
+
+            EnableInput();
+
+            if (playerCamera != null)
+            {
+                playerCamera.gameObject.SetActive(true);
+                playerCamera.fieldOfView = fov;
+            }
+
+            if (rb != null) rb.isKinematic = false;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            // ✅ Garder PlayerInput désactivé pour les non-owners
+            if (playerInput != null)
+                playerInput.enabled = false;
+
+            if (playerCamera != null)
+                playerCamera.gameObject.SetActive(false);
+
+            if (rb != null) rb.isKinematic = true;
         }
     }
 
+    public override void OnDestroy()
+    {
+        // Toujours appeler la base pour les NetworkBehaviour
+        base.OnDestroy();
+
+        if (IsSpawned)
+        {
+            Debug.Log($"[NETCODE] !!! OBJET DÉTRUIT !!! ID: {NetworkObjectId} | IsOwner: {IsOwner}, pour : {gameObject.name}");
+        }
+        else
+        {
+            Debug.Log($"[NETCODE] Un objet non-spawned (ou prefab) a été retiré de la mémoire. pour : {gameObject.name}");
+        }
+    }
+
+    //private void Awake()
+    //{
+    //    baseWalkSpeed = walkSpeed;
+
+    //    playerInput = GetComponent<PlayerInput>();
+    //    rb = GetComponent<Rigidbody>();
+    //    playerInput = GetComponent<PlayerInput>();
+
+    //    // prefer inspector-assigned crosshair; otherwise try to find
+    //    if (crosshairObject == null)
+    //    {
+    //        // try to find an Image named "Crosshair" in children (if present)
+    //        var found = GetComponentInChildren<Image>();
+    //        if (found != null && found.name.ToLower().Contains("crosshair"))
+    //            crosshairObject = found;
+    //        // else keep null (we handle null later)
+    //    }
+
+    //    // Safeguard references
+    //    if (playerCamera != null)
+    //        playerCamera.fieldOfView = fov;
+
+    //    originalScale = transform.localScale;
+    //    if (joint != null) jointOriginalPos = joint.localPosition;
+
+    //    if (!unlimitedSprint)
+    //    {
+    //        sprintRemaining = sprintDuration;
+    //    }
+    //}
+
     void Start()
     {
+
+        if (!IsSpawned)
+        {
+            Debug.LogWarning("[NETCODE] L'objet est dans la scène mais n'est pas encore 'Spawned' par Netcode !");
+        }
         if (lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -493,7 +526,13 @@ public class FirstPersonController_Networked : NetworkBehaviour
     void FixedUpdate()
     {
         if (!IsOwner) return;
+        
         #region Movement
+
+        if (moveInput != Vector2.zero)
+        {
+            Debug.Log($"[MOUVEMENT] Input reçu: {moveInput} | Vitesse actuelle: {rb.linearVelocity}");
+        }
 
         if (playerCanMove)
         {

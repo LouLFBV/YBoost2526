@@ -2,6 +2,10 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private Interact interact;
+    [SerializeField] protected Palette palette;
+
     public WeaponData weaponData;
     public Transform shootPoint;
     public ParticleSystem muzzleFlash;
@@ -47,8 +51,12 @@ public abstract class Weapon : MonoBehaviour
     {
         if (other.CompareTag("Player") && transform.CompareTag("Object"))
         {
-            Interact.instance.canInteract = true;
-            Interact.instance.currentWeapon = this;
+            if (interact == null)
+                interact = other.GetComponent<Interact>();            
+            if (palette == null)
+                palette = other.GetComponent<Palette>();
+            interact.canInteract = true;
+            interact.currentWeapon = this;
         }
     }
 
@@ -56,8 +64,12 @@ public abstract class Weapon : MonoBehaviour
     {
         if (other.CompareTag("Player") && transform.CompareTag("Object"))
         {
-            Interact.instance.canInteract = false;
-            Interact.instance.currentWeapon = null;
+            if (interact == null)
+                interact = other.GetComponent<Interact>();            
+            if (palette == null)
+                palette = other.GetComponent<Palette>();
+            interact.canInteract = false;
+            interact.currentWeapon = null;
         }
     }
 

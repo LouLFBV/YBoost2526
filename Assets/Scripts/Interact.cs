@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 
 public class Interact : MonoBehaviour
 {
-    public static Interact instance;
     public GameObject interactionText;
     public bool canInteract = false;
     public Weapon currentWeapon;
@@ -12,19 +11,12 @@ public class Interact : MonoBehaviour
 
     [SerializeField] private PlayerInput playerInput;
     private bool isInteracting = false;
-
+    private Palette palette;
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
         playerInput = GetComponent<PlayerInput>();
+        palette = GetComponent<Palette>();
     }
     #region Méthodes Player Input
     private void OnEnable()
@@ -64,7 +56,7 @@ public class Interact : MonoBehaviour
 
             if(isInteracting)
             {
-                Palette.instance.AddWeapon(currentWeapon);
+                palette.AddWeapon(currentWeapon);
                 Destroy(currentWeapon.gameObject);
                 canInteract = false;
                 isInteracting = false;

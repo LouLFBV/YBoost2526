@@ -15,7 +15,7 @@ public class Gun : Weapon, IWeapon
         if (ammunitionAccount == 0 || !_canShoot)
             return;
         ammunitionAccount--;
-        Palette.instance.UpdateAmmunitionText(WeaponType.Secondary, ammunitionAccount);
+        palette.UpdateAmmunitionText(WeaponType.Secondary, ammunitionAccount);
         Debug.Log("Tire");
         _canShoot = false;
         PlayMuzzleFlash();
@@ -50,7 +50,7 @@ public class Gun : Weapon, IWeapon
     }
     public void Despawn()
     {
-        Palette.instance.RemoveWeaponInPalette(WeaponType.Secondary);
+        palette.RemoveWeaponInPalette(WeaponType.Secondary);
         gameObject.SetActive(false);
     }
     #endregion

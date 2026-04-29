@@ -15,6 +15,7 @@ public class WeaponDataBase : MonoBehaviour
         }
         else
         {
+            Debug.Log("Destruction Singleton WeaponDataBase");
             Destroy(gameObject);
         }
     }
