@@ -302,33 +302,39 @@ public class FirstPersonController_Networked : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        Debug.Log("OnNetworkSpawn | IsOwner = " + IsOwner);
-        if (!IsOwner) return;
-
-        EnableInput();
-        if (rb == null) rb = GetComponent<Rigidbody>();
-
         if (IsOwner)
         {
+            // On active ce qui nous appartient
+            EnableInput();
             if (playerCamera != null)
+            {
                 playerCamera.enabled = true;
+                playerCamera.GetComponent<AudioListener>().enabled = true;
+            }
+
+            rb = GetComponent<Rigidbody>();
+            rb.isKinematic = false; // On assure la physique pour nous
 
             Cursor.lockState = lockCursor ? CursorLockMode.Locked : CursorLockMode.None;
             Cursor.visible = !lockCursor;
         }
         else
         {
-            if (playerCamera != null)
-                playerCamera.enabled = false;
-
+            // On désactive TOTALEMENT ce qui appartient aux autres
             if (playerCamera != null)
             {
+                playerCamera.enabled = false;
                 var audio = playerCamera.GetComponent<AudioListener>();
                 if (audio != null) audio.enabled = false;
             }
 
-            // disable local physics for non-owners
+            // Pour les autres, on désactive le Rigidbody pour qu'ils 
+            // ne tombent pas à travers le sol avant que le réseau ne les place
+            rb = GetComponent<Rigidbody>();
             rb.isKinematic = true;
+
+            // On désactive le script PlayerInput pour ne pas lire les touches des autres
+            if (playerInput != null) playerInput.enabled = false;
         }
     }
 
