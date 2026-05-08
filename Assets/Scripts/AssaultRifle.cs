@@ -44,7 +44,7 @@ public class AssaultRifle : Weapon, IWeapon
         palette.UpdateAmmunitionText(WeaponType.Main, ammunitionAccount);
 
         // 🔥 Effets
-        PlayMuzzleFlash();
+        PlayMuzzleFlashRpc();
         Debug.DrawRay(shootPoint.position, shootPoint.forward * weaponData.range, Color.red);
 
         if (Physics.Raycast(shootPoint.position, shootPoint.forward, out RaycastHit hit, weaponData.range))

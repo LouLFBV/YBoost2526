@@ -1,40 +1,54 @@
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
-public class ScoreSystem : MonoBehaviour
+public class ScoreSystem : NetworkBehaviour
 {
-    [Header("Paramètres du Score")]
-    public int Score { get => score; private set => score = value; }
-    [SerializeField] private int score = 0;
+    [Header("UI Reference")]
     [SerializeField] private TextMeshProUGUI scoreText;
 
-    public int Tues { get => tues; private set => tues = value; }
-    [SerializeField] private int tues = 0;
+    // On synchronise les 3 valeurs
+    public NetworkVariable<int> score = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> tues = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> morts = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    public int Morts { get => morts; private set => morts = value; }
-    [SerializeField] private int morts = 0;
+    public override void OnNetworkSpawn()
+    {
+        // On s'abonne aux changements pour mettre à jour l'UI localement
+        score.OnValueChanged += (oldVal, newVal) => UpdateText();
+        tues.OnValueChanged += (oldVal, newVal) => UpdateText();
+        morts.OnValueChanged += (oldVal, newVal) => UpdateText();
 
-    private void Start()
-    {
+        // Premier affichage
         UpdateText();
     }
-    public void AddTues()
+
+    // --- LES ACTIONS (Appelées par le serveur) ---
+
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone )]
+    public void AddTuesServerRpc()
     {
-        tues += 1;
-        score += 25;
-        UpdateText();
+        tues.Value += 1;
+        score.Value += 25;
+        // Pas besoin d'appeler UpdateText ici, OnValueChanged s'en occupe pour tout le monde
     }
-    public void AddMorts()
+
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    public void AddMortsServerRpc()
     {
-        morts += 1;
-        score -= 15;
-        UpdateText();
+        morts.Value += 1;
+        score.Value -= 15;
     }
+
+    // --- L'AFFICHAGE (S'exécute chez tout le monde) ---
 
     private void UpdateText()
     {
-        if (scoreText != null) 
-        scoreText.text = $"Tuées/Morts/Score \n{tues}/{morts}/{score}";
+        // On n'affiche le score QUE si c'est notre propre personnage
+        // Sinon, on verrait le score des autres sur notre propre écran
+        if (!IsOwner) return;
+
+        if (scoreText != null)
+            scoreText.text = $"Tuées/Morts/Score \n{tues.Value}/{morts.Value}/{score.Value}";
     }
 }
-

@@ -18,7 +18,7 @@ public class Gun : Weapon, IWeapon
         palette.UpdateAmmunitionText(WeaponType.Secondary, ammunitionAccount);
         Debug.Log("Tire");
         _canShoot = false;
-        PlayMuzzleFlash();
+        PlayMuzzleFlashRpc();
         Debug.DrawRay(shootPoint.position, shootPoint.forward * weaponData.range, Color.red);
         if (Physics.Raycast(shootPoint.position, shootPoint.forward, out RaycastHit hit, weaponData.range))
         {

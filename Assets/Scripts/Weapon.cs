@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public abstract class Weapon : MonoBehaviour
+public abstract class Weapon : NetworkBehaviour
 {
     [Header("References")]
     [SerializeField] private Interact interact;
@@ -47,37 +48,73 @@ public abstract class Weapon : MonoBehaviour
         transform.position = new Vector3(transform.position.x, newY, transform.position.z);
     }
 
-    protected virtual void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player") && transform.CompareTag("Object"))
-        {
-            if (interact == null)
-                interact = other.GetComponent<Interact>();            
-            if (palette == null)
-                palette = other.GetComponent<Palette>();
-            interact.canInteract = true;
-            interact.currentWeapon = this;
-        }
-    }
+    //protected virtual void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Player") && transform.CompareTag("Object"))
+    //    {
+    //        if (interact == null)
+    //            interact = other.GetComponent<Interact>();            
+    //        if (palette == null)
+    //            palette = other.GetComponent<Palette>();
+    //        interact.canInteract = true;
+    //        interact.currentWeapon = this;
+    //    }
+    //}
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Player") && transform.CompareTag("Object"))
+    //    {
+    //        if (interact == null)
+    //            interact = other.GetComponent<Interact>();            
+    //        if (palette == null)
+    //            palette = other.GetComponent<Palette>();
+    //        interact.canInteract = false;
+    //        interact.currentWeapon = null;
+    //    }
+    //}
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player") && transform.CompareTag("Object"))
         {
-            if (interact == null)
-                interact = other.GetComponent<Interact>();            
-            if (palette == null)
-                palette = other.GetComponent<Palette>();
-            interact.canInteract = false;
-            interact.currentWeapon = null;
+            var netObj = other.GetComponent<NetworkObject>();
+            if (netObj != null && netObj.IsLocalPlayer)
+            {
+                if (interact == null)
+                    interact = other.GetComponent<Interact>();
+                if (palette == null)
+                    palette = other.GetComponent<Palette>();
+                interact.canInteract = false;
+                interact.currentWeapon = null;
+            }
         }
     }
 
-    public void PlayMuzzleFlash()
+
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        if (muzzleFlash != null)
-            muzzleFlash.Play();
-        if (audioSource != null)
+        // On ne gère l'interaction que si l'objet est au sol (Tag "Object")
+        if (other.CompareTag("Player") && transform.CompareTag("Object"))
+        {
+            var netObj = other.GetComponent<NetworkObject>();
+            // On ne propose l'interaction qu'au joueur local (celui qui marche dessus)
+            if (netObj != null && netObj.IsLocalPlayer)
+            {
+                interact = other.GetComponent<Interact>();
+                palette = other.GetComponent<Palette>();
+                interact.canInteract = true;
+                interact.currentWeapon = this;
+            }
+        }
+    }
+
+    // Ajoute un ClientRpc pour synchroniser les effets visuels chez TOUT LE MONDE
+    [Rpc(SendTo.Everyone)]
+    public void PlayMuzzleFlashRpc()
+    {
+        if (muzzleFlash != null) muzzleFlash.Play();
+        if (audioSource != null && audioSource.clip != null)
             audioSource.PlayOneShot(audioSource.clip);
     }
 

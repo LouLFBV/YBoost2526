@@ -20,7 +20,7 @@ public class RPG7 : Weapon, IWeapon
             return;
 
         // FX arme
-        PlayMuzzleFlash();
+        PlayMuzzleFlashRpc();
 
         RocketProjectile rocket = Instantiate(
             rocketPrefab,
