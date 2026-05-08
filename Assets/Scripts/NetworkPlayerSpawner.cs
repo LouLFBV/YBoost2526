@@ -8,40 +8,45 @@ public class NetworkPlayerSpawner : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        // Seulement le serveur gère le spawn
         if (!IsServer) return;
 
-        // Spawner pour chaque client déjà connecté
-        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
-        {
-            SpawnPlayer(client.ClientId);
-        }
-
-        // Écouter les nouvelles connexions
-        NetworkManager.Singleton.OnClientConnectedCallback += SpawnPlayer;
+        // On s'abonne à l'événement : "Un client a fini de charger la scène"
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
     }
 
     public override void OnNetworkDespawn()
     {
-        if (!IsServer) return;
-        NetworkManager.Singleton.OnClientConnectedCallback -= SpawnPlayer;
+        if (IsServer && NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnSceneLoaded;
+        }
+    }
+
+    private void OnSceneLoaded(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, System.Collections.Generic.List<ulong> clientsCompleted, System.Collections.Generic.List<ulong> clientsTimedOut)
+    {
+        // On spawn uniquement pour les clients qui viennent de finir le chargement
+        foreach (ulong clientId in clientsCompleted)
+        {
+            // On vérifie si ce client n'a pas déjà un objet joueur (pour éviter les doublons)
+            if (NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject == null)
+            {
+                SpawnPlayer(clientId);
+            }
+        }
     }
 
     private void SpawnPlayer(ulong clientId)
     {
-        // ✅ Instantiate avec le PlayerInput déjà désactivé dans le prefab
-        GameObject player = Instantiate(playerPrefab, GetSpawnPoint(clientId), Quaternion.identity);
+        Vector3 spawnPos = GetSpawnPoint(clientId);
+        GameObject player = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
 
-        // ✅ MoveToScene AVANT Spawn
-        UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(
-            player, gameObject.scene
-        );
+        // Pas besoin de MoveGameObjectToScene si tu es en LoadSceneMode.Single, 
+        // mais ça ne fait pas de mal.
 
         NetworkObject netObj = player.GetComponent<NetworkObject>();
-        if (netObj != null)
-            netObj.SpawnAsPlayerObject(clientId, destroyWithScene: true);
-        else
-            Debug.LogError("NetworkObject manquant sur le prefab joueur !");
+        netObj.SpawnAsPlayerObject(clientId, true);
+
+        Debug.Log($"[SPAWNER] Joueur spawné pour le client {clientId} à {spawnPos}");
     }
 
     private Vector3 GetSpawnPoint(ulong clientId)
