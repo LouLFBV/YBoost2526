@@ -1,5 +1,5 @@
 using System.Collections;
-using UnityEditor;
+using Unity.Netcode; // N'oublie pas l'import
 using UnityEngine;
 
 public class Gun : Weapon, IWeapon
@@ -11,31 +11,43 @@ public class Gun : Weapon, IWeapon
 
     public void Attack()
     {
-        Debug.Log("Attack with Gun");
+        // 1. Vérification d'autorité : Seul le propriétaire peut tirer
+        if (!IsOwner) return;
+
         if (ammunitionAccount == 0 || !_canShoot)
             return;
+
         ammunitionAccount--;
         palette.UpdateAmmunitionText(WeaponType.Secondary, ammunitionAccount);
-        Debug.Log("Tire");
+
         _canShoot = false;
+
+        // 2. On joue les effets visuels chez TOUT LE MONDE (via le RPC de la classe Weapon)
         PlayMuzzleFlashRpc();
-        Debug.DrawRay(shootPoint.position, shootPoint.forward * weaponData.range, Color.red);
+
         if (Physics.Raycast(shootPoint.position, shootPoint.forward, out RaycastHit hit, weaponData.range))
         {
             if (hit.collider.CompareTag("Player"))
             {
-                Debug.Log("Hit " + hit.collider.name);
                 if (hit.transform.TryGetComponent<PlayerStats>(out var enemy))
                 {
-                    GameObject attacker = transform.root.gameObject;
-                    enemy.TakeDamage(weaponData.damage, attacker);
+                    // 3. ADAPTATION ICI : On envoie le ServerRpc
+                    // On récupère notre propre ID réseau (LocalClientId)
+                    ulong myId = NetworkManager.Singleton.LocalClientId;
+
+                    // On demande au serveur d'infliger les dégâts
+                    enemy.RequestDamageServerRpc(weaponData.damage, myId);
+
+                    Debug.Log($"[CLIENT] Demande de dégâts envoyée pour {hit.collider.name} par {myId}");
                 }
             }
         }
+
         StartCoroutine(CooldownCoroutineShoot());
         if (ammunitionAccount == 0)
             StartCoroutine(CooldownCoroutine());
     }
+
     public IEnumerator CooldownCoroutineShoot()
     {
         yield return new WaitForSeconds(delayBetweenShots);

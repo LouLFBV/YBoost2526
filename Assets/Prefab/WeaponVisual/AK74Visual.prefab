@@ -279,6 +279,7 @@ GameObject:
   - component: {fileID: 6160360574927672722}
   - component: {fileID: 6143629284216525679}
   - component: {fileID: 3826731417660348702}
+  - component: {fileID: -8046978697163519320}
   - component: {fileID: 3471281659658209923}
   - component: {fileID: 925116165664708046}
   m_Layer: 0
@@ -461,6 +462,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-8046978697163519320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6007697791020877446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 19516799
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &3471281659658209923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,6 +499,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56957f1bbe064f8468e992f7bda8e3d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AssaultRifle
+  ShowTopMostFoldoutHeaderGroup: 1
+  interact: {fileID: 0}
+  palette: {fileID: 0}
   weaponData: {fileID: 11400000, guid: 001227731a821054bb88e5259d36d156, type: 2}
   shootPoint: {fileID: 7896081509426203323}
   muzzleFlash: {fileID: 4136837954127227504}
@@ -486,6 +515,8 @@ MonoBehaviour:
   animatorVisual: {fileID: 925116165664708046}
   timeBeforeDespawn: 0.2
   delayBetweenShots: 0.1
+  sniperViseur: {fileID: 0}
+  sniperCurseur: {fileID: 0}
 --- !u!95 &925116165664708046
 Animator:
   serializedVersion: 7

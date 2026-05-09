@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6621169091149887237}
   - component: {fileID: 3404308951935343531}
   - component: {fileID: 4186219075280881800}
+  - component: {fileID: 8173862481099246756}
   - component: {fileID: 7087158280622311228}
   - component: {fileID: 6100650923533978264}
   - component: {fileID: 4358319805602204258}
@@ -92,6 +93,31 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8173862481099246756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338343996761542479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 4004046616
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &7087158280622311228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,6 +130,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8567c02a15f511a48bf2214b45a4f132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Knife
+  ShowTopMostFoldoutHeaderGroup: 1
+  interact: {fileID: 0}
+  palette: {fileID: 0}
   weaponData: {fileID: 11400000, guid: 520878f637dc17e4bbcc02267778b8f4, type: 2}
   shootPoint: {fileID: 6621169091149887237}
   muzzleFlash: {fileID: 0}

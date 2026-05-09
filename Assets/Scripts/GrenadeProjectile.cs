@@ -1,7 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
-using static UnityEngine.UI.GridLayoutGroup;
 
-public class GrenadeProjectile : MonoBehaviour
+public class GrenadeProjectile : NetworkBehaviour
 {
     [Header("Explosion")]
     [SerializeField] private bool isGrenade = true;
@@ -15,7 +15,8 @@ public class GrenadeProjectile : MonoBehaviour
 
     private Rigidbody _rb;
     private bool _hasExploded = false;
-    private GameObject _owner;
+    private ulong _ownerId;
+
 
     private void Awake()
     {
@@ -42,34 +43,42 @@ public class GrenadeProjectile : MonoBehaviour
         }
     }
 
-    public void SetOwner(GameObject shooter)
+    public void SetOwner(ulong shooterId)
     {
-        _owner = shooter;
+        _ownerId = shooterId;
     }
     private void Explode()
     {
+
+        if (_hasExploded) return;
         _hasExploded = true;
 
+        // VISUEL : Tout le monde voit l'explosion
         if (explosionVFX != null)
             Instantiate(explosionVFX, transform.position, Quaternion.identity);
-        explosionAudio.PlayOneShot(explosionAudio.clip);
-        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
 
-        foreach (Collider hit in hits)
+        // DÉGÂTS : Seul le propriétaire de la grenade demande les dégâts au serveur
+        if (IsOwner)
         {
-            if (hit.CompareTag("Player"))
+            Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
+            foreach (Collider hit in hits)
             {
-                if (hit.transform.TryGetComponent<PlayerStats>(out var enemy))
+                if (hit.CompareTag("Player") && hit.TryGetComponent<PlayerStats>(out var enemy))
                 {
-                    enemy.TakeDamage(damage, _owner);
+                    // On utilise l'ID du lanceur stocké au départ
+                    enemy.RequestDamageServerRpc(damage, _ownerId);
                 }
+                if (hit.transform.TryGetComponent<Descrutable>(out var environment) && isGrenade)
+                    environment.DestroyObject(hit.transform.position, 1.5f);
             }
-            if (hit.transform.TryGetComponent<Descrutable>(out var environment) && isGrenade)
-                environment.DestroyObject(hit.transform.position, 1.5f);
         }
+        explosionAudio.PlayOneShot(explosionAudio.clip);
+
+        
         GetComponent<MeshRenderer>().enabled = false;
         GetComponent<Collider>().enabled = false;
-        Destroy(gameObject,10);
+        if (IsServer) GetComponent<NetworkObject>().Despawn();
+        else Destroy(gameObject,10); // Backup
     }
 
 

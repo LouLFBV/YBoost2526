@@ -99,6 +99,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2255984243748200875}
   - component: {fileID: 1320107380823449441}
+  - component: {fileID: 8390276504080299075}
   - component: {fileID: 8343352445449628949}
   - component: {fileID: 6894106571422668254}
   m_Layer: 0
@@ -224,6 +225,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8390276504080299075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2258907997089890751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 3173235344
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &8343352445449628949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d32dc99d1ea3a45aa5f91417f8ba11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gun
+  ShowTopMostFoldoutHeaderGroup: 1
+  interact: {fileID: 0}
+  palette: {fileID: 0}
   weaponData: {fileID: 11400000, guid: e9e8d3237e43eb84db1ed36a172fa18d, type: 2}
   shootPoint: {fileID: 7995243364528660046}
   muzzleFlash: {fileID: 8868152620471500198}

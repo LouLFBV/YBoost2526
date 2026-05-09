@@ -219,6 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4952727429218122}
   - component: {fileID: 7694786761511479266}
+  - component: {fileID: 6909071620591419123}
   - component: {fileID: 856201011768704387}
   m_Layer: 8
   m_Name: M1911
@@ -266,6 +267,31 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.6
   m_Center: {x: 0, y: -0.023909718, z: -0.027077392}
+--- !u!114 &6909071620591419123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694449805434718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 794786835
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &856201011768704387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +304,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d32dc99d1ea3a45aa5f91417f8ba11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gun
+  ShowTopMostFoldoutHeaderGroup: 1
+  interact: {fileID: 0}
+  palette: {fileID: 0}
   weaponData: {fileID: 11400000, guid: e9e8d3237e43eb84db1ed36a172fa18d, type: 2}
   shootPoint: {fileID: 8190792868167450799}
   muzzleFlash: {fileID: 0}
@@ -287,8 +316,10 @@ MonoBehaviour:
   rotationSpeed: 60
   enableFloating: 1
   startPositionY: 1
+  ammunitionAccount: 0
   animatorVisual: {fileID: 0}
   timmBeforeDespawn: 0.2
+  delayBetweenShots: 0.25
 --- !u!1 &1748277932983872
 GameObject:
   m_ObjectHideFlags: 0

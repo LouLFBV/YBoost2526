@@ -4,8 +4,9 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System;
 using TMPro;
+using Unity.Netcode;
 
-public class Palette : MonoBehaviour
+public class Palette : NetworkBehaviour
 {
 
     [Header("Slots for Weapons")]
@@ -342,6 +343,34 @@ public class Palette : MonoBehaviour
                 break;
         }
     }
+
+    [Rpc(SendTo.Everyone)] // Tout le monde doit savoir que tu as ramassé l'arme pour voir le visuel
+    public void SyncPickupClientRpc(WeaponType type, int ammunitions)
+    {
+        // On simule un faux objet Weapon pour réutiliser ta logique AddWeapon existante
+        // Ou mieux : on modifie AddWeapon pour accepter les données directement
+
+        // Ici, on appelle ta logique de mise à jour d'UI et de visuel
+        // (Il faudra peut-être ajuster AddWeaponInPalette pour qu'elle ne cherche pas 
+        // à lire des infos sur un objet détruit)
+
+        Debug.Log($"[NET] Arme ramassée synchronisée : {type}");
+    }
+
+    public void AddWeaponFromNetwork(WeaponType type, int ammo)
+    {
+        // On cherche dans tes "allWeapons" celle qui correspond au type
+        // (Ou tu peux passer le nom/ID de l'arme dans le RPC pour être plus précis)
+        Weapon foundWeapon = Array.Find(allWeapons, w => w.weaponData.weaponType == type);
+
+        if (foundWeapon != null)
+        {
+            // On simule le ramassage avec les munitions synchronisées
+            foundWeapon.ammunitionAccount = ammo;
+            AddWeapon(foundWeapon);
+        }
+    }
+
 }
 [System.Serializable]
 public class WeaponInPalette

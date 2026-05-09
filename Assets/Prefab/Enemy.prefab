@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 5989789066882517796}
   - component: {fileID: 1680247809809322169}
   - component: {fileID: 6748753174558869499}
+  - component: {fileID: -6167169016933234374}
   - component: {fileID: 7066555611420976064}
   - component: {fileID: 4475566635503893638}
   - component: {fileID: 8438836302770989143}
@@ -328,6 +329,31 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-6167169016933234374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6636122108757628174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 2072495378
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &7066555611420976064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,12 +366,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914cca90ab0e38141ba0aa133a2dd25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  health: 100
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth: 100
+  currentHealth:
+    m_InternalValue: 100
   life: {fileID: 7701723388017395334}
-  healthBar: {fileID: 7504663609669363128}
   healthQuantity: {fileID: 3089367214753381238}
   scoreSystem: {fileID: 8438836302770989143}
-  lastAttacker: {fileID: 0}
 --- !u!114 &4475566635503893638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,10 +398,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5970824c09fbb174e8d49baa1ffa22ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreSystem
-  score: 0
+  ShowTopMostFoldoutHeaderGroup: 1
   scoreText: {fileID: 0}
-  tues: 0
-  morts: 0
+  score:
+    m_InternalValue: 0
+  tues:
+    m_InternalValue: 0
+  morts:
+    m_InternalValue: 0
 --- !u!1 &6840320135189445564
 GameObject:
   m_ObjectHideFlags: 0

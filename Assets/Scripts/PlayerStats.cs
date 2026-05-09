@@ -53,20 +53,20 @@ public class PlayerStats : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        // On cherche le tueur dans la liste des clients connectés pour lui donner le point
-        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(lastAttackerId, out var killerClient))
+        // On vérifie si l'ID de l'attaquant correspond à un vrai joueur (pas 999)
+        if (lastAttackerId != 999 && NetworkManager.Singleton.ConnectedClients.TryGetValue(lastAttackerId, out var killerClient))
         {
             if (killerClient.PlayerObject.TryGetComponent<ScoreSystem>(out var killerScore))
             {
-                killerScore.AddTuesServerRpc(); // Appel d'un RPC pour le score
+                killerScore.AddTuesServerRpc();
             }
         }
+        else
+        {
+            Debug.Log("Mort par l'environnement ou ID inconnu.");
+        }
 
-        scoreSystem.AddMortsServerRpc();
-
-        Debug.Log($"[SERVER] Joueur {OwnerClientId} est mort.");
-
-        // On Despawn l'objet (il disparaît chez tout le monde)
+        scoreSystem.AddMortsServerRpc(); // Le joueur perd quand même des points
         GetComponent<NetworkObject>().Despawn();
     }
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-
+using Unity.Netcode;
 public class AssaultRifle : Weapon, IWeapon
 {
     [SerializeField] private Animator animatorVisual;
@@ -19,10 +19,7 @@ public class AssaultRifle : Weapon, IWeapon
     }
     public void Attack()
     {
-        if (!_canShoot)
-        {
-            return;
-        }
+        if (!IsOwner || !_canShoot) return;
 
         if (ammunitionAccount <= 0)
         {
@@ -52,7 +49,14 @@ public class AssaultRifle : Weapon, IWeapon
             if (hit.transform.TryGetComponent<PlayerStats>(out var enemy))
             {
                 GameObject attacker = transform.root.gameObject;
-                enemy.TakeDamage(weaponData.damage, attacker);
+
+                ulong myId = NetworkManager.Singleton.LocalClientId;
+
+                // On demande au serveur d'infliger les dégâts
+                enemy.RequestDamageServerRpc(weaponData.damage, myId);
+
+                Debug.Log($"[CLIENT] Demande de dégâts envoyée pour {hit.collider.name} par {myId}");
+
             }
 
             if (hit.transform.TryGetComponent<Descrutable>(out var environment) && weaponData.weaponFamilyType == WeaponFamilyType.Explosive)

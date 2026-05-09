@@ -1,23 +1,25 @@
+using Unity.Netcode; // Obligatoire
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
-public class WeaponSpawner : MonoBehaviour
+public class WeaponSpawner : NetworkBehaviour // Doit être NetworkBehaviour
 {
     [SerializeField] private WeaponDataBase weaponDataBase;
-    [SerializeField] private List<Transform> spawnPoints; // Liste des points de spawn
+    [SerializeField] private List<Transform> spawnPoints;
     [SerializeField] private float respawnTime = 10f;
 
-    public List<GameObject> spawnedWeapons = new List<GameObject>();
+    // Pas besoin de synchroniser cette liste, le serveur gère la logique
+    private List<GameObject> spawnedWeapons = new List<GameObject>();
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        if (spawnPoints.Count == 0 || weaponDataBase.weapons.Count == 0)
-        {
-            Debug.LogWarning("Pas de points de spawn ou d'armes définies !");
-            return;
-        }
+        Debug.Log($"[SPAWNER] OnNetworkSpawn appelé ! IsServer: {IsServer}");
 
-        // Spawner une arme sur chaque point au démarrage
+        if (!IsServer) return;
+
+        Debug.Log($"[SPAWNER] Nombre de points : {spawnPoints.Count} | Armes en DB : {weaponDataBase.weapons.Count}");
+
         foreach (Transform spawnPoint in spawnPoints)
         {
             SpawnWeaponAt(spawnPoint);
@@ -26,27 +28,58 @@ public class WeaponSpawner : MonoBehaviour
 
     private void SpawnWeaponAt(Transform spawnPoint)
     {
-        // Choisir une arme aléatoire
+        if (!IsServer) return;
+
+        // Sécurité 1 : Vérifier la database
+        if (weaponDataBase == null || weaponDataBase.weapons == null || weaponDataBase.weapons.Count == 0)
+        {
+            Debug.LogError("[SPAWNER] La WeaponDataBase est manquante ou vide !");
+            return;
+        }
+
         int randomIndex = Random.Range(0, weaponDataBase.weapons.Count);
-        GameObject weaponPrefab = weaponDataBase.weapons[randomIndex].weaponPrefab;
+        var weaponEntry = weaponDataBase.weapons[randomIndex];
 
-        // Instancier l'arme en enfant du point de spawn
-        GameObject weapon = Instantiate(weaponPrefab, spawnPoint.position, spawnPoint.rotation, spawnPoint);
-        spawnedWeapons.Add(weapon);
+        // Sécurité 2 : Vérifier si l'entrée dans la liste n'est pas vide
+        if (weaponEntry == null)
+        {
+            Debug.LogError($"[SPAWNER] L'entrée à l'index {randomIndex} de la Database est NULL !");
+            return;
+        }
 
-        // Ajouter un script pour détecter quand l'arme est ramassée
-        weapon.GetComponent<Weapon>().OnPickedUp += () => StartCoroutine(RespawnWeapon(spawnPoint, weapon));
+        // Sécurité 3 : Vérifier le prefab
+        GameObject weaponPrefab = weaponEntry.weaponPrefab;
+        if (weaponPrefab == null)
+        {
+            Debug.LogError($"[SPAWNER] Le prefab pour l'arme à l'index {randomIndex} n'est pas assigné dans la Database !");
+            return;
+        }
+
+        // Si tout est OK, on spawn
+        GameObject weapon = Instantiate(weaponPrefab, spawnPoint.position, spawnPoint.rotation);
+        weapon.SetActive(true);
+
+        if (weapon.TryGetComponent<NetworkObject>(out var netObj))
+        {
+            netObj.Spawn();
+            spawnedWeapons.Add(weapon);
+            StartCoroutine(MonitorWeaponExistence(spawnPoint, weapon));
+        }
+        else
+        {
+            Debug.LogError($"[SPAWNER] Le prefab {weaponPrefab.name} n'a pas de composant NetworkObject !");
+        }
     }
 
-    private System.Collections.IEnumerator RespawnWeapon(Transform spawnPoint, GameObject weapon)
+    private IEnumerator MonitorWeaponExistence(Transform spawnPoint, GameObject weapon)
     {
-        // Supprimer l'arme de la liste
-        spawnedWeapons.Remove(weapon);
+        // On attend que l'objet soit nul (après le Despawn du serveur)
+        while (weapon != null)
+        {
+            yield return new WaitForSeconds(1f);
+        }
 
-        // Attendre le temps de respawn
         yield return new WaitForSeconds(respawnTime);
-
-        // Respawn une nouvelle arme
         SpawnWeaponAt(spawnPoint);
     }
 }
