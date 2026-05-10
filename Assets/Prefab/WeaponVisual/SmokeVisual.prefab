@@ -231,5 +231,5 @@ MonoBehaviour:
   enableFloating: 0
   startPositionY: 1
   ammunitionAccount: 0
-  grenadePrefab: {fileID: 0}
+  grenadePrefab: {fileID: 554551403505734040, guid: 421934576a1d68046b8e1798b54fbcc8, type: 3}
   launchForce: 12

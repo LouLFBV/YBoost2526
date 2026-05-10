@@ -113,7 +113,11 @@ public abstract class Weapon : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void PlayMuzzleFlashRpc()
     {
+        Debug.Log($"[WEAPON] PlayMuzzleFlash appelé sur {gameObject.name} par l'ID {NetworkManager.Singleton.LocalClientId}");
+
         if (muzzleFlash != null) muzzleFlash.Play();
+        else Debug.LogWarning("MuzzleFlash est NULL sur " + gameObject.name);
+
         if (audioSource != null && audioSource.clip != null)
             audioSource.PlayOneShot(audioSource.clip);
     }

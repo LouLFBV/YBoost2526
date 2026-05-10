@@ -129,6 +129,37 @@ public class Palette : NetworkBehaviour
     }
     #endregion 
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) return; // Seulement pour le joueur local
+
+        // Cache le visuel de TOUTES les armes au début
+        foreach (var w in allWeaponsInPalette)
+        {
+            if (w.visualWeapon != null)
+                SetWeaponVisibility(w.visualWeapon, false);
+        }
+    }
+
+    // Petite fonction utilitaire pour cacher/montrer proprement
+    private void SetWeaponVisibility(GameObject visual, bool isVisible)
+    {
+        // On cache le MeshRenderer (le visuel)
+        if (visual.TryGetComponent<MeshRenderer>(out var renderer)) renderer.enabled = isVisible;
+
+        // On cache aussi tous les MeshRenderers des enfants (très important)
+        foreach (var r in visual.GetComponentsInChildren<MeshRenderer>())
+        {
+            r.enabled = isVisible;
+        }
+
+        // On peut aussi désactiver le script de tir pour éviter de tirer en étant caché
+        if (visual.TryGetComponent<Weapon>(out var weaponScript))
+        {
+            weaponScript.enabled = isVisible;
+        }
+    }
+
     private void Update()
     {
         if(takingMainWeapon && weapons[0].weaponData != null)
@@ -279,44 +310,29 @@ public class Palette : NetworkBehaviour
         if (!newWeapon.isEquipped)
         {
             newWeapon.isEquipped = true;
-            GameObject currentWeapon = Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon;
-            if (currentWeapon != null) currentWeapon.SetActive(true);
+            GameObject visual = Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon;
+
+            if (visual != null)
+                SetWeaponVisibility(visual, true); // On montre le visuel
+
             attackBehaviour.weaponUsed = Array.Find(allWeapons, w => w.weaponData == newWeapon.weaponData);
         }
     }
 
-    private void UnequipWeapon(WeaponInPalette newWeapon)
+    private void UnequipWeapon(WeaponInPalette oldWeapon)
     {
-        if (!newWeapon.isEquipped)
-            return;
+        if (!oldWeapon.isEquipped) return;
 
-        WeaponInPalette slot = Array.Find(
-            weapons,
-            wv => wv != null && wv.weaponData == newWeapon.weaponData
-        );
+        WeaponInPalette slot = Array.Find(weapons, wv => wv != null && wv.weaponData == oldWeapon.weaponData);
 
-        if (slot == null || slot.visualWeapon == null)
+        if (slot != null && slot.visualWeapon != null)
         {
-            Debug.LogWarning("UnequipWeapon : visualWeapon introuvable");
-            newWeapon.isEquipped = false;
-            attackBehaviour.weaponUsed = null;
-            return;
+            SetWeaponVisibility(slot.visualWeapon, false); // On cache le visuel
         }
 
-        GameObject currentWeapon = slot.visualWeapon;
-
-        if (currentWeapon.TryGetComponent<Knife>(out Knife knife))
-        {
-            knife.DesactiveAttack();
-        }
-        //if (currentWeapon.TryGetComponent<RPG7>(out RPG7 rpg))
-        //{
-        //    rpg.StartCoroutine(rpg.CooldownCoroutine());
-        //}
-
-        newWeapon.isEquipped = false;
-        currentWeapon.SetActive(false);
+        oldWeapon.isEquipped = false;
         attackBehaviour.weaponUsed = null;
+        if (IsOwner) GetComponent<FirstPersonController_Networked>().ResetZoom();
     }
 
 
@@ -357,17 +373,19 @@ public class Palette : NetworkBehaviour
         Debug.Log($"[NET] Arme ramassée synchronisée : {type}");
     }
 
-    public void AddWeaponFromNetwork(WeaponType type, int ammo)
+    public void AddWeaponFromNetwork(string weaponDataName, int ammo)
     {
-        // On cherche dans tes "allWeapons" celle qui correspond au type
-        // (Ou tu peux passer le nom/ID de l'arme dans le RPC pour être plus précis)
-        Weapon foundWeapon = Array.Find(allWeapons, w => w.weaponData.weaponType == type);
+        // On cherche l'arme exacte par son NOM de ScriptableObject
+        Weapon foundWeapon = Array.Find(allWeapons, w => w.weaponData.name == weaponDataName);
 
         if (foundWeapon != null)
         {
-            // On simule le ramassage avec les munitions synchronisées
             foundWeapon.ammunitionAccount = ammo;
             AddWeapon(foundWeapon);
+        }
+        else
+        {
+            Debug.LogError($"[PALETTE] Impossible de trouver l'arme nommée : {weaponDataName} dans allWeapons !");
         }
     }
 

@@ -502,28 +502,35 @@ public class FirstPersonController_Networked : NetworkBehaviour
         #endregion
         #region Camera Zoom
 
-        if (!enableZoom || playerCamera == null)
-            return;
+        if (!enableZoom || playerCamera == null) return;
 
         var weapon = attackBehaviour?.weaponUsed;
-        bool hasWeapon = weapon != null;
-        bool isSniper = hasWeapon && weapon.weaponData.weaponFamilyType == WeaponFamilyType.Sniper;
+        // On vérifie si on a une arme ET si c'est un sniper
+        bool isSniper = weapon != null && weapon.weaponData.weaponFamilyType == WeaponFamilyType.Sniper;
 
         float targetFov = fov;
 
-        if (isZoomed)
+        // Si on dézoome ou qu'on change d'arme, on s'assure que l'UI sniper s'éteint
+        if (isZoomed && weapon != null)
         {
             targetFov = isSniper ? sniperZoomFOV : zoomFOV;
         }
-
-        if (isSniper)
+        else
         {
-            bool sniperZoom = isZoomed;
+            isZoomed = false; // Reset du zoom si l'arme devient null
+        }
 
-            sniperCurseur.SetActive(sniperZoom);
-            sniperViseur.SetActive(sniperZoom);
+        // GESTION DE L'UI SNIPER
+        // On active l'UI SEULEMENT si c'est un sniper ET qu'on est zoomé
+        bool showSniperUI = isSniper && isZoomed;
 
-            sniperVisual.transform.localPosition = sniperZoom ? sniperVisualOffset : sniperVisualOriginalPosition;
+        if (sniperCurseur != null) sniperCurseur.SetActive(showSniperUI);
+        if (sniperViseur != null) sniperViseur.SetActive(showSniperUI);
+
+        // Gestion du décalage visuel de l'arme
+        if (sniperVisual != null)
+        {
+            sniperVisual.transform.localPosition = showSniperUI ? sniperVisualOffset : sniperVisualOriginalPosition;
         }
 
         playerCamera.fieldOfView = Mathf.Lerp(
@@ -535,17 +542,16 @@ public class FirstPersonController_Networked : NetworkBehaviour
         #endregion
 
     }
+    public void ResetZoom()
+    {
+        isZoomed = false;
+    }
 
     void FixedUpdate()
     {
         if (!IsOwner) return;
         
         #region Movement
-
-        if (moveInput != Vector2.zero)
-        {
-            Debug.Log($"[MOUVEMENT] Input reçu: {moveInput} | Vitesse actuelle: {rb.linearVelocity}");
-        }
 
         if (playerCanMove)
         {

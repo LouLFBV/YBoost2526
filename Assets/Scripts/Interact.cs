@@ -84,26 +84,20 @@ public class Interact : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void PickupWeaponServerRpc(NetworkObjectReference weaponRef)
     {
-        // Le serveur essaie de récupérer l'objet à partir de la référence
         if (weaponRef.TryGet(out NetworkObject weaponNetObj))
         {
             Weapon weaponScript = weaponNetObj.GetComponent<Weapon>();
 
-            // 1. On dit au client qui a ramassé l'arme de l'ajouter à sa palette
-            // On utilise l'ID du client qui a appelé le RPC (OwnerClientId)
-            AddWeaponToClientPaletteRpc(weaponScript.weaponData.weaponType, weaponScript.ammunitionAccount, RpcTarget.Single(OwnerClientId, RpcTargetUse.Temp));
+            // ON ENVOIE LE NOM DU PREFAB OU DE LA DATA
+            AddWeaponToClientPaletteRpc(weaponScript.weaponData.name, weaponScript.ammunitionAccount, RpcTarget.Single(OwnerClientId, RpcTargetUse.Temp));
 
-            // 2. Le serveur fait disparaître l'arme du sol pour TOUT LE MONDE
             weaponNetObj.Despawn();
         }
     }
 
     [Rpc(SendTo.SpecifiedInParams)]
-    private void AddWeaponToClientPaletteRpc(WeaponType type, int ammo, RpcParams rpcParams)
+    private void AddWeaponToClientPaletteRpc(string weaponDataName, int ammo, RpcParams rpcParams)
     {
-        // Ici, on appelle ta logique de Palette
-        // Il faut que ta Palette ait une méthode qui accepte juste le Type et les Munitions
-        // car l'objet physique "Weapon" va être détruit par le Despawn
-        palette.AddWeaponFromNetwork(type, ammo);
+        palette.AddWeaponFromNetwork(weaponDataName, ammo);
     }
 }
