@@ -46,19 +46,20 @@ public class AssaultRifle : Weapon, IWeapon
 
         if (Physics.Raycast(shootPoint.position, shootPoint.forward, out RaycastHit hit, weaponData.range))
         {
-            if (hit.transform.TryGetComponent<PlayerStats>(out var enemy))
-            {
-                GameObject attacker = transform.root.gameObject;
+            // On cherche le NetworkObject de la cible d'abord
+            var targetNetObj = hit.transform.root.GetComponent<NetworkObject>();
 
+            if (targetNetObj != null && hit.transform.root.TryGetComponent<PlayerStats>(out var enemy))
+            {
                 ulong myId = NetworkManager.Singleton.LocalClientId;
 
-                // On demande au serveur d'infliger les dégâts
+                // VERIFICATION : On ne s'envoie pas de dégâts à soi-même
+                if (targetNetObj.OwnerClientId == myId) return;
+
+                // APPEL RPC
                 enemy.RequestDamageServerRpc(weaponData.damage, myId);
-
-                Debug.Log($"[CLIENT] Demande de dégâts envoyée pour {hit.collider.name} par {myId}");
-
+                Debug.Log($"[CLIENT] Dégâts envoyés à l'ID: {targetNetObj.OwnerClientId}");
             }
-
             if (hit.transform.TryGetComponent<Descrutable>(out var environment) && weaponData.weaponFamilyType == WeaponFamilyType.Explosive)
                 environment.DestroyObject(hit.point, 1.5f);
         }

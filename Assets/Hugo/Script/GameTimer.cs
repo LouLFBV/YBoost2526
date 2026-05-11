@@ -63,5 +63,7 @@ public class GameTimer : MonoBehaviour
     {
         endGamePanel.SetActive(true);
         Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

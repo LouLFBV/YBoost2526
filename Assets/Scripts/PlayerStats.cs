@@ -36,12 +36,17 @@ public class PlayerStats : NetworkBehaviour
     // Cette fonction sera appelée par ton script de tir (via un ServerRPC)
     public void TakeDamage(int damage, ulong attackerId)
     {
+        // Sécurité : Seul le serveur a le droit de modifier une NetworkVariable 
+        // configurée avec NetworkVariableWritePermission.Server
         if (!IsServer) return;
+
+        // On évite de descendre en dessous de 0
+        if (currentHealth.Value <= 0) return;
 
         currentHealth.Value -= damage;
         lastAttackerId = attackerId;
 
-        Debug.Log($"[SERVER] Joueur {OwnerClientId} touché par {attackerId}. Vie : {currentHealth.Value}");
+        Debug.Log($"[SERVER] Joueur {OwnerClientId} vie actuelle : {currentHealth.Value}");
 
         if (currentHealth.Value <= 0)
         {
@@ -72,6 +77,10 @@ public class PlayerStats : NetworkBehaviour
 
     private void UpdateHealthbar(int value)
     {
+        // On ne met à jour l'UI que si c'est NOTRE personnage
+        // Sinon, on modifierait l'écran du joueur A quand le joueur B est touché.
+        if (!IsOwner) return;
+
         if (life != null) life.fillAmount = (float)value / maxHealth;
         if (healthQuantity != null) healthQuantity.text = $"{value}/{maxHealth}";
     }
