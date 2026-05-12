@@ -3,9 +3,12 @@ using UnityEngine;
 
 public class NetworkPlayerSpawner : NetworkBehaviour
 {
+    public static NetworkPlayerSpawner Instance;
+
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Transform[] spawnPoints;
 
+    private void Awake() => Instance = this; // Initialise l'instance
     public override void OnNetworkSpawn()
     {
         if (!IsServer) return;
@@ -37,7 +40,7 @@ public class NetworkPlayerSpawner : NetworkBehaviour
 
     private void SpawnPlayer(ulong clientId)
     {
-        Vector3 spawnPos = GetSpawnPoint(clientId);
+        Vector3 spawnPos = GetSpawnPoint();
         GameObject player = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
 
         // Pas besoin de MoveGameObjectToScene si tu es en LoadSceneMode.Single, 
@@ -49,10 +52,14 @@ public class NetworkPlayerSpawner : NetworkBehaviour
         Debug.Log($"[SPAWNER] Joueur spawné pour le client {clientId} à {spawnPos}");
     }
 
-    private Vector3 GetSpawnPoint(ulong clientId)
+    public Vector3 GetSpawnPoint() // On enlève le clientId
     {
         if (spawnPoints != null && spawnPoints.Length > 0)
-            return spawnPoints[(int)(clientId % (ulong)spawnPoints.Length)].position;
+        {
+            // Choisit un index au hasard
+            int randomIndex = Random.Range(0, spawnPoints.Length);
+            return spawnPoints[randomIndex].position;
+        }
         return Vector3.zero;
     }
 }

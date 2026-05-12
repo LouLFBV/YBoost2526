@@ -66,4 +66,11 @@ public class GameTimer : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
+
+
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1f; // Réinitialise le temps pour éviter les problèmes de pause dans le menu
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
 }

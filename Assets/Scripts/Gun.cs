@@ -27,19 +27,23 @@ public class Gun : Weapon, IWeapon
 
         if (Physics.Raycast(shootPoint.position, shootPoint.forward, out RaycastHit hit, weaponData.range))
         {
-            if (hit.collider.CompareTag("Player"))
+            // On cherche PlayerStats sur l'objet touché OU ses parents
+            PlayerStats targetStats = hit.transform.GetComponentInParent<PlayerStats>();
+
+            if (targetStats != null)
             {
-                if (hit.transform.TryGetComponent<PlayerStats>(out var enemy))
+                ulong myId = NetworkManager.Singleton.LocalClientId;
+
+                // On vérifie qu'on ne se tire pas dessus (pour les tests en local)
+                if (targetStats.OwnerClientId != myId)
                 {
-                    // 3. ADAPTATION ICI : On envoie le ServerRpc
-                    // On récupère notre propre ID réseau (LocalClientId)
-                    ulong myId = NetworkManager.Singleton.LocalClientId;
-
-                    // On demande au serveur d'infliger les dégâts
-                    enemy.RequestDamageServerRpc(weaponData.damage, myId);
-
-                    Debug.Log($"[CLIENT] Demande de dégâts envoyée pour {hit.collider.name} par {myId}");
+                    Debug.Log($"[CLIENT] Joueur touché ! Envoi des dégâts à l'ID : {targetStats.OwnerClientId}");
+                    targetStats.RequestDamageServerRpc(weaponData.damage, myId);
                 }
+            }
+            else
+            {
+                Debug.Log($"[CLIENT] Objet touché : {hit.transform.name}, mais aucun PlayerStats trouvé.");
             }
         }
 
