@@ -8,6 +8,7 @@ public class NetworkPlayerSpawner : NetworkBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Transform[] spawnPoints;
 
+    private int lastSpawnIndex = -1;
     private void Awake() => Instance = this; // Initialise l'instance
     public override void OnNetworkSpawn()
     {
@@ -52,14 +53,22 @@ public class NetworkPlayerSpawner : NetworkBehaviour
         Debug.Log($"[SPAWNER] Joueur spawné pour le client {clientId} à {spawnPos}");
     }
 
-    public Vector3 GetSpawnPoint() // On enlève le clientId
+    public Vector3 GetSpawnPoint()
     {
-        if (spawnPoints != null && spawnPoints.Length > 0)
+        if (spawnPoints == null || spawnPoints.Length == 0) return Vector3.zero;
+
+        int randomIndex = Random.Range(0, spawnPoints.Length);
+
+        // Si on a plus d'un point, on s'assure qu'il est différent du précédent
+        if (spawnPoints.Length > 1)
         {
-            // Choisit un index au hasard
-            int randomIndex = Random.Range(0, spawnPoints.Length);
-            return spawnPoints[randomIndex].position;
+            while (randomIndex == lastSpawnIndex)
+            {
+                randomIndex = Random.Range(0, spawnPoints.Length);
+            }
         }
-        return Vector3.zero;
+
+        lastSpawnIndex = randomIndex;
+        return spawnPoints[randomIndex].position;
     }
 }

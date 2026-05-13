@@ -83,29 +83,40 @@ public class PlayerStats : NetworkBehaviour
 
         if (NetworkPlayerSpawner.Instance != null)
         {
-            // 1. On récupère une position aléatoire
             Vector3 nextPos = NetworkPlayerSpawner.Instance.GetSpawnPoint();
 
-            // 2. Désactive TOUT ce qui gère la position
-            SetCharacterControllerStateRpc(false);
-
-            // 3. Téléportation physique
-            transform.position = nextPos;
-
-            // 4. Petite sécurité : On synchronise immédiatement la position pour Netcode
-            // Si tu as un NetworkTransform, cela force la mise à jour
-            if (TryGetComponent<NetworkTransform>(out var nt))
-            {
-                // Selon ta version de Netcode, transform.position suffit 
-                // mais certains préfèrent nt.Teleport(nextPos, transform.rotation, transform.localScale);
-            }
-
-            SetCharacterControllerStateRpc(true);
+            // On envoie l'ordre de téléportation à TOUT LE MONDE
+            // (Le serveur se téléporte, et le client propriétaire aussi)
+            TeleportPlayerRpc(nextPos);
         }
 
         currentHealth.Value = maxHealth;
-        lastAttackerId = 999; // <--- RESET de l'attaquant ici !
+        lastAttackerId = 999;
         TogglePlayerStateRpc(true);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void TeleportPlayerRpc(Vector3 targetPos)
+    {
+        // 1. Désactiver la physique pour éviter les conflits
+        if (TryGetComponent<CharacterController>(out var cc)) cc.enabled = false;
+
+        // 2. Appliquer la position
+        transform.position = targetPos;
+
+        // 3. Si on est l'Owner (celui qui a l'autorité) OU le Serveur, on valide la position
+        if (TryGetComponent<NetworkTransform>(out var nt))
+        {
+            // On ne téléporte que si on a l'autorité (l'Owner) ou si on est le Serveur (si pas d'Owner)
+            if (IsOwner || IsServer)
+            {
+                // Note: On n'utilise plus .Teleport() ici car transform.position 
+                // suffit quand c'est fait du côté autoritaire
+            }
+        }
+
+        // 4. Réactiver la physique
+        if (TryGetComponent<CharacterController>(out var cc2)) cc2.enabled = true;
     }
 
     [Rpc(SendTo.Everyone)]
