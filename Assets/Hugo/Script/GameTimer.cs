@@ -1,55 +1,61 @@
 using UnityEngine;
 using TMPro;
+using Unity.Netcode;
 
-public class GameTimer : MonoBehaviour
+public class GameTimer : NetworkBehaviour // On change ici
 {
     [Header("Paramètres du Timer")]
-    public float totalTime = 300f; // Durée totale (ex: 5 min)
-    private float timeRemaining;
+    public float totalTime = 300f;
+    // On synchronise le temps restant du serveur vers les clients
+    private NetworkVariable<float> timeRemaining = new NetworkVariable<float>(300f);
     private bool timerIsRunning = false;
-    private bool trainTriggered = false; // Pour ne lancer le train qu'une seule fois
+    private bool trainTriggered = false;
 
     [Header("Références")]
     public TextMeshProUGUI timerText;
-    public WaypointMover trainMover; // Glisse ton train ici dans l'Inspecteur
+    public WaypointMover trainMover;
 
-    [Header("Panel de fin")]
-    [SerializeField] private GameObject endGamePanel;
+    // Référence vers ton nouveau LeaderboardManager
+    [SerializeField] private LeaderboardManager leaderboardManager;
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        timeRemaining = totalTime;
-        timerIsRunning = true;
+        if (IsServer)
+        {
+            timeRemaining.Value = totalTime;
+            timerIsRunning = true;
+        }
     }
 
     void Update()
     {
-        if (timerIsRunning)
+        // Seul le serveur gère le décompte
+        if (IsServer && timerIsRunning)
         {
-            if (timeRemaining > 0)
+            if (timeRemaining.Value > 0)
             {
-                timeRemaining -= Time.deltaTime;
+                timeRemaining.Value -= Time.deltaTime;
 
-                // --- Logique du déclenchement du train ---
-                // Si on a dépassé la moitié du temps et que le train n'est pas encore parti
-                if (!trainTriggered && timeRemaining <= (totalTime / 2))
+                // Logique du train (Serveur uniquement)
+                if (!trainTriggered && timeRemaining.Value <= (totalTime / 2))
                 {
                     if (trainMover != null)
                     {
-                        trainMover.StartTrain();
-                        trainTriggered = true; // Empêche de relancer l'ordre à chaque frame
+                        trainMover.StartTrain(); // Assure-toi que StartTrain gère son propre réseau ou est un RPC
+                        trainTriggered = true;
                     }
                 }
-
-                DisplayTime(timeRemaining);
             }
             else
             {
-                timeRemaining = 0;
+                timeRemaining.Value = 0;
                 timerIsRunning = false;
-                EndGame();
+                EndGameRpc(); // On prévient tout le monde que c'est fini
             }
         }
+
+        // Tout le monde affiche le temps synchronisé
+        DisplayTime(timeRemaining.Value);
     }
 
     void DisplayTime(float timeToDisplay)
@@ -59,18 +65,27 @@ public class GameTimer : MonoBehaviour
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
-    void EndGame()
+    [Rpc(SendTo.Everyone)]
+    private void EndGameRpc()
     {
-        endGamePanel.SetActive(true);
-        Time.timeScale = 0f;
+        // On affiche le tableau des scores qu'on a créé juste avant !
+        if (leaderboardManager != null)
+        {
+            leaderboardManager.ShowLeaderboard();
+        }
+
+        // On libère la souris
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-    }
 
+        // Note: Évite Time.timeScale = 0 en réseau, cela peut casser Netcode.
+        // Il vaut mieux désactiver les scripts de tir/mouvement des joueurs.
+    }
 
     public void GoToMainMenu()
     {
-        Time.timeScale = 1f; // Réinitialise le temps pour éviter les problèmes de pause dans le menu
+        // Avant de quitter, on se déconnecte proprement
+        NetworkManager.Singleton.Shutdown();
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 }

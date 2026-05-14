@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 391.20984, y: -20.365}
+  m_AnchoredPosition: {x: 390.768, y: -20.365}
   m_SizeDelta: {x: 50, y: 40.73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4497255562646760586
@@ -578,7 +578,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 129.05246, y: -20.365}
+  m_AnchoredPosition: {x: 128.942, y: -20.365}
   m_SizeDelta: {x: 100, y: 40.73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4794788440276454860
@@ -800,7 +800,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1352428503806977413}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8684391252436569271}
+        m_TargetAssemblyTypeName: GameTimer, Assembly-CSharp
+        m_MethodName: GoToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5283161636167046162
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,6 +844,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6560704195312400467}
+  - {fileID: 2023875025333061527}
   - {fileID: 3105271737225083220}
   - {fileID: 2419130316413701607}
   m_Father: {fileID: 7627941919557419512}
@@ -913,7 +926,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 233.10492, y: -20.365}
+  m_AnchoredPosition: {x: 232.884, y: -20.365}
   m_SizeDelta: {x: 50, y: 40.73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7520242532936914769
@@ -1045,8 +1058,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.85857, y: 0.85857, z: 0.85857}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2023875025333061527}
+  m_Children: []
   m_Father: {fileID: 4404239787694196752}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1130,7 +1142,9 @@ GameObject:
   - component: {fileID: 8913686480923348453}
   - component: {fileID: 1758744745972925491}
   - component: {fileID: 6858493071870849401}
+  - component: {fileID: 7335483695068588950}
   - component: {fileID: 8684391252436569271}
+  - component: {fileID: 3476696059859224829}
   m_Layer: 5
   m_Name: CanvasMain
   m_TagString: Untagged
@@ -1222,6 +1236,31 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &7335483695068588950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6226782221987926386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 3169619925
+  InScenePlacedSourceGlobalObjectIdHash: 2872688809
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &8684391252436569271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1234,10 +1273,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de290f3315159a442a06eacfaba85f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameTimer
+  ShowTopMostFoldoutHeaderGroup: 1
   totalTime: 120
   timerText: {fileID: 3564956488836930042}
   trainMover: {fileID: 0}
-  endGamePanel: {fileID: 5283161636167046162}
+  leaderboardManager: {fileID: 3476696059859224829}
+--- !u!114 &3476696059859224829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6226782221987926386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a94575981db8d754da3f49097a3c82bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LeaderboardManager
+  leaderboardPanel: {fileID: 5283161636167046162}
+  entryContainer: {fileID: 3105271737225083220}
+  entryPrefab: {fileID: 1876084970861673110, guid: d8cdff9ca10cc0948af2a2ba85f2cf4e, type: 3}
 --- !u!1 &7474247943172036830
 GameObject:
   m_ObjectHideFlags: 0
@@ -1272,7 +1327,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 312.15738, y: -20.365}
+  m_AnchoredPosition: {x: 311.826, y: -20.365}
   m_SizeDelta: {x: 50, y: 40.73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3019721592105298242
@@ -1402,9 +1457,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7986982929570059273}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.85857, y: 0.85857, z: 0.85857}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9027764660807608980}
@@ -1412,12 +1467,12 @@ RectTransform:
   - {fileID: 3836841656670853787}
   - {fileID: 9044095304451722969}
   - {fileID: 7487360350744938213}
-  m_Father: {fileID: 3105271737225083220}
+  m_Father: {fileID: 4404239787694196752}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 222.63115, y: -20.364998}
-  m_SizeDelta: {x: 445.2623, y: 40.73}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1.1, y: 127.4}
+  m_SizeDelta: {x: 444.71, y: 40.73001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &537134869174768682
 CanvasRenderer:
@@ -1517,7 +1572,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -80}
+  m_AnchoredPosition: {x: 200, y: -40}
   m_SizeDelta: {x: 350, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7648207287586908268

@@ -284,6 +284,7 @@ GameObject:
   - component: {fileID: 5165323878549394650}
   - component: {fileID: 10214204840497751}
   - component: {fileID: 6045457924492032017}
+  - component: {fileID: 4155370771428466306}
   m_Layer: 5
   m_Name: ScoreJoueur
   m_TagString: Untagged
@@ -379,6 +380,23 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &4155370771428466306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876084970861673110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3958c7930f3467d41b9022dadbf6daf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LeaderboardEntryUI
+  rankText: {fileID: 5847805259532749053}
+  nameText: {fileID: 114700309473825505}
+  killsText: {fileID: 5332403335916497708}
+  deathsText: {fileID: 2834108125887358352}
+  scoreText: {fileID: 6254603899854330031}
 --- !u!1 &2243588929520370023
 GameObject:
   m_ObjectHideFlags: 0
