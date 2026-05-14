@@ -64,7 +64,7 @@ public class Gun : Weapon, IWeapon
         yield return new WaitForSeconds(timmBeforeDespawn);
         animatorVisual.SetTrigger("Despawn");
     }
-    public void Despawn()
+    public void AE_Despawn()
     {
         palette.RemoveWeaponInPalette(WeaponType.Secondary);
         gameObject.SetActive(false);

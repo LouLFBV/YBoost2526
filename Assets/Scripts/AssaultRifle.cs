@@ -83,7 +83,7 @@ public class AssaultRifle : Weapon, IWeapon
         yield return new WaitForSeconds(delayBetweenShots);
         _canShoot = true;
     }
-    public void Despawn()
+    public void AE_Despawn()
     {
         palette.RemoveWeaponInPalette(WeaponType.Main);
         if (weaponData.weaponFamilyType == WeaponFamilyType.Sniper)

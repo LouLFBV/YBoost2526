@@ -53,7 +53,7 @@ public class ProjectileExplosion : MonoBehaviour
             // victim.GetComponent<PlayerHealth>().Die(); 
 
             Debug.Log("Joueur éliminé : " + victim.name);
-            Destroy(victim.gameObject);
+            //Destroy(victim.gameObject);
         }
 
         // 2. Effets Sonores

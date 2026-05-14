@@ -122,7 +122,7 @@ public abstract class Weapon : NetworkBehaviour
             audioSource.PlayOneShot(audioSource.clip);
     }
 
-    private void OnDestroy()
+    public override void OnDestroy()
     {
         OnPickedUp?.Invoke();
     }

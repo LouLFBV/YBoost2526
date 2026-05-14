@@ -58,7 +58,7 @@ public class RPG7 : Weapon, IWeapon
         animatorVisual.SetTrigger("Despawn");
     }
 
-    public void Despawn()
+    public void AE_Despawn()
     {
         canAttack = true;
         palette.RemoveWeaponInPalette(WeaponType.Main);
