@@ -16,6 +16,16 @@ public class AssaultRifle : Weapon, IWeapon
     private void OnEnable()
     {
         _canShoot = true;
+
+        transform.localScale = Vector3.one;
+
+    }
+    void Update()
+    {
+        if (transform.localScale.x < 0.1f)
+        {
+            Debug.Log($"[SCALE BUG] Scale est à {transform.localScale}. Activé: {gameObject.activeSelf}");
+        }
     }
     public void Attack()
     {
@@ -85,12 +95,17 @@ public class AssaultRifle : Weapon, IWeapon
     }
     public void AE_Despawn()
     {
+        // On prévient la palette de retirer cette arme des slots actifs
         palette.RemoveWeaponInPalette(WeaponType.Main);
+
         if (weaponData.weaponFamilyType == WeaponFamilyType.Sniper)
         {
             sniperViseur.SetActive(false);
             sniperCurseur.SetActive(false);
         }
+
+        // Au lieu de désactiver le renderer, on désactive l'objet entier.
+        // C'est plus sain pour Unity car le OnEnable() s'occupera de tout reset plus tard.
         gameObject.SetActive(false);
     }
 }

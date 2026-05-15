@@ -215,8 +215,10 @@ public class Palette : NetworkBehaviour
             {
                 currentAmmunition = weaponInHand.ammunitionAccount;
             }
-            GameObject lastWeapon = Instantiate(weapons[index].weaponData.weaponPrefab, transform.position, Quaternion.identity);
-            lastWeapon.GetComponent<Weapon>().ammunitionAccount = currentAmmunition;
+
+            int dataIndex = Array.FindIndex(allWeapons, w => w.weaponData == weapons[index].weaponData);
+            DropWeaponServerRpc(dataIndex, currentAmmunition, transform.position + transform.forward);
+
             RemoveWeaponInPalette(weapons[index].weaponData.weaponType);
         }
         weapons[index].weaponData = newWeapon.weaponData;
@@ -240,6 +242,7 @@ public class Palette : NetworkBehaviour
         {
             weapons[index].isEquipped = true;
             visual.SetActive(true);
+            visual.GetComponent<MeshRenderer>().enabled = true;
         }
         if (attackBehaviour.weaponUsed == null)
             attackBehaviour.weaponUsed = Array.Find(allWeapons, w => w.weaponData == newWeapon.weaponData);
@@ -371,6 +374,23 @@ public class Palette : NetworkBehaviour
         // à lire des infos sur un objet détruit)
 
         Debug.Log($"[NET] Arme ramassée synchronisée : {type}");
+    }
+
+
+    [ServerRpc]
+    public void DropWeaponServerRpc(int weaponDataIndex, int ammo, Vector3 position)
+    {
+        // 1. On instancie sur le serveur
+        GameObject droppedObj = Instantiate(allWeapons[weaponDataIndex].weaponData.weaponPrefab, position, Quaternion.identity);
+
+        // 2. On règle les munitions AVANT le spawn
+        if (droppedObj.TryGetComponent<Weapon>(out var weapon))
+        {
+            weapon.ammunitionAccount = ammo;
+        }
+
+        // 3. ON SPAWN SUR LE RÉSEAU
+        droppedObj.GetComponent<NetworkObject>().Spawn();
     }
 
     public void AddWeaponFromNetwork(string weaponDataName, int ammo)
