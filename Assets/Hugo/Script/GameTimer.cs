@@ -1,12 +1,13 @@
 using UnityEngine;
 using TMPro;
 using Unity.Netcode;
+using System.Collections; // Ne pas oublier pour les Coroutines !
+using UnityEngine.SceneManagement;
 
-public class GameTimer : NetworkBehaviour // On change ici
+public class GameTimer : NetworkBehaviour
 {
     [Header("Paramètres du Timer")]
     public float totalTime = 300f;
-    // On synchronise le temps restant du serveur vers les clients
     private NetworkVariable<float> timeRemaining = new NetworkVariable<float>(300f);
     private bool timerIsRunning = false;
     private bool trainTriggered = false;
@@ -14,9 +15,10 @@ public class GameTimer : NetworkBehaviour // On change ici
     [Header("Références")]
     public TextMeshProUGUI timerText;
     public WaypointMover trainMover;
-
-    // Référence vers ton nouveau LeaderboardManager
     [SerializeField] private LeaderboardManager leaderboardManager;
+
+    [Header("Paramètres Fin de Partie")]
+    [SerializeField] private float delayBeforeMenu = 10f; // Temps d'affichage du tableau (10s)
 
     public override void OnNetworkSpawn()
     {
@@ -29,19 +31,17 @@ public class GameTimer : NetworkBehaviour // On change ici
 
     void Update()
     {
-        // Seul le serveur gère le décompte
         if (IsServer && timerIsRunning)
         {
             if (timeRemaining.Value > 0)
             {
                 timeRemaining.Value -= Time.deltaTime;
 
-                // Logique du train (Serveur uniquement)
                 if (!trainTriggered && timeRemaining.Value <= (totalTime / 2))
                 {
                     if (trainMover != null)
                     {
-                        trainMover.StartTrain(); // Assure-toi que StartTrain gère son propre réseau ou est un RPC
+                        trainMover.StartTrain();
                         trainTriggered = true;
                     }
                 }
@@ -50,11 +50,15 @@ public class GameTimer : NetworkBehaviour // On change ici
             {
                 timeRemaining.Value = 0;
                 timerIsRunning = false;
-                EndGameRpc(); // On prévient tout le monde que c'est fini
+
+                // 1. Le serveur prévient tout le monde d'afficher le tableau des scores
+                EndGameRpc();
+
+                // 2. Le serveur lance son propre compte à rebours avant de couper la partie
+                StartCoroutine(ServerEndGameSequence());
             }
         }
 
-        // Tout le monde affiche le temps synchronisé
         DisplayTime(timeRemaining.Value);
     }
 
@@ -68,24 +72,58 @@ public class GameTimer : NetworkBehaviour // On change ici
     [Rpc(SendTo.Everyone)]
     private void EndGameRpc()
     {
-        // On affiche le tableau des scores qu'on a créé juste avant !
         if (leaderboardManager != null)
         {
             leaderboardManager.ShowLeaderboard();
         }
 
-        // On libère la souris
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        // Note: Évite Time.timeScale = 0 en réseau, cela peut casser Netcode.
-        // Il vaut mieux désactiver les scripts de tir/mouvement des joueurs.
+        // Optionnel : Si tu veux que les clients locaux lancent aussi la coroutine au cas où, 
+        // mais la méthode ServerRpc ci-dessous gère déjà la fermeture propre globale.
     }
 
-    public void GoToMainMenu()
+    // Cette coroutine tourne UNIQUEMENT sur le serveur
+    private IEnumerator ServerEndGameSequence()
     {
-        // Avant de quitter, on se déconnecte proprement
-        NetworkManager.Singleton.Shutdown();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        // On attend les 10 secondes pendant que les joueurs regardent le tableau
+        yield return new WaitForSeconds(delayBeforeMenu);
+
+        // On ordonne à TOUT LE MONDE (Serveur + Clients) de charger le menu principal
+        ReturnToMenuRpc();
+
+        // Petit délai technique pour laisser le RPC s'envoyer avant de couper le réseau
+        yield return new WaitForSeconds(0.5f);
+
+        // Fermeture propre de Netcode
+        if (NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.Shutdown();
+        }
+
+        // Chargement de la scène pour le Serveur (ou l'Hôte)
+        SceneManager.LoadScene("MainMenu");
     }
+
+    [Rpc(SendTo.NotServer)]
+    private void ReturnToMenuRpc()
+    {
+        // Exécuté uniquement sur les clients : ils coupent Netcode et chargent le menu
+        if (NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.Shutdown();
+        }
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    // Gardé au cas où un joueur clique sur le bouton "Menu Principal" manuellement
+    //public void GoToMainMenu()
+    //{
+    //    if (NetworkManager.Singleton != null)
+    //    {
+    //        NetworkManager.Singleton.Shutdown();
+    //    }
+    //    SceneManager.LoadScene("MainMenu");
+    //}
 }

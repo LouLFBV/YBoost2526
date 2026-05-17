@@ -22,6 +22,8 @@ public class RocketProjectile : NetworkBehaviour // 1. Passage en NetworkBehavio
         explosionAudio = GetComponent<AudioSource>();
     }
 
+
+
     public void Launch(Vector3 velocity)
     {
         _rb.linearVelocity = velocity;

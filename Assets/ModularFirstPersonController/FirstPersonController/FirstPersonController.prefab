@@ -4690,6 +4690,10 @@ PrefabInstance:
       propertyPath: interact
       value: 
       objectReference: {fileID: 6837502555805184869}
+    - target: {fileID: 4381246581557019687, guid: 146329bb11abff940a6295d89bfc66be, type: 3}
+      propertyPath: rocketPrefab
+      value: 
+      objectReference: {fileID: 4278447718750021207, guid: 3dca06c2d28a76f4b8ce9876f70fd045, type: 3}
     - target: {fileID: 6909347088019323333, guid: 146329bb11abff940a6295d89bfc66be, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2479964616
@@ -4697,7 +4701,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3278622701219908514, guid: 146329bb11abff940a6295d89bfc66be, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7524312014463690412}
   m_SourcePrefab: {fileID: 100100000, guid: 146329bb11abff940a6295d89bfc66be, type: 3}
 --- !u!4 &680077751350916898 stripped
 Transform:
@@ -4709,6 +4716,31 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3278622701219908514, guid: 146329bb11abff940a6295d89bfc66be, type: 3}
   m_PrefabInstance: {fileID: 2853545115708086336}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7524312014463690412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727847904914068450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 3298670773
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &1969344778777468007 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4381246581557019687, guid: 146329bb11abff940a6295d89bfc66be, type: 3}
