@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8510448392590456878}
   - component: {fileID: 1211549097043595354}
   - component: {fileID: 2488131025874744978}
-  - component: {fileID: 6131717294177173423}
+  - component: {fileID: -5610781261776375826}
   - component: {fileID: 1165851970601291411}
   - component: {fileID: 2744675824020729512}
   m_Layer: 0
@@ -143,7 +143,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0.019227138, z: 0.0052743647}
---- !u!114 &6131717294177173423
+--- !u!114 &-5610781261776375826
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2366218580
+  GlobalObjectIdHash: 962706439
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -183,7 +183,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   isGrenade: 0
   explosionRadius: 4
-  damage: 40
+  damage: 0
   explosionVFX: {fileID: 104829970813648393, guid: d3015b7eea383f64d8b81f965cc466e7, type: 3}
   explosionAudio: {fileID: 2744675824020729512}
   fuseTime: 0

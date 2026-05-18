@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class RocketProjectile : NetworkBehaviour // 1. Passage en NetworkBehaviour
+public class RocketProjectile : NetworkBehaviour
 {
     [Header("Explosion")]
     [SerializeField] private float explosionRadius = 5f;
@@ -14,7 +14,7 @@ public class RocketProjectile : NetworkBehaviour // 1. Passage en NetworkBehavio
 
     private Rigidbody _rb;
     private bool _hasExploded = false;
-    private ulong _ownerId; // 2. Stockage de l'ID au lieu du GameObject
+    private ulong _ownerId;
 
     private void Awake()
     {
@@ -22,22 +22,49 @@ public class RocketProjectile : NetworkBehaviour // 1. Passage en NetworkBehavio
         explosionAudio = GetComponent<AudioSource>();
     }
 
-
+    public override void OnNetworkSpawn()
+    {
+        // Si c'est le serveur, on programme une auto-destruction en cas de non-impact
+        if (IsServer)
+        {
+            Invoke(nameof(TimeOutDespawn), lifeTime);
+        }
+    }
 
     public void Launch(Vector3 velocity)
     {
-        _rb.linearVelocity = velocity;
-        // On ne détruit pas localement, on laisse le serveur gérer le Despawn
+        if (!IsServer) return;
+
+        // 1. Le serveur applique la vitesse chez lui
+        ApplyLocalVelocity(velocity);
+
+        // 2. Le serveur envoie l'ordre immédiat aux clients d'appliquer la même vitesse
+        LaunchClientRpc(velocity);
+    }
+
+    [Rpc(SendTo.NotServer)]
+    private void LaunchClientRpc(Vector3 velocity)
+    {
+        ApplyLocalVelocity(velocity);
+    }
+
+    private void ApplyLocalVelocity(Vector3 velocity)
+    {
+        if (_rb != null)
+        {
+            _rb.isKinematic = false;
+            _rb.linearVelocity = velocity;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Seul le serveur ou l'Owner devrait détecter la collision pour éviter les doublons
-        if (!IsServer && !IsOwner) return;
+        // Seul le serveur gère la détection d'impact pour éviter les doubles explosions
+        if (!IsServer) return;
 
         if (_hasExploded) return;
 
-        Explode();
+        ExplodeServer();
     }
 
     public void SetOwner(ulong shooterId)
@@ -45,49 +72,53 @@ public class RocketProjectile : NetworkBehaviour // 1. Passage en NetworkBehavio
         _ownerId = shooterId;
     }
 
-    private void Explode()
+    private void ExplodeServer()
     {
         _hasExploded = true;
 
-        // VISUEL : Apparaît chez tout le monde si c'est un objet simple, 
-        // ou via un RPC si tu veux être ultra précis.
-        if (explosionVFX != null)
-            Instantiate(explosionVFX, transform.position, Quaternion.identity);
-
-        if (explosionAudio != null)
-            explosionAudio.PlayOneShot(explosionAudio.clip);
-
-        // DÉGÂTS : Seul l'Owner demande les dégâts au serveur
-        if (IsOwner)
+        // 1. DÉGÂTS : Le serveur calcule les dégâts (anti-triche)
+        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
+        foreach (Collider hit in hits)
         {
-            Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
-
-            foreach (Collider hit in hits)
+            if (hit.CompareTag("Player") && hit.TryGetComponent<PlayerStats>(out var enemy))
             {
-                if (hit.CompareTag("Player") && hit.TryGetComponent<PlayerStats>(out var enemy))
-                {
-                    // Utilisation du ServerRpc avec l'ID stocké
-                    enemy.RequestDamageServerRpc(damage, _ownerId);
-                }
+                enemy.RequestDamageServerRpc(damage, _ownerId);
+            }
 
-                if (hit.transform.TryGetComponent<Descrutable>(out var environment))
-                {
-                    environment.DestroyObject(hit.transform.position, 1.5f);
-                }
+            if (hit.transform.TryGetComponent<Descrutable>(out var environment))
+            {
+                environment.DestroyObject(hit.transform.position, 1.5f);
             }
         }
 
-        // NETTOYAGE RÉSEAU
-        if (IsServer)
+        // 2. VISUEL & SON : On transmet la position exacte de l'impact à TOUT LE MONDE
+        PlayExplosionEffectsRpc(transform.position);
+
+        // 3. NETTOYAGE : Le serveur retire l'objet du réseau
+        if (GetComponent<NetworkObject>() != null)
         {
-            // On attend un tout petit peu pour que les clients voient l'impact
             GetComponent<NetworkObject>().Despawn();
         }
-        else if (!IsOwner)
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void PlayExplosionEffectsRpc(Vector3 impactPosition)
+    {
+        // Tout le monde instancie l'explosion à la coordonnée absolue de l'impact
+        if (explosionVFX != null)
+            Instantiate(explosionVFX, impactPosition, Quaternion.identity);
+
+        if (explosionAudio != null && explosionAudio.clip != null)
+            explosionAudio.PlayOneShot(explosionAudio.clip);
+    }
+
+    private void TimeOutDespawn()
+    {
+        if (_hasExploded) return;
+
+        if (GetComponent<NetworkObject>() != null && GetComponent<NetworkObject>().IsSpawned)
         {
-            // Pour les autres clients, on cache juste visuellement en attendant le Despawn du serveur
-            GetComponent<MeshRenderer>().enabled = false;
-            GetComponent<Collider>().enabled = false;
+            GetComponent<NetworkObject>().Despawn();
         }
     }
 
