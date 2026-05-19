@@ -17,6 +17,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI inputField;
     [SerializeField] private TextMeshProUGUI displayCodeText;
     [SerializeField] private GameObject boutonLancerPartie;
+    [SerializeField] private GameObject boutonAnnulerSession; 
 
     // Appelé par le bouton "Créer une partie"
     // 1. L'Host crée la session mais RESTE dans le menu
@@ -39,6 +40,22 @@ public class MainMenuManager : MonoBehaviour
             // C'est ICI qu'on change de scène pour tout le monde
             NetworkManager.Singleton.SceneManager.LoadScene("Map desert", UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
+    }
+
+    // Appelé par le bouton "Arrêter la session"
+    public void OnClickStopSession()
+    {
+        // 1. On déconnecte Netcode (coupe le Host/Serveur proprement)
+        if (NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.Shutdown();
+            Debug.Log("[MAIN MENU] Session arrêtée et NetworkManager éteint.");
+        }
+
+        // 2. On remet l'interface à zéro pour l'Host
+        if (displayCodeText != null) displayCodeText.text = "CODE : ---";
+        if (boutonLancerPartie != null) boutonLancerPartie.SetActive(false);
+        if (boutonAnnulerSession != null) boutonAnnulerSession.SetActive(false); // On le recache
     }
 
     // Appelé par le bouton "Rejoindre une partie"

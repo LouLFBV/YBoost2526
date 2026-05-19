@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Knife : Weapon, IWeapon // Assure-toi que Weapon hérite de NetworkBehaviour, sinon écris : Weapon : NetworkBehaviour
+public class Knife : Weapon, IWeapon
 {
     private bool canAttack = true;
     public bool isAttacking = false;
@@ -19,38 +19,82 @@ public class Knife : Weapon, IWeapon // Assure-toi que Weapon hérite de NetworkB
             attackCollider.enabled = false;
 
         animator = GetComponent<Animator>();
+
+        // Log pour vérifier si l'animator est trouvé au démarrage
+        if (animator == null)
+        {
+            Debug.LogWarning($"[KNIFE-LOG] Aucun Animator trouvé sur le GameObject '{gameObject.name}' via GetComponent !");
+        }
+        else
+        {
+            Debug.Log($"[KNIFE-LOG] Animator initialisé avec succès sur '{gameObject.name}'.");
+        }
+
         startPosition = transform.localPosition;
         startRotation = transform.localRotation;
     }
 
     public void Attack()
     {
-        // 1. Seul le propriétaire lance l'action
-        var netObj = GetComponentInParent<NetworkObject>();
-        if (netObj != null && !netObj.IsOwner) return;
+        NetworkObject playerNetObj = GetComponentInParent<NetworkObject>();
+
+        if (playerNetObj == null)
+        {
+            Debug.LogError($"[KNIFE-LOG] Impossible de trouver un NetworkObject dans les parents de '{gameObject.name}' ! L'attaque est bloquée.");
+            return;
+        }
+
+        // Log pour comprendre qui clique et qui possède l'objet
+        Debug.Log($"[KNIFE-LOG] Attack() appelée. Client Local ID: {NetworkManager.Singleton.LocalClientId} | Est Propriétaire du joueur parent (IsOwner): {playerNetObj.IsOwner}");
+
+        // Si on trouve un NetworkObject et qu'on n'est PAS le propriétaire de ce joueur, on refuse l'attaque
+        if (!playerNetObj.IsOwner)
+        {
+            Debug.LogWarning($"[KNIFE-LOG] Attaque refusée : Le client {NetworkManager.Singleton.LocalClientId} n'est pas l'owner de ce personnage.");
+            return;
+        }
+
+        if (!canAttack)
+        {
+            Debug.LogWarning($"[KNIFE-LOG] Attaque refusée : 'canAttack' est false (l'animation précédente n'est peut-être pas finie).");
+            return;
+        }
 
         if (canAttack)
         {
-            // On demande au serveur de synchroniser le coup de couteau
+            if (animator != null)
+            {
+                Debug.Log($"[KNIFE-LOG] execution LOCALE de animator.SetTrigger(\"Attack\") pour l'émetteur.");
+                animator.SetTrigger("Attack");
+            }
+            else
+            {
+                Debug.LogError($"[KNIFE-LOG] Erreur : L'animator est NULL au moment de cliquer !");
+            }
+
+            // On prévient le serveur pour les autres
             RequestKnifeAttackServerRpc();
         }
     }
 
-    // 2. L'Owner demande au Serveur de valider l'attaque
     [Rpc(SendTo.Server)]
     private void RequestKnifeAttackServerRpc()
     {
-        // Le serveur ordonne à TOUT LE MONDE de jouer l'animation
-        PlayKnifeAnimationRpc();
+        Debug.Log($"[KNIFE-LOG] Serveur reçu : Demande d'attaque du client {OwnerClientId}. Transmission aux autres...");
+        PlayKnifeAnimationToOthersRpc();
     }
 
-    // 3. Tout le monde reçoit l'ordre et joue l'animation localement
-    [Rpc(SendTo.Everyone)]
-    private void PlayKnifeAnimationRpc()
+    [Rpc(SendTo.NotOwner)]
+    private void PlayKnifeAnimationToOthersRpc()
     {
+        Debug.Log($"[KNIFE-LOG] RPC Reçu chez un tiers (Client ID: {NetworkManager.Singleton.LocalClientId}). Lecture de l'animation sur le clone réseau.");
         if (animator != null)
         {
             animator.SetTrigger("Attack");
+        }
+        else
+        {
+            Debug.LogError($"[KNIFE-LOG] RPC Reçu mais l'animator du clone est NULL sur ce client !");
         }
     }
 
@@ -58,7 +102,6 @@ public class Knife : Weapon, IWeapon // Assure-toi que Weapon hérite de NetworkB
     {
         base.OnTriggerEnter(collision);
 
-        // Les dégâts ne doivent être détectés que par l'Owner (ou le Serveur si tu préfères)
         var netObj = GetComponentInParent<NetworkObject>();
         if (netObj == null || !netObj.IsOwner) return;
 
@@ -68,20 +111,19 @@ public class Knife : Weapon, IWeapon // Assure-toi que Weapon hérite de NetworkB
             {
                 if (enemy.OwnerClientId == netObj.OwnerClientId) return;
 
-                // Envoi des dégâts au serveur
+                Debug.Log($"[KNIFE-LOG] Impact valide détecté par l'owner sur {collision.name}. Envoi des dégâts au serveur.");
                 enemy.RequestDamageServerRpc(weaponData.damage, netObj.OwnerClientId);
-
                 isAttacking = false;
             }
         }
     }
 
-    // Appelé par l'Animation Event (S'exécute désormais sur toutes les machines !)
+    // Appelé par l'Animation Event
     public void ActiveAttack()
     {
-        // Optionnel : On peut restreindre l'activation du collider à l'Owner uniquement 
-        // pour éviter que les clients calculent des faux impacts physiques.
-        var netObj = GetComponentInParent<NetworkObject>();
+        Debug.Log($"[KNIFE-LOG] Animation Event : ActiveAttack() déclenché sur la machine du client : {NetworkManager.Singleton.LocalClientId}");
+
+        NetworkObject netObj = GetComponentInParent<NetworkObject>();
         if (netObj != null && netObj.IsOwner)
         {
             if (attackCollider != null) attackCollider.enabled = true;
@@ -94,6 +136,8 @@ public class Knife : Weapon, IWeapon // Assure-toi que Weapon hérite de NetworkB
     // Appelé par l'Animation Event
     public void DesactiveAttack()
     {
+        Debug.Log($"[KNIFE-LOG] Animation Event : DesactiveAttack() déclenché sur la machine du client : {NetworkManager.Singleton.LocalClientId}");
+
         if (attackCollider != null) attackCollider.enabled = false;
         isAttacking = false;
         canAttack = true;

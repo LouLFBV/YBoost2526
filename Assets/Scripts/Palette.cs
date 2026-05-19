@@ -162,7 +162,8 @@ public class Palette : NetworkBehaviour
 
     private void Update()
     {
-        if(takingMainWeapon && weapons[0].weaponData != null)
+        if (!IsOwner) return;
+        if (takingMainWeapon && weapons[0].weaponData != null)
         {
             ChangeWeapon(weapons[0]);
             takingMainWeapon = false;
@@ -244,11 +245,19 @@ public class Palette : NetworkBehaviour
             visual.SetActive(true);
             visual.GetComponent<MeshRenderer>().enabled = true;
         }
-        if (attackBehaviour.weaponUsed == null)
-            attackBehaviour.weaponUsed = Array.Find(allWeapons, w => w.weaponData == newWeapon.weaponData);
 
-        
-
+        if (attackBehaviour.weaponUsed == null && visual != null)
+        {
+            if (visual.TryGetComponent<Weapon>(out var localWeaponScript))
+            {
+                attackBehaviour.weaponUsed = localWeaponScript;
+            }
+            else
+            {
+                // Si le script est sur un enfant du visuel
+                attackBehaviour.weaponUsed = visual.GetComponentInChildren<Weapon>();
+            }
+        }
     }
 
     public void RemoveWeaponInPalette(WeaponType weaponType)
@@ -318,7 +327,17 @@ public class Palette : NetworkBehaviour
             if (visual != null)
                 SetWeaponVisibility(visual, true); // On montre le visuel
 
-            attackBehaviour.weaponUsed = Array.Find(allWeapons, w => w.weaponData == newWeapon.weaponData);
+            if (visual != null)
+            {
+                if (visual.TryGetComponent<Weapon>(out var localWeaponScript))
+                {
+                    attackBehaviour.weaponUsed = localWeaponScript;
+                }
+                else
+                {
+                    attackBehaviour.weaponUsed = visual.GetComponentInChildren<Weapon>();
+                }
+            }
         }
     }
 

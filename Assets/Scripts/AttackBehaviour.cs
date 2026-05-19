@@ -1,7 +1,8 @@
+using Unity.Netcode; // Assure-toi d'être en NetworkBehaviour
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class AttackBehaviour : MonoBehaviour
+public class AttackBehaviour : NetworkBehaviour
 {
     [SerializeField] private Camera playerCamera;
     public Weapon weaponUsed;
@@ -10,51 +11,90 @@ public class AttackBehaviour : MonoBehaviour
     private PlayerInput playerInput;
     private bool isShooting = false;
 
-
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
     }
 
-    private void OnEnable()
+    // 1. On Network Spawn arrive JUSTE APRÈS le Awake/Start réseau
+    public override void OnNetworkSpawn()
     {
-        playerInput.actions["Attack"].Enable();
-        playerInput.actions["Attack"].performed += ShootPerformed;
-        playerInput.actions["Attack"].canceled += ShootCanceled;
+        if (!IsOwner)
+        {
+            // Sécurité absolue : si ce n'est pas NOTRE joueur, on coupe tout
+            if (playerInput != null)
+            {
+                // On désabonne le clone pour qu'il n'écoute JAMAIS nos clics
+                playerInput.actions["Attack"].performed -= ShootPerformed;
+                playerInput.actions["Attack"].canceled -= ShootCanceled;
+                playerInput.enabled = false;
+            }
+
+            // On désactive le script complet sur le clone pour couper son Update()
+            this.enabled = false;
+            return;
+        }
+
+        // Si on est l'Owner, on s'abonne proprement ici pour être sûr
+        if (IsOwner && playerInput != null)
+        {
+            playerInput.actions["Attack"].Enable();
+            playerInput.actions["Attack"].performed += ShootPerformed;
+            playerInput.actions["Attack"].canceled += ShootCanceled;
+        }
     }
 
     private void OnDisable()
     {
-        playerInput.actions["Attack"].Disable();
-        playerInput.actions["Attack"].performed -= ShootPerformed;
-        playerInput.actions["Attack"].canceled -= ShootCanceled;
+        // Nettoyage uniquement pour l'owner (les clones ont déjà été nettoyés)
+        if (IsOwner && playerInput != null)
+        {
+            playerInput.actions["Attack"].performed -= ShootPerformed;
+            playerInput.actions["Attack"].canceled -= ShootCanceled;
+        }
     }
 
     private void ShootPerformed(InputAction.CallbackContext context)
     {
+        // Barrière réseau : Interdiction d'aller plus loin si ce n'est pas mon perso
+        if (!IsOwner) return;
         isShooting = true;
     }
 
     private void ShootCanceled(InputAction.CallbackContext context)
     {
+        if (!IsOwner) return;
         isShooting = false;
     }
     #endregion
+
     void Update()
     {
+        // Barrière réseau dans l'Update
+        if (!IsOwner) return;
+
         if (weaponUsed != null && isShooting)
             Shoot();
     }
 
     public void Shoot()
     {
+        if (!IsOwner) return; // Sécurité triple
+
         AlignArrowSpawnToCamera();
-        weaponUsed.GetComponent<IWeapon>().Attack();
+
+        if (weaponUsed != null)
+        {
+            weaponUsed.GetComponent<IWeapon>().Attack();
+        }
 
         AlignArrowSpawnToCamera();
     }
+
     private void AlignArrowSpawnToCamera()
     {
+        if (playerCamera == null) return;
+
         Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         int layerMask = ~LayerMask.GetMask("Player");
 
@@ -67,7 +107,6 @@ public class AttackBehaviour : MonoBehaviour
         if (weaponUsed != null)
         {
             weaponUsed.shootPoint?.LookAt(targetPoint);
-            Debug.DrawLine(weaponUsed.shootPoint.position, targetPoint, Color.yellow, 0.5f);
         }
     }
 }
