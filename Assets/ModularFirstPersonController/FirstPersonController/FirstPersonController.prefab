@@ -1825,9 +1825,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   attackBehaviour: {fileID: 7556431651608135455}
-  playerCamera: {fileID: 4459864851310106426}
+  isDead:
+    m_InternalValue: 0
+  capsuleRenderer: {fileID: 3301057126615173802}
+  playerPalette: {fileID: 7121486939283029115}
   playerHUD: {fileID: 1678935786416648693}
   pauseMenu: {fileID: 0}
+  playerCamera: {fileID: 4459864851310106426}
   fov: 60
   invertCamera: 0
   cameraCanMove: 1
@@ -1905,6 +1909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5c4f0127793a3048b5c6fe902665d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  ShowTopMostFoldoutHeaderGroup: 1
   playerCamera: {fileID: 4459864851310106426}
   weaponUsed: {fileID: 0}
 --- !u!114 &7121486939283029115

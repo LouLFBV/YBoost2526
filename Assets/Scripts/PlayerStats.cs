@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Components;
@@ -18,7 +18,7 @@ public class PlayerStats : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI healthQuantity;
     public ScoreSystem scoreSystem;
 
-    // On stocke l'ID de l'attaquant plutôt que le GameObject
+    // On stocke l'ID de l'attaquant plutÃ´t que le GameObject
     private ulong lastAttackerId;
 
     public override void OnNetworkSpawn()
@@ -35,14 +35,14 @@ public class PlayerStats : NetworkBehaviour
         TakeDamage(damage, attackerID);
     }
 
-    // Cette fonction sera appelée par ton script de tir (via un ServerRPC)
+    // Cette fonction sera appelÃ©e par ton script de tir (via un ServerRPC)
     public void TakeDamage(int damage, ulong attackerId)
     {
-        // Sécurité : Seul le serveur a le droit de modifier une NetworkVariable 
-        // configurée avec NetworkVariableWritePermission.Server
+        // SÃ©curitÃ© : Seul le serveur a le droit de modifier une NetworkVariable 
+        // configurÃ©e avec NetworkVariableWritePermission.Server
         if (!IsServer) return;
 
-        // On évite de descendre en dessous de 0
+        // On Ã©vite de descendre en dessous de 0
         if (currentHealth.Value <= 0) return;
 
         currentHealth.Value -= damage;
@@ -60,6 +60,11 @@ public class PlayerStats : NetworkBehaviour
     {
         if (!IsServer) return;
 
+        if (TryGetComponent<FirstPersonController_Networked>(out var controller))
+        {
+            controller.Die();
+        }
+
         // --- Logique de Score ---
         if (lastAttackerId != 999 && NetworkManager.Singleton.ConnectedClients.TryGetValue(lastAttackerId, out var killerClient))
         {
@@ -72,7 +77,6 @@ public class PlayerStats : NetworkBehaviour
         if (scoreSystem != null) scoreSystem.AddMortsServerRpc();
 
         // --- Logique de Respawn ---
-        // SURTOUT PAS DE DESPAWN ICI sinon l'objet disparaît et la coroutine s'arrête
         StartCoroutine(RespawnRoutine());
     }
 
@@ -81,48 +85,53 @@ public class PlayerStats : NetworkBehaviour
         TogglePlayerStateRpc(false);
         yield return new WaitForSeconds(3f);
 
+        Vector3 nextPos = Vector3.zero;
+
         if (NetworkPlayerSpawner.Instance != null)
         {
-            Vector3 nextPos = NetworkPlayerSpawner.Instance.GetSpawnPoint();
-
-            // On envoie l'ordre de téléportation à TOUT LE MONDE
-            // (Le serveur se téléporte, et le client propriétaire aussi)
+            nextPos = NetworkPlayerSpawner.Instance.GetSpawnPoint();
             TeleportPlayerRpc(nextPos);
         }
 
         currentHealth.Value = maxHealth;
         lastAttackerId = 999;
+
+        if (TryGetComponent<FirstPersonController_Networked>(out var controller))
+        {
+            controller.RespawnPlayer(nextPos);
+        }
+
         TogglePlayerStateRpc(true);
     }
 
     [Rpc(SendTo.Everyone)]
     private void TeleportPlayerRpc(Vector3 targetPos)
     {
-        // 1. Désactiver la physique pour éviter les conflits
+        // 1. DÃ©sactiver la physique pour Ã©viter les conflits
         if (TryGetComponent<CharacterController>(out var cc)) cc.enabled = false;
 
         // 2. Appliquer la position
         transform.position = targetPos;
 
-        // 3. Si on est l'Owner (celui qui a l'autorité) OU le Serveur, on valide la position
+        // 3. Si on est l'Owner (celui qui a l'autoritÃ©) OU le Serveur, on valide la position
         if (TryGetComponent<NetworkTransform>(out var nt))
         {
-            // On ne téléporte que si on a l'autorité (l'Owner) ou si on est le Serveur (si pas d'Owner)
+            // On ne tÃ©lÃ©porte que si on a l'autoritÃ© (l'Owner) ou si on est le Serveur (si pas d'Owner)
             if (IsOwner || IsServer)
             {
                 // Note: On n'utilise plus .Teleport() ici car transform.position 
-                // suffit quand c'est fait du côté autoritaire
+                // suffit quand c'est fait du cÃ´tÃ© autoritaire
             }
         }
 
-        // 4. Réactiver la physique
+        // 4. RÃ©activer la physique
         if (TryGetComponent<CharacterController>(out var cc2)) cc2.enabled = true;
     }
 
     [Rpc(SendTo.Everyone)]
     private void TogglePlayerStateRpc(bool isAlive)
     {
-        // Sécurité pour le Find
+        // SÃ©curitÃ© pour le Find
         Transform graphics = transform.Find("Graphics");
         if (graphics != null) graphics.gameObject.SetActive(isAlive);
 
@@ -130,14 +139,14 @@ public class PlayerStats : NetworkBehaviour
 
         if (IsOwner)
         {
-            // C'est ici que tu pourrais activer un écran "VOUS ETES MORT"
-            // Debug.Log(isAlive ? "De retour au combat !" : "Vous êtes mort...");
+            // C'est ici que tu pourrais activer un Ã©cran "VOUS ETES MORT"
+            // Debug.Log(isAlive ? "De retour au combat !" : "Vous Ãªtes mort...");
         }
     }
     private void UpdateHealthbar(int value)
     {
-        // On ne met à jour l'UI que si c'est NOTRE personnage
-        // Sinon, on modifierait l'écran du joueur A quand le joueur B est touché.
+        // On ne met Ã  jour l'UI que si c'est NOTRE personnage
+        // Sinon, on modifierait l'Ã©cran du joueur A quand le joueur B est touchÃ©.
         if (!IsOwner) return;
 
         if (life != null) life.fillAmount = (float)value / maxHealth;
@@ -147,7 +156,7 @@ public class PlayerStats : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     private void SetCharacterControllerStateRpc(bool state)
     {
-        // On désactive le CC pour permettre la téléportation sans conflit physique
+        // On dÃ©sactive le CC pour permettre la tÃ©lÃ©portation sans conflit physique
         if (TryGetComponent<CharacterController>(out var cc))
         {
             cc.enabled = state;

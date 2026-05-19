@@ -29,6 +29,7 @@ public class MainMenuManager : MonoBehaviour
             displayCodeText.text = "CODE : " + code;
             // On affiche un bouton "Lancer la Map" qui était caché
             boutonLancerPartie.SetActive(true);
+            boutonAnnulerSession.SetActive(true); 
         }
     }
 
@@ -53,7 +54,7 @@ public class MainMenuManager : MonoBehaviour
         }
 
         // 2. On remet l'interface à zéro pour l'Host
-        if (displayCodeText != null) displayCodeText.text = "CODE : ---";
+        if (displayCodeText != null) displayCodeText.text = "CODE : ";
         if (boutonLancerPartie != null) boutonLancerPartie.SetActive(false);
         if (boutonAnnulerSession != null) boutonAnnulerSession.SetActive(false); // On le recache
     }

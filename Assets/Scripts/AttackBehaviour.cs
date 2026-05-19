@@ -16,42 +16,54 @@ public class AttackBehaviour : NetworkBehaviour
         playerInput = GetComponent<PlayerInput>();
     }
 
-    // 1. On Network Spawn arrive JUSTE APRÈS le Awake/Start réseau
     public override void OnNetworkSpawn()
     {
         if (!IsOwner)
         {
-            // Sécurité absolue : si ce n'est pas NOTRE joueur, on coupe tout
             if (playerInput != null)
             {
-                // On désabonne le clone pour qu'il n'écoute JAMAIS nos clics
                 playerInput.actions["Attack"].performed -= ShootPerformed;
                 playerInput.actions["Attack"].canceled -= ShootCanceled;
                 playerInput.enabled = false;
             }
 
-            // On désactive le script complet sur le clone pour couper son Update()
             this.enabled = false;
             return;
         }
 
-        // Si on est l'Owner, on s'abonne proprement ici pour être sûr
+        // On force un rafraîchissement des abonnements si on vient de spawn
+        OnEnable();
+    }
+
+    private void OnEnable()
+    {
+        // On s'assure de n'abonner QUE le joueur local, pas les clones
         if (IsOwner && playerInput != null)
         {
+            // Sécurité : On se désabonne avant pour éviter les doubles abonnements accidentels
+            playerInput.actions["Attack"].performed -= ShootPerformed;
+            playerInput.actions["Attack"].canceled -= ShootCanceled;
+
+            // On réabonne proprement les événements de tir
             playerInput.actions["Attack"].Enable();
             playerInput.actions["Attack"].performed += ShootPerformed;
             playerInput.actions["Attack"].canceled += ShootCanceled;
+
+            // Sécurité : On réinitialise l'état de tir à la résurrection
+            isShooting = false;
         }
     }
 
     private void OnDisable()
     {
-        // Nettoyage uniquement pour l'owner (les clones ont déjà été nettoyés)
         if (IsOwner && playerInput != null)
         {
             playerInput.actions["Attack"].performed -= ShootPerformed;
             playerInput.actions["Attack"].canceled -= ShootCanceled;
         }
+
+        // On s'assure que l'arme arrête d'essayer de tirer
+        isShooting = false;
     }
 
     private void ShootPerformed(InputAction.CallbackContext context)
@@ -72,6 +84,11 @@ public class AttackBehaviour : NetworkBehaviour
     {
         // Barrière réseau dans l'Update
         if (!IsOwner) return;
+
+        if (TryGetComponent<FirstPersonController_Networked>(out var controller))
+        {
+            if (controller.isDead.Value) return; // Interdiction de tirer
+        }
 
         if (weaponUsed != null && isShooting)
             Shoot();
