@@ -65,11 +65,13 @@ public class PlayerStats : NetworkBehaviour
             controller.Die();
         }
 
-        // --- Logique de Score ---
-        if (lastAttackerId != 999 && NetworkManager.Singleton.ConnectedClients.TryGetValue(lastAttackerId, out var killerClient))
+        bool isSuicide = (lastAttackerId == OwnerClientId);
+
+        if (!isSuicide && lastAttackerId != 999 && NetworkManager.Singleton.ConnectedClients.TryGetValue(lastAttackerId, out var killerClient))
         {
             if (killerClient.PlayerObject.TryGetComponent<ScoreSystem>(out var killerScore))
             {
+                // On donne le point uniquement si c'est un ENNEMI qui nous a tué
                 killerScore.AddTuesServerRpc();
             }
         }

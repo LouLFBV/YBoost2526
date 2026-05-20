@@ -79,4 +79,12 @@ public class MainMenuManager : MonoBehaviour
 
         bool success = await MatchmakingManager.Instance.JoinClientWithRelay(codeAtaper);
     }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
 }

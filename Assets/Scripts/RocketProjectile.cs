@@ -65,7 +65,6 @@ public class RocketProjectile : NetworkBehaviour
     {
         _hasExploded = true;
 
-        // 🔴 LOG 1 : Qui est le propriétaire de cette roquette sur le serveur ?
         Debug.Log($"[ROQUETTE] Explosion déclenchée ! Mon OwnerClientId officiel est : {OwnerClientId}");
 
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
@@ -73,7 +72,6 @@ public class RocketProjectile : NetworkBehaviour
         {
             if (hit.CompareTag("Player") && hit.TryGetComponent<PlayerStats>(out var enemy))
             {
-                // 🔴 LOG 2 : Un joueur est touché. On affiche son ID et l'ID du tireur envoyé
                 if (enemy.TryGetComponent<Unity.Netcode.NetworkObject>(out var netObj))
                 {
                     Debug.Log($"[ROQUETTE] JOUEUR TOUCHÉ ! Cible (ID: {netObj.OwnerClientId}) | Tireur envoyé au RPC: {OwnerClientId}");
@@ -84,7 +82,6 @@ public class RocketProjectile : NetworkBehaviour
 
             if (hit.transform.TryGetComponent<Descrutable>(out var environment))
             {
-                // 🔴 LOG 3 : Si c'est un objet du décor
                 Debug.Log($"[ROQUETTE] DÉCOR TOUCHÉ ! Objet: {hit.gameObject.name}. Appels à DestroyObject().");
                 environment.DestroyObject(hit.transform.position, 1.5f);
             }

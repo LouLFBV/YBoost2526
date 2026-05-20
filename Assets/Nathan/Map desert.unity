@@ -48371,6 +48371,22 @@ PrefabInstance:
       propertyPath: weaponDataBase
       value: 
       objectReference: {fileID: 132970904}
+    - target: {fileID: 1196780359113801303, guid: 5ea0046aed644624a82cfcca6ba26304, type: 3}
+      propertyPath: spawnPoints.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1196780359113801303, guid: 5ea0046aed644624a82cfcca6ba26304, type: 3}
+      propertyPath: 'spawnPoints.Array.data[8]'
+      value: 
+      objectReference: {fileID: 888180421}
+    - target: {fileID: 1196780359113801303, guid: 5ea0046aed644624a82cfcca6ba26304, type: 3}
+      propertyPath: 'spawnPoints.Array.data[9]'
+      value: 
+      objectReference: {fileID: 1250446051}
+    - target: {fileID: 1196780359113801303, guid: 5ea0046aed644624a82cfcca6ba26304, type: 3}
+      propertyPath: 'spawnPoints.Array.data[10]'
+      value: 
+      objectReference: {fileID: 17516961}
     - target: {fileID: 5161783375677990487, guid: 5ea0046aed644624a82cfcca6ba26304, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3262635191
@@ -48450,6 +48466,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5877859365667618376, guid: 491c2e8246b11b444b847d14a76aa786, type: 3}
+      propertyPath: spawnPoints.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5877859365667618376, guid: 491c2e8246b11b444b847d14a76aa786, type: 3}
+      propertyPath: 'spawnPoints.Array.data[6]'
+      value: 
+      objectReference: {fileID: 811403622}
+    - target: {fileID: 5877859365667618376, guid: 491c2e8246b11b444b847d14a76aa786, type: 3}
+      propertyPath: 'spawnPoints.Array.data[7]'
+      value: 
+      objectReference: {fileID: 123681581}
+    - target: {fileID: 5877859365667618376, guid: 491c2e8246b11b444b847d14a76aa786, type: 3}
+      propertyPath: 'spawnPoints.Array.data[8]'
+      value: 
+      objectReference: {fileID: 1125190441}
+    - target: {fileID: 5877859365667618376, guid: 491c2e8246b11b444b847d14a76aa786, type: 3}
+      propertyPath: 'spawnPoints.Array.data[9]'
+      value: 
+      objectReference: {fileID: 1403799936}
     - target: {fileID: 7676455827854254582, guid: 491c2e8246b11b444b847d14a76aa786, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2742623581

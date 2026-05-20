@@ -8,7 +8,6 @@ public class LobbyManager : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private GameObject playerEntryTemplate; // Ton texte template
     [SerializeField] private Transform container;           // Le Vertical Layout Group
-    //[SerializeField] private GameObject startButton;        // Le bouton "Lancer la Map"
 
     private List<GameObject> playerEntries = new List<GameObject>();
 
@@ -17,9 +16,6 @@ public class LobbyManager : MonoBehaviour
         // On s'abonne aux événements de Netcode
         NetworkManager.Singleton.OnClientConnectedCallback += UpdatePlayerList;
         NetworkManager.Singleton.OnClientDisconnectCallback += UpdatePlayerList;
-
-        // Seul l'Host peut voir le bouton "Lancer"
-       // startButton.SetActive(false);
     }
 
     private void UpdatePlayerList(ulong clientId)
@@ -35,28 +31,12 @@ public class LobbyManager : MonoBehaviour
             newEntry.SetActive(true);
 
             // On affiche l'ID ou un nom générique
-            string playerName = client.ClientId == NetworkManager.Singleton.LocalClientId ? "Moi (Host)" : $"Joueur {client.ClientId}";
+            string playerName = client.ClientId == NetworkManager.Singleton.LocalClientId ? "Moi" : $"Joueur {client.ClientId}";
             newEntry.GetComponent<TextMeshProUGUI>().text = playerName;
 
             playerEntries.Add(newEntry);
         }
-
-        // Si je suis l'host, je peux afficher le bouton "Lancer" dès qu'il y a du monde
-        //if (NetworkManager.Singleton.IsHost)
-        //{
-        //    startButton.SetActive(true);
-        //}
     }
-
-    // Fonction appelée par le bouton "Lancer la Map"
-    public void StartGame()
-    {
-        if (NetworkManager.Singleton.IsHost)
-        {
-            NetworkManager.Singleton.SceneManager.LoadScene("Map desert", UnityEngine.SceneManagement.LoadSceneMode.Single);
-        }
-    }
-
     // N'oublie pas de te désabonner quand l'objet est détruit pour éviter les bugs !
     private void OnDestroy()
     {

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+Ôªøusing System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
@@ -8,18 +8,16 @@ using Unity.Netcode;
 
 public class Palette : NetworkBehaviour
 {
-
     [Header("Slots for Weapons")]
     public WeaponInPalette[] weapons;
     [SerializeField] private Image[] slotsIconeWeapon;
-
 
     [Header("References")]
     [SerializeField] private AttackBehaviour attackBehaviour;
     public WeaponInPalette[] allWeaponsInPalette;
     [SerializeField] private Weapon[] allWeapons;
 
-    [SerializeField]private PlayerInput playerInput;
+    [SerializeField] private PlayerInput playerInput;
     private bool takingMainWeapon;
     private bool takingSecondaryWeapon;
     private bool takingMeleeWeapon;
@@ -29,10 +27,8 @@ public class Palette : NetworkBehaviour
 
     public event Action<bool> DestroySniperViseur;
 
-
     private void Awake()
     {
-
         playerInput = GetComponent<PlayerInput>();
 
         if (playerInput == null)
@@ -44,8 +40,7 @@ public class Palette : NetworkBehaviour
         isInitialized = true;
     }
 
-
-    #region MÈthodes Player Input 
+    #region M√©thodes Player Input 
     private void OnEnable()
     {
         if (!isInitialized || playerInput == null)
@@ -64,12 +59,10 @@ public class Palette : NetworkBehaviour
         playerInput.actions["SecondaryWeapon"].canceled += SecondaryWeaponCanceled;
         playerInput.actions["MeleeWeapon"].canceled += MeleeWeaponCanceled;
         playerInput.actions["Projectile"].canceled += ProjectileCanceled;
-
-        
     }
+
     private void OnDisable()
     {
-
         if (!isInitialized || playerInput == null)
             return;
         playerInput.actions["MainWeapon"].Disable();
@@ -88,52 +81,21 @@ public class Palette : NetworkBehaviour
         playerInput.actions["Projectile"].canceled -= ProjectileCanceled;
     }
 
-    private void ProjectileCanceled(InputAction.CallbackContext context)
-    {
-        takingProjectile = false;
-    }
-
-    private void MeleeWeaponCanceled(InputAction.CallbackContext context)
-    {
-        takingMeleeWeapon = false;
-    }
-
-    private void SecondaryWeaponCanceled(InputAction.CallbackContext context)
-    {
-        takingSecondaryWeapon = false;
-    }
-
-    private void MainWeaponCanceled(InputAction.CallbackContext context)
-    {
-        takingMainWeapon = false;
-    }
-
-    private void ProjectilePerformed(InputAction.CallbackContext context)
-    {
-        takingProjectile = true;
-    }
-
-    private void MeleeWeaponPerformed(InputAction.CallbackContext context)
-    {
-        takingMeleeWeapon = true;
-    }
-
-    private void SecondaryWeaponPerformed(InputAction.CallbackContext context)
-    {
-        takingSecondaryWeapon = true;
-    }
-
-    private void MainWeaponPerformed(InputAction.CallbackContext context)
-    {
-        takingMainWeapon = true;
-    }
+    private void ProjectileCanceled(InputAction.CallbackContext context) => takingProjectile = false;
+    private void MeleeWeaponCanceled(InputAction.CallbackContext context) => takingMeleeWeapon = false;
+    private void SecondaryWeaponCanceled(InputAction.CallbackContext context) => takingSecondaryWeapon = false;
+    private void MainWeaponCanceled(InputAction.CallbackContext context) => takingMainWeapon = false;
+    private void ProjectilePerformed(InputAction.CallbackContext context) => takingProjectile = true;
+    private void MeleeWeaponPerformed(InputAction.CallbackContext context) => takingMeleeWeapon = true;
+    private void SecondaryWeaponPerformed(InputAction.CallbackContext context) => takingSecondaryWeapon = true;
+    private void MainWeaponPerformed(InputAction.CallbackContext context) => takingMainWeapon = true;
     #endregion 
 
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner) return; // Seulement pour le joueur local
+        if (!IsOwner) return;
 
-        // Cache le visuel de TOUTES les armes au dÈbut
+        // Cache le visuel de TOUTES les armes au d√©but
         foreach (var w in allWeaponsInPalette)
         {
             if (w.visualWeapon != null)
@@ -141,22 +103,25 @@ public class Palette : NetworkBehaviour
         }
     }
 
-    // Petite fonction utilitaire pour cacher/montrer proprement
     private void SetWeaponVisibility(GameObject visual, bool isVisible)
     {
-        // On cache le MeshRenderer (le visuel)
+        if (visual == null) return;
+
         if (visual.TryGetComponent<MeshRenderer>(out var renderer)) renderer.enabled = isVisible;
 
-        // On cache aussi tous les MeshRenderers des enfants (trËs important)
         foreach (var r in visual.GetComponentsInChildren<MeshRenderer>())
         {
             r.enabled = isVisible;
         }
 
-        // On peut aussi dÈsactiver le script de tir pour Èviter de tirer en Ètant cachÈ
         if (visual.TryGetComponent<Weapon>(out var weaponScript))
         {
             weaponScript.enabled = isVisible;
+        }
+        else
+        {
+            var childWeapon = visual.GetComponentInChildren<Weapon>();
+            if (childWeapon != null) childWeapon.enabled = isVisible;
         }
     }
 
@@ -184,35 +149,35 @@ public class Palette : NetworkBehaviour
             takingProjectile = false;
         }
     }
+
     public void AddWeapon(Weapon weaponPickUp)
     {
-        GameObject mainVisual = null;
-        Debug.Log($"weaponPickUp : {weaponPickUp}"); 
-        Debug.Log($" weaponPickUp.weaponData : {weaponPickUp.weaponData}");
-        Debug.Log($" weaponPickUp.weaponData.weaponType : {weaponPickUp.weaponData.weaponType} ");
+        if (weaponPickUp == null || weaponPickUp.weaponData == null) return;
+
         switch (weaponPickUp.weaponData.weaponType)
         {
             case WeaponType.Main:
-                AddWeaponInPalette(weaponPickUp, mainVisual, 0);
+                AddWeaponInPalette(weaponPickUp, 0);
                 break;
             case WeaponType.Secondary:
-                AddWeaponInPalette(weaponPickUp, mainVisual, 1);
+                AddWeaponInPalette(weaponPickUp, 1);
                 break;
             case WeaponType.Melee:
-                AddWeaponInPalette(weaponPickUp, mainVisual, 2);
+                AddWeaponInPalette(weaponPickUp, 2);
                 break;
             case WeaponType.Projectile:
-                AddWeaponInPalette(weaponPickUp, mainVisual, 3);
+                AddWeaponInPalette(weaponPickUp, 3);
                 break;
         }
     }
 
-    private void AddWeaponInPalette(Weapon newWeapon, GameObject visual, int index)
+    private void AddWeaponInPalette(Weapon newWeapon, int index)
     {
+        // 1. Si une arme occupe d√©j√† ce slot, on la drop proprement
         if (weapons[index].weaponData != null)
         {
             int currentAmmunition = 0;
-            if (weapons[index].visualWeapon.TryGetComponent<Weapon>(out Weapon weaponInHand))
+            if (weapons[index].visualWeapon != null && weapons[index].visualWeapon.TryGetComponent<Weapon>(out Weapon weaponInHand))
             {
                 currentAmmunition = weaponInHand.ammunitionAccount;
             }
@@ -220,92 +185,82 @@ public class Palette : NetworkBehaviour
             int dataIndex = Array.FindIndex(allWeapons, w => w.weaponData == weapons[index].weaponData);
             DropWeaponServerRpc(dataIndex, currentAmmunition, transform.position + transform.forward);
 
+            // Supprime l'ancienne arme (et la d√©s√©quipe proprement si elle √©tait en main)
             RemoveWeaponInPalette(weapons[index].weaponData.weaponType);
         }
+
+        // 2. Attribution des nouvelles donn√©es dans le slot
         weapons[index].weaponData = newWeapon.weaponData;
         slotsIconeWeapon[index].sprite = newWeapon.weaponData.icone;
-        WeaponInPalette found = Array.Find(
-            allWeaponsInPalette,
-            w => w != null && w.weaponData == newWeapon.weaponData
-        );
 
+        WeaponInPalette found = Array.Find(allWeaponsInPalette, w => w != null && w.weaponData == newWeapon.weaponData);
         if (found == null)
         {
-            Debug.LogError("Weapon non trouvÈ dans allWeaponsInPalette");
+            Debug.LogError($"Weapon [{newWeapon.weaponData.name}] non trouv√© dans allWeaponsInPalette");
             return;
         }
 
-        visual = found.visualWeapon;
-        weapons[index].visualWeapon = visual;
+        weapons[index].visualWeapon = found.visualWeapon;
         weapons[index].ammunition.text = newWeapon.ammunitionAccount == 0 ? "" : newWeapon.ammunitionAccount.ToString();
-        Debug.Log("Munitions ‡ jour");
-        if (!CheckIfOneWeaponIsEquipped())
+
+        // On synchronise les munitions sur le script de l'arme visuelle
+        if (weapons[index].visualWeapon != null && weapons[index].visualWeapon.TryGetComponent<Weapon>(out var vWeapon))
         {
-            weapons[index].isEquipped = true;
-            visual.SetActive(true);
-            visual.GetComponent<MeshRenderer>().enabled = true;
+            vWeapon.ammunitionAccount = newWeapon.ammunitionAccount;
         }
 
-        if (attackBehaviour.weaponUsed == null && visual != null)
+        // 3. Gestion de l'√©quipement automatique :
+        // Si le joueur n'a STRICTEMENT AUCUNE arme √©quip√©e actuellement, on √©quipe celle-ci imm√©diatement.
+        if (!CheckIfOneWeaponIsEquipped())
         {
-            if (visual.TryGetComponent<Weapon>(out var localWeaponScript))
-            {
-                attackBehaviour.weaponUsed = localWeaponScript;
-            }
-            else
-            {
-                // Si le script est sur un enfant du visuel
-                attackBehaviour.weaponUsed = visual.GetComponentInChildren<Weapon>();
-            }
+            EquipWeapon(weapons[index]);
         }
     }
 
     public void RemoveWeaponInPalette(WeaponType weaponType)
     {
-        Debug.Log("Remove weapon in palette");
         int index = 0;
-        GameObject visual = null;
         switch (weaponType)
         {
-            case WeaponType.Main:
-                index = 0;
-                visual = weapons[0].visualWeapon;
-                break;
-            case WeaponType.Secondary:
-                index = 1;
-                visual = weapons[1].visualWeapon;
-                break;
-            case WeaponType.Melee:
-                index = 2;
-                visual = weapons[2].visualWeapon;
-                break;
-            case WeaponType.Projectile:
-                index = 3;
-                visual = weapons[3].visualWeapon;
-                break;
+            case WeaponType.Main: index = 0; break;
+            case WeaponType.Secondary: index = 1; break;
+            case WeaponType.Melee: index = 2; break;
+            case WeaponType.Projectile: index = 3; break;
         }
+
+        GameObject visual = weapons[index].visualWeapon;
+        bool wasEquipped = weapons[index].isEquipped;
+
+        // Nettoyage complet des donn√©es du slot
         weapons[index].weaponData = null;
         weapons[index].visualWeapon = null;
         weapons[index].ammunition.text = "";
         slotsIconeWeapon[index].sprite = null;
-        if (CheckIfOneWeaponIsEquipped())
+        weapons[index].isEquipped = false;
+
+        if (wasEquipped && visual != null)
         {
-            weapons[index].isEquipped = false;
-            visual.SetActive(false);
+            SetWeaponVisibility(visual, false);
+            if (attackBehaviour.weaponUsed != null)
+            {
+                attackBehaviour.weaponUsed = null;
+            }
+            if (IsOwner) GetComponent<FirstPersonController_Networked>().ResetZoom();
         }
-        if (attackBehaviour.weaponUsed != null)
-            attackBehaviour.weaponUsed = null;
     }
 
     private void ChangeWeapon(WeaponInPalette weapon)
     {
+        if (weapon.visualWeapon == null) return;
         weapon.visualWeapon.transform.localScale = Vector3.one;
+
         if (weapon.isEquipped)
         {
             UnequipWeapon(weapon);
         }
         else
         {
+            // D√©s√©quipe l'arme actuellement port√©e (s'il y en a une)
             foreach (var w in weapons)
             {
                 if (w != null && w.isEquipped)
@@ -319,44 +274,38 @@ public class Palette : NetworkBehaviour
 
     private void EquipWeapon(WeaponInPalette newWeapon)
     {
-        if (!newWeapon.isEquipped)
+        if (newWeapon == null || newWeapon.weaponData == null) return;
+
+        newWeapon.isEquipped = true;
+
+        if (newWeapon.visualWeapon != null)
         {
-            newWeapon.isEquipped = true;
-            GameObject visual = Array.Find(weapons, wv => wv.weaponData == newWeapon.weaponData).visualWeapon;
+            SetWeaponVisibility(newWeapon.visualWeapon, true);
 
-            if (visual != null)
-                SetWeaponVisibility(visual, true); // On montre le visuel
-
-            if (visual != null)
+            if (newWeapon.visualWeapon.TryGetComponent<Weapon>(out var localWeaponScript))
             {
-                if (visual.TryGetComponent<Weapon>(out var localWeaponScript))
-                {
-                    attackBehaviour.weaponUsed = localWeaponScript;
-                }
-                else
-                {
-                    attackBehaviour.weaponUsed = visual.GetComponentInChildren<Weapon>();
-                }
+                attackBehaviour.weaponUsed = localWeaponScript;
+            }
+            else
+            {
+                attackBehaviour.weaponUsed = newWeapon.visualWeapon.GetComponentInChildren<Weapon>();
             }
         }
     }
 
     private void UnequipWeapon(WeaponInPalette oldWeapon)
     {
-        if (!oldWeapon.isEquipped) return;
+        if (oldWeapon == null || !oldWeapon.isEquipped) return;
 
-        WeaponInPalette slot = Array.Find(weapons, wv => wv != null && wv.weaponData == oldWeapon.weaponData);
-
-        if (slot != null && slot.visualWeapon != null)
+        if (oldWeapon.visualWeapon != null)
         {
-            SetWeaponVisibility(slot.visualWeapon, false); // On cache le visuel
+            SetWeaponVisibility(oldWeapon.visualWeapon, false);
         }
 
         oldWeapon.isEquipped = false;
         attackBehaviour.weaponUsed = null;
         if (IsOwner) GetComponent<FirstPersonController_Networked>().ResetZoom();
     }
-
 
     private bool CheckIfOneWeaponIsEquipped()
     {
@@ -365,56 +314,30 @@ public class Palette : NetworkBehaviour
 
     public void UpdateAmmunitionText(WeaponType type, int newAmmunition)
     {
-        switch (type)
+        int index = (int)type; // Align√© sur l'index de ton enum (Main=0, Secondary=1...)
+        if (index >= 0 && index < weapons.Length && weapons[index] != null && weapons[index].ammunition != null)
         {
-            case WeaponType.Main:
-                weapons[0].ammunition.text = newAmmunition.ToString();
-                break;
-            case WeaponType.Secondary:
-                weapons[1].ammunition.text = newAmmunition.ToString();
-                break;
-            case WeaponType.Melee:
-                weapons[2].ammunition.text = newAmmunition.ToString();
-                break;
-            case WeaponType.Projectile:
-                weapons[3].ammunition.text = newAmmunition.ToString();
-                break;
+            weapons[index].ammunition.text = newAmmunition.ToString();
         }
     }
-
-    [Rpc(SendTo.Everyone)] // Tout le monde doit savoir que tu as ramassÈ l'arme pour voir le visuel
-    public void SyncPickupClientRpc(WeaponType type, int ammunitions)
-    {
-        // On simule un faux objet Weapon pour rÈutiliser ta logique AddWeapon existante
-        // Ou mieux : on modifie AddWeapon pour accepter les donnÈes directement
-
-        // Ici, on appelle ta logique de mise ‡ jour d'UI et de visuel
-        // (Il faudra peut-Ítre ajuster AddWeaponInPalette pour qu'elle ne cherche pas 
-        // ‡ lire des infos sur un objet dÈtruit)
-
-        Debug.Log($"[NET] Arme ramassÈe synchronisÈe : {type}");
-    }
-
 
     [ServerRpc]
     public void DropWeaponServerRpc(int weaponDataIndex, int ammo, Vector3 position)
     {
-        // 1. On instancie sur le serveur
+        if (weaponDataIndex < 0 || weaponDataIndex >= allWeapons.Length) return;
+
         GameObject droppedObj = Instantiate(allWeapons[weaponDataIndex].weaponData.weaponPrefab, position, Quaternion.identity);
 
-        // 2. On rËgle les munitions AVANT le spawn
         if (droppedObj.TryGetComponent<Weapon>(out var weapon))
         {
             weapon.ammunitionAccount = ammo;
         }
 
-        // 3. ON SPAWN SUR LE R…SEAU
         droppedObj.GetComponent<NetworkObject>().Spawn();
     }
 
     public void AddWeaponFromNetwork(string weaponDataName, int ammo)
     {
-        // On cherche l'arme exacte par son NOM de ScriptableObject
         Weapon foundWeapon = Array.Find(allWeapons, w => w.weaponData.name == weaponDataName);
 
         if (foundWeapon != null)
@@ -424,10 +347,9 @@ public class Palette : NetworkBehaviour
         }
         else
         {
-            Debug.LogError($"[PALETTE] Impossible de trouver l'arme nommÈe : {weaponDataName} dans allWeapons !");
+            Debug.LogError($"[PALETTE] Impossible de trouver l'arme nomm√©e : {weaponDataName} dans allWeapons !");
         }
     }
-
 }
 [System.Serializable]
 public class WeaponInPalette
