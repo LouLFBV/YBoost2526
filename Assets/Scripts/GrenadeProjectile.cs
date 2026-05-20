@@ -15,7 +15,6 @@ public class GrenadeProjectile : NetworkBehaviour
 
     private Rigidbody _rb;
     private bool _hasExploded = false;
-    private ulong _ownerId;
 
     private void Awake()
     {
@@ -23,23 +22,19 @@ public class GrenadeProjectile : NetworkBehaviour
         explosionAudio = GetComponent<AudioSource>();
     }
 
-    // Plus besoin de OnNetworkSpawn pour la force !
-
     public void Launch(Vector3 force)
     {
         if (!IsServer) return;
 
-        // 1. Le serveur applique la force chez lui
         ApplyLocalForce(force);
 
-        // 2. Le serveur ordonne instantanément à tous les clients d'appliquer la même force
         LaunchClientRpc(force);
 
         if (fuseTime > 0)
-            Invoke(nameof(Explode), fuseTime);
+            Invoke(nameof(ExplodeServer), fuseTime); 
     }
 
-    [Rpc(SendTo.NotServer)] // S'exécute uniquement sur les clients
+    [Rpc(SendTo.NotServer)]
     private void LaunchClientRpc(Vector3 force)
     {
         ApplyLocalForce(force);
@@ -50,58 +45,65 @@ public class GrenadeProjectile : NetworkBehaviour
         if (_rb != null)
         {
             _rb.isKinematic = false;
-            _rb.linearVelocity = Vector3.zero; // Sécurité : on remet à zéro avant l'impulse
+            _rb.linearVelocity = Vector3.zero;
             _rb.AddForce(force, ForceMode.Impulse);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!IsServer) return;
         if (_hasExploded) return;
 
         if (collision.collider.CompareTag("Ground"))
         {
-            Explode();
+            ExplodeServer();
         }
     }
 
-    public void SetOwner(ulong shooterId)
-    {
-        _ownerId = shooterId;
-    }
-
-    private void Explode()
+    private void ExplodeServer()
     {
         if (_hasExploded) return;
         _hasExploded = true;
 
-        if (explosionVFX != null)
-            Instantiate(explosionVFX, transform.position, Quaternion.identity);
-
-        if (IsOwner)
+        // 1. DÉGÂTS & LOGIQUE DE JEU (Strictement côté Serveur)
+        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
+        foreach (Collider hit in hits)
         {
-            Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
-            foreach (Collider hit in hits)
+            if (hit.CompareTag("Player") && hit.TryGetComponent<PlayerStats>(out var enemy))
             {
-                if (hit.CompareTag("Player") && hit.TryGetComponent<PlayerStats>(out var enemy))
-                {
-                    enemy.RequestDamageServerRpc(damage, _ownerId);
-                }
-                if (hit.transform.TryGetComponent<Descrutable>(out var environment) && isGrenade)
-                    environment.DestroyObject(hit.transform.position, 1.5f);
+                enemy.RequestDamageServerRpc(damage, OwnerClientId);
+            }
+
+            if (hit.transform.TryGetComponent<Descrutable>(out var environment) && isGrenade)
+            {
+                // Si ton script Descrutable est corrigé pour ne plus donner de points à l'Host :
+                environment.DestroyObject(hit.transform.position, 1.5f);
             }
         }
+
+        // 2. EFFETS VISUELS ET SONORES (Envoyés à tout le monde)
+        PlayExplosionEffectsRpc(transform.position);
+
+        // 3. DESPAWN RÉSEAU PROPRE
+        if (GetComponent<NetworkObject>() != null && GetComponent<NetworkObject>().IsSpawned)
+        {
+            GetComponent<NetworkObject>().Despawn();
+        }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void PlayExplosionEffectsRpc(Vector3 impactPosition)
+    {
+        if (explosionVFX != null)
+            Instantiate(explosionVFX, impactPosition, Quaternion.identity);
 
         if (explosionAudio != null && explosionAudio.clip != null)
             explosionAudio.PlayOneShot(explosionAudio.clip);
 
+        // On cache l'objet localement chez tout le monde en attendant la destruction réseau
         if (TryGetComponent<MeshRenderer>(out var renderer)) renderer.enabled = false;
         if (TryGetComponent<Collider>(out var col)) col.enabled = false;
-
-        if (IsServer)
-            GetComponent<NetworkObject>().Despawn();
-        else
-            Destroy(gameObject, 10);
     }
 
     private void OnDrawGizmosSelected()

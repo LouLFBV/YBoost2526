@@ -34,12 +34,12 @@ public class MainMenuManager : MonoBehaviour
     }
 
     // 2. L'Host clique sur ce nouveau bouton quand ses potes sont là
-    public void OnClickStartGame()
+    public void OnClickStartGame(string sceneName)
     {
         if (NetworkManager.Singleton.IsHost)
         {
             // C'est ICI qu'on change de scène pour tout le monde
-            NetworkManager.Singleton.SceneManager.LoadScene("Map desert", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
     }
 

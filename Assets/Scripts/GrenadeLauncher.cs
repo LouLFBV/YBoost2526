@@ -11,36 +11,34 @@ public class GrenadeLauncher : Weapon, IWeapon
         // 1. Sécurité : Seul le propriétaire lance la grenade
         if (!IsOwner) return;
 
-        if (shootPoint == null)
+        if (shootPoint == null || grenadePrefab == null)
         {
-            Debug.LogWarning("ShootPoint manquant sur GrenadeLauncher");
+            Debug.LogWarning("ShootPoint ou grenadePrefab manquant sur GrenadeLauncher");
             return;
         }
 
-        // 2. On demande au serveur de créer la grenade pour tout le monde
-        // On envoie la position, la rotation et la force calculées localement
         RequestSpawnGrenadeServerRpc(shootPoint.position, shootPoint.rotation, shootPoint.forward * launchForce);
 
-        // 3. On retire l'arme de l'inventaire localement (UI)
         palette.RemoveWeaponInPalette(WeaponType.Projectile);
+
+        gameObject.SetActive(false);
     }
 
     [Rpc(SendTo.Server)]
-    private void RequestSpawnGrenadeServerRpc(Vector3 pos, Quaternion rot, Vector3 force)
+    private void RequestSpawnGrenadeServerRpc(Vector3 pos, Quaternion rot, Vector3 force, RpcParams rpcParams = default)
     {
-        // 4. L'Hôte instancie le prefab
+        // On instancie la grenade avec la bonne position et rotation reçues
         GameObject grenadeObj = Instantiate(grenadePrefab, pos, rot);
-
-        // 5. IMPORTANT : On "Spawn" l'objet sur le réseau
-        // On donne la propriété (Ownership) à celui qui a appelé le RPC (OwnerClientId)
-        // Cela permet à la grenade de savoir qui est l'Owner pour le futur IsOwner de l'explosion
         NetworkObject netObj = grenadeObj.GetComponent<NetworkObject>();
-        netObj.SpawnWithOwnership(OwnerClientId);
 
-        // 6. On configure le script de la grenade
+        // On récupère l'ID du vrai lanceur grâce aux RpcParams
+        ulong projectileOwnerId = rpcParams.Receive.SenderClientId;
+
+        // On donne la grenade au joueur qui a lancé le RPC
+        netObj.SpawnWithOwnership(projectileOwnerId);
+
         if (grenadeObj.TryGetComponent<GrenadeProjectile>(out var grenadeScript))
         {
-            grenadeScript.SetOwner(OwnerClientId);
             grenadeScript.Launch(force);
         }
     }

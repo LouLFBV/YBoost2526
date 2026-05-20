@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -59,18 +60,20 @@ public class RPG7 : Weapon, IWeapon
     }
 
     [Rpc(SendTo.Server)]
-    private void RequestSpawnRocketServerRpc(Vector3 pos, Quaternion rot, Vector3 force)
+    private void RequestSpawnRocketServerRpc(Vector3 pos, Quaternion rot, Vector3 force, RpcParams rpcParams = default)
     {
-        // 5. Le serveur instancie et spawn
+        // 1. Le serveur instancie la roquette
         GameObject rocketObj = Instantiate(rocketPrefab, pos, rot);
 
         NetworkObject netObj = rocketObj.GetComponent<NetworkObject>();
-        // On donne la propriété au tireur pour que SA machine calcule l'explosion
-        netObj.SpawnWithOwnership(OwnerClientId);
+
+        ulong projectileOwnerId = rpcParams.Receive.SenderClientId;
+
+        // 2. On donne l'ownership au vrai tireur
+        netObj.SpawnWithOwnership(projectileOwnerId);
 
         if (rocketObj.TryGetComponent<RocketProjectile>(out var rocketScript))
         {
-            rocketScript.SetOwner(OwnerClientId);
             rocketScript.Launch(force);
         }
     }

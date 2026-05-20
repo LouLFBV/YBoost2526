@@ -1,4 +1,4 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using UnityEngine;
 
 public class RocketProjectile : NetworkBehaviour
@@ -14,7 +14,6 @@ public class RocketProjectile : NetworkBehaviour
 
     private Rigidbody _rb;
     private bool _hasExploded = false;
-    private ulong _ownerId;
 
     private void Awake()
     {
@@ -24,7 +23,6 @@ public class RocketProjectile : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        // Si c'est le serveur, on programme une auto-destruction en cas de non-impact
         if (IsServer)
         {
             Invoke(nameof(TimeOutDespawn), lifeTime);
@@ -35,10 +33,7 @@ public class RocketProjectile : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        // 1. Le serveur applique la vitesse chez lui
         ApplyLocalVelocity(velocity);
-
-        // 2. Le serveur envoie l'ordre immédiat aux clients d'appliquer la même vitesse
         LaunchClientRpc(velocity);
     }
 
@@ -59,42 +54,44 @@ public class RocketProjectile : NetworkBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Seul le serveur gère la détection d'impact pour éviter les doubles explosions
         if (!IsServer) return;
-
         if (_hasExploded) return;
 
         ExplodeServer();
     }
 
-    public void SetOwner(ulong shooterId)
-    {
-        _ownerId = shooterId;
-    }
 
     private void ExplodeServer()
     {
         _hasExploded = true;
 
-        // 1. DÉGÂTS : Le serveur calcule les dégâts (anti-triche)
+        // ðŸ”´ LOG 1 : Qui est le propriÃ©taire de cette roquette sur le serveur ?
+        Debug.Log($"[ROQUETTE] Explosion dÃ©clenchÃ©e ! Mon OwnerClientId officiel est : {OwnerClientId}");
+
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider hit in hits)
         {
             if (hit.CompareTag("Player") && hit.TryGetComponent<PlayerStats>(out var enemy))
             {
-                enemy.RequestDamageServerRpc(damage, _ownerId);
+                // ðŸ”´ LOG 2 : Un joueur est touchÃ©. On affiche son ID et l'ID du tireur envoyÃ©
+                if (enemy.TryGetComponent<Unity.Netcode.NetworkObject>(out var netObj))
+                {
+                    Debug.Log($"[ROQUETTE] JOUEUR TOUCHÃ‰ ! Cible (ID: {netObj.OwnerClientId}) | Tireur envoyÃ© au RPC: {OwnerClientId}");
+                }
+
+                enemy.RequestDamageServerRpc(damage, OwnerClientId);
             }
 
             if (hit.transform.TryGetComponent<Descrutable>(out var environment))
             {
+                // ðŸ”´ LOG 3 : Si c'est un objet du dÃ©cor
+                Debug.Log($"[ROQUETTE] DÃ‰COR TOUCHÃ‰ ! Objet: {hit.gameObject.name}. Appels Ã  DestroyObject().");
                 environment.DestroyObject(hit.transform.position, 1.5f);
             }
         }
 
-        // 2. VISUEL & SON : On transmet la position exacte de l'impact à TOUT LE MONDE
         PlayExplosionEffectsRpc(transform.position);
 
-        // 3. NETTOYAGE : Le serveur retire l'objet du réseau
         if (GetComponent<NetworkObject>() != null)
         {
             GetComponent<NetworkObject>().Despawn();
@@ -104,7 +101,6 @@ public class RocketProjectile : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     private void PlayExplosionEffectsRpc(Vector3 impactPosition)
     {
-        // Tout le monde instancie l'explosion à la coordonnée absolue de l'impact
         if (explosionVFX != null)
             Instantiate(explosionVFX, impactPosition, Quaternion.identity);
 
