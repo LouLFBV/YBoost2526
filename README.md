@@ -60,19 +60,6 @@ Le jeu est disponible en version jouable et téléchargeable sur la plateforme I
 ### 🌐 Lien de téléchargement
 Rendez-vous sur la page officielle du projet : **[Fyghter-Gun sur Itch.io](https://lawx-sama.itch.io/fyghter-gun)**
 
-### 🎮 Comment lancer une partie multijoueur (Test Local ou Réseau)
-
-Pour tester l'aspect multijoueur (en local sur la même machine ou avec des amis) :
-
-1. **Téléchargez et extrayez** le dossier du jeu depuis Itch.io.
-2. **Lancez deux instances** du jeu (en ouvrant deux fois le fichier `.exe` ou en combinant l'éditeur Unity et un build).
-3. **Instance 1 (L'Hôte / Host)** :
-    * Cliquez sur le bouton **Host** dans l'interface de démarrage. Cela démarre le serveur de jeu et fait apparaître votre personnage.
-4. **Instance 2 (Le Client)** :
-    * Renseignez l'adresse IP de l'Hôte (utilisez `127.0.0.1` si vous testez sur le même ordinateur).
-    * Cliquez sur le bouton **Client** pour rejoindre la session.
-5. *Le combat commence !* Utilisez vos touches d'action pour ramasser, changer d'arme et tester la physique synchronisée.
-
 ---
 
 ## 🎮 Amusez-vous bien et bon combat !
